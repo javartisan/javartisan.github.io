@@ -1,12 +1,11 @@
 # Header
 menu:
-  工匠: /
-  Java: /java
-  Spring: /spring
-  Mybatis: /mybatis
-  Spark: /spark
+  Javartisan: /lee
+  Java: /categories/Java
+  Spring: /categories/Spring
+  Mybatis: /categories/Mybatis
+  Spark: /categories/Spark/
   Jonathan Lee: /lee
-
 
 
 #rss: /atom.xml
@@ -17,19 +16,20 @@ fancybox: true
 
 # 类目最近文章如果需要开启的打开注释
 # Sidebar
-#sidebar: right
-#widgets:
-#- category
+sidebar: right
+widgets:
+- category
+- archive
+#
 #- tag
 #- tagcloud
-#- archive
 #- recent_posts
 
 # display widgets at the bottom of index pages (pagination == 2)
 index_widgets:
-# - category
+ - category
 # - tagcloud
-# - archive
+ - archive
 
 # widget behavior
 archive_type: 'monthly'
@@ -43,3 +43,5 @@ twitter:
 google_plus:
 fb_admins:
 fb_app_id:
+
+post_asset_folder: true
