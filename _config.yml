@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-keywords:
-author: John Doe
+title: Welcome to Javartisan Blog
+subtitle: 
+description: 人生没有白走的路，每一步都算数！ 李宗盛
+keywords: Java Spark Spring Mybatis Redis Hadoop
+author: javartisan
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://javartisan.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:

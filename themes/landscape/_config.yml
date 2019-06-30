@@ -1,8 +1,12 @@
 # Header
 menu:
-  Home: /
-  Archives: /archives
-rss: /atom.xml
+  工匠: /
+  归档: /archives
+  Java: /java
+  Spring: /spring
+  Mybatis: /mybatis
+  Spark: /spark
+#rss: /atom.xml
 
 # Content
 excerpt_link: Read More
