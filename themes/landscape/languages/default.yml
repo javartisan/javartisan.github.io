@@ -1,15 +1,15 @@
 categories: Categories
-search: Search
+#search: Search
 tags: Tags
 tagcloud: Tag Cloud
 tweets: Tweets
 prev: Prev
 next: Next
 comment: Comments
-archive_a: Archives
-archive_b: "Archives: %s"
+archive_a: 归档
+archive_b: "归档: %s"
 page: Page %d
-recent_posts: Recent Posts
+recent_posts: 最近文章
 newer: Newer
 older: Older
 share: Share
