@@ -54,9 +54,17 @@
         
           <a class="main-nav-link" href="/categories/Mybatis">Mybatis</a>
         
-          <a class="main-nav-link" href="/categories/Spark/">Spark</a>
+          <a class="main-nav-link" href="/categories/Redis">Redis</a>
+        
+          <a class="main-nav-link" href="/categories/Jvm">JVM</a>
+        
+          <a class="main-nav-link" href="/categories/Spark">Spark</a>
+        
+          <a class="main-nav-link" href="/categories/Hive">Hive</a>
         
           <a class="main-nav-link" href="/lee">Jonathan Lee</a>
+        
+          <a class="main-nav-link" href="https://blog.csdn.net/Dax1n">CSDN</a>
         
       </nav>
       <nav id="sub-nav">
@@ -90,7 +98,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/spring-datasouce-config/">spring_datasouce_config</a>
+      <a class="article-title" href="/2019/06/30/spring-datasouce-config/">整合多数据源Neo连接池时遇见的问题以及方案与收获</a>
     </h1>
   
 
@@ -98,11 +106,38 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下</p>
+<h3 id="方案1："><a href="#方案1：" class="headerlink" title="方案1："></a>方案1：</h3><p>配置信息：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDrive"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>错误信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.IllegalStateException: Cannot convert value of type [java.lang.String] to required type [java.sql.Driver] <span class="keyword">for</span> property <span class="string">'driver'</span>: no matching editors or conversion strategy found</span><br><span class="line">	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:<span class="number">302</span>)</span><br><span class="line">	at org.springframework.beans.AbstractNestablePropertyAccessor.convertIfNecessary(AbstractNestablePropertyAccessor.java:<span class="number">576</span>)</span><br><span class="line">	... <span class="number">89</span> more</span><br></pre></td></tr></table></figure>
+
+<p>很明显，无法将String转为Driver类型，看一下DataSource才知道原来driver配置的是Driver类型的实例，而不是Driver class名字，解决方案有两种。先介绍第一种：</p>
+<p>解决办法：</p>
+<p>将Driver以bean的方式注册到spring容器中，之后配置ref引用该Driver实例即可。代码如下:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 将Driver注册到Spring容器</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"boltDriver"</span> <span class="attr">class</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDriver"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">//ref引用该实例即可。</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">ref</span>=<span class="string">"boltDriver"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方案2："><a href="#方案2：" class="headerlink" title="方案2："></a>方案2：</h3><p>方案1中的DataSource是配置Driver类型成员；因此可以找到配置DriverName的变量配置即可，发现存在driverClass，可以配置driverClass设置Neo的Driver驱动名字即可。但是配置之后变红：</p>
+<p><img src="/2019/06/30/spring-datasouce-config/neo-datasouce-error.png" alt></p>
+<p>通过对比url发现，属性名字是setXXX方法中的XXX，该set方法名字为setDriverClassName(此处稍微翻阅源码就可以得知，Bean属性注入是使用set方法，而不是反射Field注入)。因此配置信息如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDrive"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方案3："><a href="#方案3：" class="headerlink" title="方案3："></a>方案3：</h3><p>使用Mybatis自带的DataSource：org.apache.ibatis.datasource.pooled.PooledDataSource，该类中的driver是一个String类型设置驱动名字的成员：参见org.apache.ibatis.datasource.pooled.PooledDataSource#setDriver方法。 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDriver"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p> <strong>收获1：</strong></p>
+<p> 对于常见的数据库连接池，不同的实现有着细微的差别，例如对于阿里Druid数据库连接池，对于常用的数据库，我们可以不用设置driver或者driverClassName属性，数据库连接池会根据url自动识别Driver，识别Driver方法com.alibaba.druid.util.JdbcUtils#getDriverClassName ；源码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDriverClassName</span><span class="params">(String rawUrl)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:derby:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.apache.derby.jdbc.EmbeddedDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mysql:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> MYSQL_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:log4jdbc:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> LOG4JDBC_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mariadb:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> MARIADB_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:oracle:"</span>) <span class="comment">//</span></span><br><span class="line">               || rawUrl.startsWith(<span class="string">"JDBC:oracle:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> ORACLE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:alibaba:oracle:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> ALI_ORACLE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:microsoft:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.microsoft.jdbc.sqlserver.SQLServerDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sqlserver:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.microsoft.sqlserver.jdbc.SQLServerDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sybase:Tds:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.sybase.jdbc2.jdbc.SybDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:jtds:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"net.sourceforge.jtds.jdbc.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:fake:"</span>) || rawUrl.startsWith(<span class="string">"jdbc:mock:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.alibaba.druid.mock.MockDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:postgresql:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> POSTGRESQL_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:odps:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> ODPS_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:hsqldb:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.hsqldb.jdbcDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:db2:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> DB2_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sqlite:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.sqlite.JDBC"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:ingres:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.ingres.jdbc.IngresDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:h2:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> H2_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mckoi:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.mckoi.JDBCDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:cloudscape:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"COM.cloudscape.core.JDBCDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:informix-sqli:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.informix.jdbc.IfxDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:timesten:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.timesten.jdbc.TimesTenDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:as400:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.ibm.as400.access.AS400JDBCDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sapdb:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.sap.dbtech.jdbc.DriverSapDB"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:JSQLConnect:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.jnetdirect.jsql.JSQLDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:JTurbo:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.newatlanta.jturbo.driver.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:firebirdsql:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.firebirdsql.jdbc.FBDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:interbase:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"interbase.interclient.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:pointbase:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.pointbase.jdbc.jdbcUniversalDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:edbc:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"ca.edbc.jdbc.EdbcDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mimer:multi1:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.mimer.jdbc.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:dm:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.DM_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:kingbase:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.KINGBASE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:hive:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.HIVE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:hive2:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.HIVE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"unkow jdbc driver : "</span> + rawUrl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>阿里巴巴数据库连接池对常见的数据库都可以识别，但是对于neo没有支持，因此就需要配置driver或者driverClassName。</p>
+<p><strong>收获2：</strong></p>
+<p>对于数据库连接池的一些属性配置信息名字不是固定的，这些属性名字不是DataSource规范中的，而是跟各个具体DataSource实现强相关，因此配置时候可以查看DataSource具体实现进行配置。</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxiu1vs50007vv2dphg3722v" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxiuit4p00074x2da7ncqulw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -160,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/hello-world/" data-id="cjxiu1vru0000vv2dhk4bd29s" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/hello-world/" data-id="cjxiuit4d00004x2d2z2srhzr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -245,7 +280,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxiu1vs30005vv2doxd9pmx9" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxiuit4i00024x2dt66f4sth" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/mybatis-index/" data-id="cjxiu1vry0002vv2dn0kuwpo0" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/mybatis-index/" data-id="cjxiuit4m00054x2d8tcg6iy9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,47 +360,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spark-index/" data-id="cjxiu1vs40006vv2dji792r4o" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-spring-index" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/30/spring-index/" class="article-date">
-  <time datetime="2019-06-30T08:49:19.000Z" itemprop="datePublished">2019-06-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring/">Spring</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/spring-index/">spring_index</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spring-index/" data-id="cjxiu1vs60009vv2dm5q1w4qk" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/spark-index/" data-id="cjxiuit4n00064x2dpv8gw128" class="article-share-link">Share</a>
       
       
     </footer>
@@ -424,9 +419,17 @@
   
     <a href="/categories/Mybatis" class="mobile-nav-link">Mybatis</a>
   
-    <a href="/categories/Spark/" class="mobile-nav-link">Spark</a>
+    <a href="/categories/Redis" class="mobile-nav-link">Redis</a>
+  
+    <a href="/categories/Jvm" class="mobile-nav-link">JVM</a>
+  
+    <a href="/categories/Spark" class="mobile-nav-link">Spark</a>
+  
+    <a href="/categories/Hive" class="mobile-nav-link">Hive</a>
   
     <a href="/lee" class="mobile-nav-link">Jonathan Lee</a>
+  
+    <a href="https://blog.csdn.net/Dax1n" class="mobile-nav-link">CSDN</a>
   
 </nav>
     

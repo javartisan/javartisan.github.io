@@ -4,8 +4,12 @@ menu:
   Java: /categories/Java
   Spring: /categories/Spring
   Mybatis: /categories/Mybatis
-  Spark: /categories/Spark/
+  Redis: /categories/Redis
+  JVM: /categories/Jvm
+  Spark: /categories/Spark
+  Hive: /categories/Hive
   Jonathan Lee: /lee
+  CSDN: https://blog.csdn.net/Dax1n
 
 
 #rss: /atom.xml
