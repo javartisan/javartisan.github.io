@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
 <meta property="og:description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下 方案1：配置信息： 123456&amp;lt;bean name=&quot;neoDataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&amp;gt;        &amp;lt;property name=&quot;driver&quot; value=&quot;org.">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://javartisan.com/2019/06/30/spring-datasouce-config/neo-datasouce-error.png">
+<meta property="og:image" content="http://javartisan.com/lee/2019/06/30/spring-datasouce-config/neo-datasouce-error.png">
 <meta property="og:updated_time" content="2019-06-30T10:59:27.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="整合多数据源Neo连接池时遇见的问题以及方案与收获">
 <meta name="twitter:description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下 方案1：配置信息： 123456&amp;lt;bean name=&quot;neoDataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&amp;gt;        &amp;lt;property name=&quot;driver&quot; value=&quot;org.">
-<meta name="twitter:image" content="http://javartisan.com/2019/06/30/spring-datasouce-config/neo-datasouce-error.png">
+<meta name="twitter:image" content="http://javartisan.com/lee/2019/06/30/spring-datasouce-config/neo-datasouce-error.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -28,7 +28,7 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/lee/css/style.css">
 </head>
 </html>
 <body>
@@ -39,7 +39,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Welcome to Javartisan Blog</a>
+        <a href="/lee/" id="logo">Welcome to Javartisan Blog</a>
       </h1>
       
 
@@ -49,23 +49,23 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/lee">Javartisan</a>
+          <a class="main-nav-link" href="/lee/lee">Javartisan</a>
         
-          <a class="main-nav-link" href="/categories/Java">Java</a>
+          <a class="main-nav-link" href="/lee/categories/Java">Java</a>
         
-          <a class="main-nav-link" href="/categories/Spring">Spring</a>
+          <a class="main-nav-link" href="/lee/categories/Spring">Spring</a>
         
-          <a class="main-nav-link" href="/categories/Mybatis">Mybatis</a>
+          <a class="main-nav-link" href="/lee/categories/Mybatis">Mybatis</a>
         
-          <a class="main-nav-link" href="/categories/Redis">Redis</a>
+          <a class="main-nav-link" href="/lee/categories/Redis">Redis</a>
         
-          <a class="main-nav-link" href="/categories/Jvm">JVM</a>
+          <a class="main-nav-link" href="/lee/categories/Jvm">JVM</a>
         
-          <a class="main-nav-link" href="/categories/Spark">Spark</a>
+          <a class="main-nav-link" href="/lee/categories/Spark">Spark</a>
         
-          <a class="main-nav-link" href="/categories/Hive">Hive</a>
+          <a class="main-nav-link" href="/lee/categories/Hive">Hive</a>
         
-          <a class="main-nav-link" href="/lee">Jonathan Lee</a>
+          <a class="main-nav-link" href="/lee/lee">Jonathan Lee</a>
         
           <a class="main-nav-link" href="https://blog.csdn.net/Dax1n">CSDN</a>
         
@@ -83,12 +83,12 @@
       <div class="outer">
         <section id="main"><article id="post-spring-datasouce-config" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/06/30/spring-datasouce-config/" class="article-date">
+    <a href="/lee/2019/06/30/spring-datasouce-config/" class="article-date">
   <time datetime="2019-06-30T10:49:41.000Z" itemprop="datePublished">2019-06-30</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring/">Spring</a>
+    <a class="article-category-link" href="/lee/categories/Spring/">Spring</a>
   </div>
 
   </div>
@@ -120,7 +120,7 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 将Driver注册到Spring容器</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"boltDriver"</span> <span class="attr">class</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDriver"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">//ref引用该实例即可。</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">ref</span>=<span class="string">"boltDriver"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="方案2："><a href="#方案2：" class="headerlink" title="方案2："></a>方案2：</h3><p>方案1中的DataSource是配置Driver类型成员；因此可以找到配置DriverName的变量配置即可，发现存在driverClass，可以配置driverClass设置Neo的Driver驱动名字即可。但是配置之后变红：</p>
-<p><img src="/2019/06/30/spring-datasouce-config/neo-datasouce-error.png" alt></p>
+<p><img src="/lee/2019/06/30/spring-datasouce-config/neo-datasouce-error.png" alt></p>
 <p>通过对比url发现，属性名字是setXXX方法中的XXX，该set方法名字为setDriverClassName(此处稍微翻阅源码就可以得知，Bean属性注入是使用set方法，而不是反射Field注入)。因此配置信息如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDrive"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -138,7 +138,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxiulvwl0005lc2deiglz3wq" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxiup30r00050j2d8gr8beyt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -148,7 +148,7 @@
 <nav id="article-nav">
   
   
-    <a href="/2019/06/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/lee/2019/06/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">致匠心</div>
     </a>
@@ -166,7 +166,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jonathan-Lee/">Jonathan Lee</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mybatis/">Mybatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Jonathan-Lee/">Jonathan Lee</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Mybatis/">Mybatis</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Spring/">Spring</a></li></ul>
     </div>
   </div>
 
@@ -176,7 +176,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/lee/archives/2019/06/">June 2019</a></li></ul>
     </div>
   </div>
 
@@ -197,23 +197,23 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/lee" class="mobile-nav-link">Javartisan</a>
+    <a href="/lee/lee" class="mobile-nav-link">Javartisan</a>
   
-    <a href="/categories/Java" class="mobile-nav-link">Java</a>
+    <a href="/lee/categories/Java" class="mobile-nav-link">Java</a>
   
-    <a href="/categories/Spring" class="mobile-nav-link">Spring</a>
+    <a href="/lee/categories/Spring" class="mobile-nav-link">Spring</a>
   
-    <a href="/categories/Mybatis" class="mobile-nav-link">Mybatis</a>
+    <a href="/lee/categories/Mybatis" class="mobile-nav-link">Mybatis</a>
   
-    <a href="/categories/Redis" class="mobile-nav-link">Redis</a>
+    <a href="/lee/categories/Redis" class="mobile-nav-link">Redis</a>
   
-    <a href="/categories/Jvm" class="mobile-nav-link">JVM</a>
+    <a href="/lee/categories/Jvm" class="mobile-nav-link">JVM</a>
   
-    <a href="/categories/Spark" class="mobile-nav-link">Spark</a>
+    <a href="/lee/categories/Spark" class="mobile-nav-link">Spark</a>
   
-    <a href="/categories/Hive" class="mobile-nav-link">Hive</a>
+    <a href="/lee/categories/Hive" class="mobile-nav-link">Hive</a>
   
-    <a href="/lee" class="mobile-nav-link">Jonathan Lee</a>
+    <a href="/lee/lee" class="mobile-nav-link">Jonathan Lee</a>
   
     <a href="https://blog.csdn.net/Dax1n" class="mobile-nav-link">CSDN</a>
   
@@ -223,11 +223,11 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <link rel="stylesheet" href="/lee/fancybox/jquery.fancybox.css">
+  <script src="/lee/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js"></script>
+<script src="/lee/js/script.js"></script>
 
 
 

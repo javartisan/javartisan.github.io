@@ -2,13 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="943a62b0-cb34-4964-9fa3-37643446174a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.deploy_git" beforeDir="false" afterPath="$PROJECT_DIR$/.deploy_git" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/2019/06/30/hello-world/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/2019/06/30/hello-world/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/2019/06/30/java-index/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/2019/06/30/java-index/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/2019/06/30/mybatis-index/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/2019/06/30/mybatis-index/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/2019/06/30/spark-index/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/2019/06/30/spark-index/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/2019/06/30/spring-datasouce-config/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/2019/06/30/spring-datasouce-config/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/archives/2019/06/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/archives/2019/06/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/archives/2019/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/archives/2019/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/archives/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/archives/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/Java/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/Java/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/Jonathan-Lee/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/Jonathan-Lee/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/Mybatis/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/Mybatis/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/Spark/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/Spark/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/Spring/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/Spring/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/javartisan/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/javartisan/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/lee/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/lee/index.html" afterDir="false" />
@@ -42,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+            <state relative-caret-position="350">
+              <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -168,6 +177,12 @@
               <item name="javartisan.github.io" type="462c0819:PsiDirectoryNode" />
               <item name="themes" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="javartisan.github.io" type="b2602c69:ProjectViewProjectNode" />
+              <item name="javartisan.github.io" type="462c0819:PsiDirectoryNode" />
+              <item name="themes" type="462c0819:PsiDirectoryNode" />
+              <item name="landscape" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -179,7 +194,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561892731508" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561892940366" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -265,12 +280,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1561869423778</updated>
-      <workItem from="1561869426282" duration="18904000" />
+      <workItem from="1561869426282" duration="19028000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18904000" />
+    <option name="totallyTimeSpent" value="19028000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1680" y="0" width="1920" height="1080" extended-state="0" />
@@ -729,13 +744,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/landscape/_config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/deploy.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -743,10 +751,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/themes/landscape/_config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/_config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        <state relative-caret-position="350">
+          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
         </state>
       </provider>
     </entry>

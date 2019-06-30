@@ -15,13 +15,13 @@
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
 <meta property="og:description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。    问题发现  进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://javartisan.com/2019/06/30/java-index/enum_code.png">
-<meta property="og:image" content="http://javartisan.com/2019/06/30/java-index/enum_method.png">
+<meta property="og:image" content="http://javartisan.com/lee/2019/06/30/java-index/enum_code.png">
+<meta property="og:image" content="http://javartisan.com/lee/2019/06/30/java-index/enum_method.png">
 <meta property="og:updated_time" content="2019-06-30T10:43:12.389Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java枚举类型在RPC调用时由于版本不一致遇见的问题">
 <meta name="twitter:description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。    问题发现  进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问">
-<meta name="twitter:image" content="http://javartisan.com/2019/06/30/java-index/enum_code.png">
+<meta name="twitter:image" content="http://javartisan.com/lee/2019/06/30/java-index/enum_code.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -29,7 +29,7 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/lee/css/style.css">
 </head>
 </html>
 <body>
@@ -40,7 +40,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Welcome to Javartisan Blog</a>
+        <a href="/lee/" id="logo">Welcome to Javartisan Blog</a>
       </h1>
       
 
@@ -50,23 +50,23 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/lee">Javartisan</a>
+          <a class="main-nav-link" href="/lee/lee">Javartisan</a>
         
-          <a class="main-nav-link" href="/categories/Java">Java</a>
+          <a class="main-nav-link" href="/lee/categories/Java">Java</a>
         
-          <a class="main-nav-link" href="/categories/Spring">Spring</a>
+          <a class="main-nav-link" href="/lee/categories/Spring">Spring</a>
         
-          <a class="main-nav-link" href="/categories/Mybatis">Mybatis</a>
+          <a class="main-nav-link" href="/lee/categories/Mybatis">Mybatis</a>
         
-          <a class="main-nav-link" href="/categories/Redis">Redis</a>
+          <a class="main-nav-link" href="/lee/categories/Redis">Redis</a>
         
-          <a class="main-nav-link" href="/categories/Jvm">JVM</a>
+          <a class="main-nav-link" href="/lee/categories/Jvm">JVM</a>
         
-          <a class="main-nav-link" href="/categories/Spark">Spark</a>
+          <a class="main-nav-link" href="/lee/categories/Spark">Spark</a>
         
-          <a class="main-nav-link" href="/categories/Hive">Hive</a>
+          <a class="main-nav-link" href="/lee/categories/Hive">Hive</a>
         
-          <a class="main-nav-link" href="/lee">Jonathan Lee</a>
+          <a class="main-nav-link" href="/lee/lee">Jonathan Lee</a>
         
           <a class="main-nav-link" href="https://blog.csdn.net/Dax1n">CSDN</a>
         
@@ -84,12 +84,12 @@
       <div class="outer">
         <section id="main"><article id="post-java-index" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/06/30/java-index/" class="article-date">
+    <a href="/lee/2019/06/30/java-index/" class="article-date">
   <time datetime="2019-06-30T08:52:09.000Z" itemprop="datePublished">2019-06-30</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/lee/categories/Java/">Java</a>
   </div>
 
   </div>
@@ -123,11 +123,11 @@
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Returns the ordinal of <span class="keyword">this</span> enumeration <span class="title">constant</span> <span class="params">(its position in its <span class="keyword">enum</span> declaration, where the initial constant is assigned an ordinal of zero)</span>. Most programmers will have no use <span class="keyword">for</span> <span class="keyword">this</span> method. It is designed <span class="keyword">for</span> use by sophisticated <span class="keyword">enum</span>-based data structures, such as java.util.EnumSet and java.util.EnumMap.</span></span><br></pre></td></tr></table></figure>
 
 <p>  <em>返回枚举值的的序数，也就是声明时候的位置序号，序号从0开始计数。大多数程序员不会使用这个方法，此方法的设计主要是为了那些基于枚举的复杂数据类型，例如：EnumSet与EnumMap。</em></p>
-<p>  到序列化代码this.writeInt(value.ordinal()),此时就可以明白了，RPC调用参数序列化枚举值是根据枚举值的序号进行序列化的（<strong>注意：</strong>序列化机制是跟序列化框架强相关的，一定要根据自己的序列化框架进行实际分析问题）。此时客户端序列化已经完成，接下来便开始Debug服务提供方的代码，经过Debug发现服务提供方法的枚举值数组中的size与客户端不一致，经过对比源码发现：       <img src="/2019/06/30/java-index/enum_code.png" alt>  </p>
+<p>  到序列化代码this.writeInt(value.ordinal()),此时就可以明白了，RPC调用参数序列化枚举值是根据枚举值的序号进行序列化的（<strong>注意：</strong>序列化机制是跟序列化框架强相关的，一定要根据自己的序列化框架进行实际分析问题）。此时客户端序列化已经完成，接下来便开始Debug服务提供方的代码，经过Debug发现服务提供方法的枚举值数组中的size与客户端不一致，经过对比源码发现：       <img src="/lee/2019/06/30/java-index/enum_code.png" alt>  </p>
 <p>  客户端与服务端的类库版本不一致，而又由于枚举值序列化与反序列化是按照ordinal值进行的，因此便可以确定问题产生原因了，通过重新发布类库此问题得以解决！</p>
 <h3 id="枚举值中ordinal的用法"><a href="#枚举值中ordinal的用法" class="headerlink" title="枚举值中ordinal的用法"></a>枚举值中ordinal的用法</h3><ul>
 <li><p>Java<strong>枚举类型中存在的方法</strong></p>
-<p><img src="/2019/06/30/java-index/enum_method.png" alt></p>
+<p><img src="/lee/2019/06/30/java-index/enum_method.png" alt></p>
 </li>
 <li><p><strong>ordinal值的用法</strong></p>
 <p>通过JDK文档，可以发现ordinal主要是为了基于枚举的复杂数据结构使用，在JDK中有EnumSet与EnumMap。</p>
@@ -157,7 +157,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxiulvwe0001lc2dgis3fvbu" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxiup30l00010j2dvx10aqd7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -166,7 +166,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/06/30/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/lee/2019/06/30/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -176,7 +176,7 @@
     </a>
   
   
-    <a href="/2019/06/30/mybatis-index/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/lee/2019/06/30/mybatis-index/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">mybatis_index</div>
     </a>
@@ -194,7 +194,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jonathan-Lee/">Jonathan Lee</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mybatis/">Mybatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Jonathan-Lee/">Jonathan Lee</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Mybatis/">Mybatis</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/lee/categories/Spring/">Spring</a></li></ul>
     </div>
   </div>
 
@@ -204,7 +204,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/lee/archives/2019/06/">June 2019</a></li></ul>
     </div>
   </div>
 
@@ -225,23 +225,23 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/lee" class="mobile-nav-link">Javartisan</a>
+    <a href="/lee/lee" class="mobile-nav-link">Javartisan</a>
   
-    <a href="/categories/Java" class="mobile-nav-link">Java</a>
+    <a href="/lee/categories/Java" class="mobile-nav-link">Java</a>
   
-    <a href="/categories/Spring" class="mobile-nav-link">Spring</a>
+    <a href="/lee/categories/Spring" class="mobile-nav-link">Spring</a>
   
-    <a href="/categories/Mybatis" class="mobile-nav-link">Mybatis</a>
+    <a href="/lee/categories/Mybatis" class="mobile-nav-link">Mybatis</a>
   
-    <a href="/categories/Redis" class="mobile-nav-link">Redis</a>
+    <a href="/lee/categories/Redis" class="mobile-nav-link">Redis</a>
   
-    <a href="/categories/Jvm" class="mobile-nav-link">JVM</a>
+    <a href="/lee/categories/Jvm" class="mobile-nav-link">JVM</a>
   
-    <a href="/categories/Spark" class="mobile-nav-link">Spark</a>
+    <a href="/lee/categories/Spark" class="mobile-nav-link">Spark</a>
   
-    <a href="/categories/Hive" class="mobile-nav-link">Hive</a>
+    <a href="/lee/categories/Hive" class="mobile-nav-link">Hive</a>
   
-    <a href="/lee" class="mobile-nav-link">Jonathan Lee</a>
+    <a href="/lee/lee" class="mobile-nav-link">Jonathan Lee</a>
   
     <a href="https://blog.csdn.net/Dax1n" class="mobile-nav-link">CSDN</a>
   
@@ -251,11 +251,11 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <link rel="stylesheet" href="/lee/fancybox/jquery.fancybox.css">
+  <script src="/lee/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js"></script>
+<script src="/lee/js/script.js"></script>
 
 
 
