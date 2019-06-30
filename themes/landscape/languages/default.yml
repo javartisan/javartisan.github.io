@@ -9,7 +9,7 @@ comment: Comments
 archive_a: 归档
 archive_b: "归档: %s"
 page: Page %d
-recent_posts: 最近文章
+#recent_posts: 最近文章
 newer: Newer
 older: Older
 share: Share

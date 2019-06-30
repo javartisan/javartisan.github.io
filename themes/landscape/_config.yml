@@ -1,26 +1,29 @@
 # Header
 menu:
   工匠: /
-  归档: /archives
   Java: /java
   Spring: /spring
   Mybatis: /mybatis
   Spark: /spark
   Jonathan Lee: /lee
+
+
+
 #rss: /atom.xml
 
 # Content
 excerpt_link: Read More
 fancybox: true
 
+# 类目最近文章如果需要开启的打开注释
 # Sidebar
-sidebar: right
-widgets:
-- category
-- tag
-- tagcloud
-- archive
-- recent_posts
+#sidebar: right
+#widgets:
+#- category
+#- tag
+#- tagcloud
+#- archive
+#- recent_posts
 
 # display widgets at the bottom of index pages (pagination == 2)
 index_widgets:
