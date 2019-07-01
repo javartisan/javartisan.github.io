@@ -5,28 +5,20 @@
   
 
   
-  <title>致匠心 | Welcome to Javartisan Blog</title>
+  <title>Clickhouse中的arrayjoin函数 | Welcome to Javartisan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="人生很多事急不得 你得等它自己熟我20出头入行 30年写了不到300首歌当然算是量少的我想一个人有多少天份 跟他出什么样的作品并无太大关联天分我还是有的我有能耐住性子的天份  人不能孤独的活着之所以有作品 是为了沟通透过作品去告诉人家心里的想法眼中看世界的样子所在意的 珍惜的所以 作品就是自己  所有精工制作的对象最珍贵 不能替代的就只有一个字 人人有情怀 有信念 有态度">
+  <meta name="description" content="通常SQL函数都是对一些rows进行一些map操作或者聚合操作，这些操作并不会导致行数的增加；然而arrayjoin是将一些rows转化为更多的rows，是一个扩增的过程。官方文档描述：The ‘arrayJoin’ function takes each row and generates a set of rows (unfold).  示例1：  12SELECT arrayJoin([1,">
 <meta name="keywords" content="Java Spark Spring Mybatis Redis Hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="致匠心">
-<meta property="og:url" content="http://javartisan.com/lee/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clickhouse中的arrayjoin函数">
+<meta property="og:url" content="http://javartisan.com/2019/07/01/clickhouse-index/index.html">
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
-<meta property="og:description" content="人生很多事急不得 你得等它自己熟我20出头入行 30年写了不到300首歌当然算是量少的我想一个人有多少天份 跟他出什么样的作品并无太大关联天分我还是有的我有能耐住性子的天份  人不能孤独的活着之所以有作品 是为了沟通透过作品去告诉人家心里的想法眼中看世界的样子所在意的 珍惜的所以 作品就是自己  所有精工制作的对象最珍贵 不能替代的就只有一个字 人人有情怀 有信念 有态度">
+<meta property="og:description" content="通常SQL函数都是对一些rows进行一些map操作或者聚合操作，这些操作并不会导致行数的增加；然而arrayjoin是将一些rows转化为更多的rows，是一个扩增的过程。官方文档描述：The ‘arrayJoin’ function takes each row and generates a set of rows (unfold).  示例1：  12SELECT arrayJoin([1,">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs.png">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs2.png">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs3.png">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs4.png">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs5.png">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs6.png">
-<meta property="og:image" content="http://javartisan.com/lee/index/lzs7.png">
-<meta property="og:updated_time" content="2019-06-30T08:50:37.248Z">
+<meta property="og:updated_time" content="2019-07-01T15:17:07.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="致匠心">
-<meta name="twitter:description" content="人生很多事急不得 你得等它自己熟我20出头入行 30年写了不到300首歌当然算是量少的我想一个人有多少天份 跟他出什么样的作品并无太大关联天分我还是有的我有能耐住性子的天份  人不能孤独的活着之所以有作品 是为了沟通透过作品去告诉人家心里的想法眼中看世界的样子所在意的 珍惜的所以 作品就是自己  所有精工制作的对象最珍贵 不能替代的就只有一个字 人人有情怀 有信念 有态度">
-<meta name="twitter:image" content="http://javartisan.com/lee/index/lzs.png">
+<meta name="twitter:title" content="Clickhouse中的arrayjoin函数">
+<meta name="twitter:description" content="通常SQL函数都是对一些rows进行一些map操作或者聚合操作，这些操作并不会导致行数的增加；然而arrayjoin是将一些rows转化为更多的rows，是一个扩增的过程。官方文档描述：The ‘arrayJoin’ function takes each row and generates a set of rows (unfold).  示例1：  12SELECT arrayJoin([1,">
   
   
     <link rel="icon" href="/favicon.png">
@@ -89,12 +81,16 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-clickhouse-index" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/lee/index.html" class="article-date">
-  <time datetime="2019-06-30T08:50:37.253Z" itemprop="datePublished">2019-06-30</time>
+    <a href="/2019/07/01/clickhouse-index/" class="article-date">
+  <time datetime="2019-07-01T11:59:36.000Z" itemprop="datePublished">2019-07-01</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Clickhouse/">Clickhouse</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -103,7 +99,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      致匠心
+      Clickhouse中的arrayjoin函数
     </h1>
   
 
@@ -111,35 +107,86 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <center>  
-<font face="微软雅黑">  
+        <p>通常SQL函数都是对一些rows进行一些map操作或者聚合操作，这些操作并不会导致行数的增加；然而arrayjoin是将一些rows转化为更多的rows，是一个扩增的过程。<a href="https://clickhouse.yandex/docs/en/query_language/functions/array_join/" target="_blank" rel="noopener">官方文档描述</a>：The ‘arrayJoin’ function takes each row and generates a set of rows (unfold).</p>
+<ul>
+<li>示例1：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> arrayJoin([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) <span class="keyword">AS</span> dst, <span class="string">'Hello Clickhouse'</span> <span class="keyword">as</span> <span class="keyword">name</span></span><br></pre></td></tr></table></figure>
 
-<br>
-<br>
-<br>  
+<p>查询结果：</p>
+<table>
+<thead>
+<tr>
+<th align="center">dst</th>
+<th align="center">name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">Hello Clickhouse</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">Hello Clickhouse</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">Hello Clickhouse</td>
+</tr>
+</tbody></table>
+<p>由于name是一个常量，arrayjoin数组长度为3，因此扩增为3行。</p>
+<ul>
+<li>示例2：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> arrayJoin([<span class="number">1</span>, <span class="number">2</span>]) <span class="keyword">AS</span> src,  arrayJoin([<span class="number">3</span>, <span class="number">4</span>]) <span class="keyword">AS</span> dst</span><br></pre></td></tr></table></figure>
 
-<p><img src="/lee/index/lzs.png" alt><br>人生很多事急不得 你得等它自己熟<br>我20出头入行 30年写了不到300首歌<br>当然算是量少的<br>我想<br>一个人有多少天份 跟他出什么样的作品<br>并无太大关联<br>天分我还是有的<br>我有能耐住性子的天份</p>
-<p><img src="/lee/index/lzs2.png" alt></p>
-<p>人不能孤独的活着<br>之所以有作品 是为了沟通<br>透过作品去告诉人家心里的想法<br>眼中看世界的样子<br>所在意的 珍惜的<br>所以 作品就是自己</p>
-<p><img src="/lee/index/lzs3.png" alt></p>
-<p>所有精工制作的对象<br>最珍贵 不能替代的就只有一个字 人<br>人有情怀 有信念 有态度<br>所以 没有理所当然<br>就是要在各种变量可能之中<br>仍然做到最好</p>
-<p><img src="/lee/index/lzs4.png" alt></p>
-<p>世界再吵杂<br>匠人的内心绝对必须是安静安定的<br>面对大自然赠与的素材<br>我得先成就它<br>它才有可能成就我</p>
-<p><img src="/lee/index/lzs5.png" alt></p>
-<p>我知道<br>手艺人往往意味着<br>固执 缓慢 少量 劳作<br>但是这些背后所隐含的是<br>专注 技艺 对完美的追求<br>所以<br>我们宁愿这样 也必须这样 也一直这样<br>为什么<br>我们要保留我们最珍贵的 最引以为傲的</p>
-<p><img src="/lee/index/lzs6.png" alt></p>
-<p>一辈子,总是还得让一些善意执念推着往前<br>我们因此能愿意去听从内心的安排<br>专注做点东西 至少对得起光阴岁月<br>其他的就留给时间去说吧!<br><img src="/lee/index/lzs7.png" alt><br></p></font><p></p>
-</center>      
+<p>查询结果：</p>
+<table>
+<thead>
+<tr>
+<th align="center">src</th>
+<th align="center">dst</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">4</td>
+</tr>
+</tbody></table>
+<p>这其实就是一个笛卡尔积的计算过程。</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/lee/index.html" data-id="cjxkkaku400033f2dzva6corj" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/07/01/clickhouse-index/" data-id="cjxkkakty00003f2d250m74nr" class="article-share-link">Share</a>
       
       
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/30/spring-datasouce-config/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">整合多数据源Neo连接池时遇见的问题以及方案与收获</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
