@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="人生没有白走的路，每一步都算数！ 李宗盛">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.ico">
   
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -82,6 +82,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/02/hello-world/" class="article-date">
+  <time datetime="2019-07-02T13:42:15.343Z" itemprop="datePublished">2019-07-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Jonathan-Lee/">Jonathan Lee</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/02/hello-world/">致匠心</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <center>  
+<font face="微软雅黑">  
+<br>
+<br>  
+
+<p><img src="/2019/07/02/hello-world/lzs.png" alt><br>人生很多事急不得 你得等它自己熟<br>我20出头入行 30年写了不到300首歌<br>当然算是量少的<br>我想<br>一个人有多少天份 跟他出什么样的作品<br>并无太大关联<br>天分我还是有的<br>我有能耐住性子的天份</p></font></center>
+        
+          <p class="article-more-link">
+            <a href="/2019/07/02/hello-world/#more">点击阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://javartisan.com/2019/07/02/hello-world/" data-id="cjxlukr590000cj2d2ww5fkr4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-clickhouse-index" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/01/clickhouse-index/" class="article-date">
@@ -109,69 +159,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>通常SQL函数都是对一些rows进行一些map操作或者聚合操作，这些操作并不会导致行数的增加；然而arrayjoin是将一些rows转化为更多的rows，是一个扩增的过程。<a href="https://clickhouse.yandex/docs/en/query_language/functions/array_join/" target="_blank" rel="noopener">官方文档描述</a>：The ‘arrayJoin’ function takes each row and generates a set of rows (unfold).</p>
-<ul>
-<li>示例1：</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> arrayJoin([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) <span class="keyword">AS</span> dst, <span class="string">'Hello Clickhouse'</span> <span class="keyword">as</span> <span class="keyword">name</span></span><br></pre></td></tr></table></figure>
-
-<p>查询结果：</p>
-<table>
-<thead>
-<tr>
-<th align="center">dst</th>
-<th align="center">name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">Hello Clickhouse</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">Hello Clickhouse</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">Hello Clickhouse</td>
-</tr>
-</tbody></table>
-<p>由于name是一个常量，arrayjoin数组长度为3，因此扩增为3行。</p>
-<ul>
-<li>示例2：</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> arrayJoin([<span class="number">1</span>, <span class="number">2</span>]) <span class="keyword">AS</span> src,  arrayJoin([<span class="number">3</span>, <span class="number">4</span>]) <span class="keyword">AS</span> dst</span><br></pre></td></tr></table></figure>
-
-<p>查询结果：</p>
-<table>
-<thead>
-<tr>
-<th align="center">src</th>
-<th align="center">dst</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">3</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">4</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">3</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">4</td>
-</tr>
-</tbody></table>
-<p>这其实就是一个笛卡尔积的计算过程。</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2019/07/01/clickhouse-index/#more">点击阅读</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/07/01/clickhouse-index/" data-id="cjxkkakty00003f2d250m74nr" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/07/01/clickhouse-index/" data-id="cjxlukr5d0001cj2dwcd7bttc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -208,95 +204,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下</p>
-<h3 id="方案1："><a href="#方案1：" class="headerlink" title="方案1："></a>方案1：</h3><p>配置信息：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDrive"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>错误信息：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.IllegalStateException: Cannot convert value of type [java.lang.String] to required type [java.sql.Driver] <span class="keyword">for</span> property <span class="string">'driver'</span>: no matching editors or conversion strategy found</span><br><span class="line">	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:<span class="number">302</span>)</span><br><span class="line">	at org.springframework.beans.AbstractNestablePropertyAccessor.convertIfNecessary(AbstractNestablePropertyAccessor.java:<span class="number">576</span>)</span><br><span class="line">	... <span class="number">89</span> more</span><br></pre></td></tr></table></figure>
-
-<p>很明显，无法将String转为Driver类型，看一下DataSource才知道原来driver配置的是Driver类型的实例，而不是Driver class名字，解决方案有两种。先介绍第一种：</p>
-<p>解决办法：</p>
-<p>将Driver以bean的方式注册到spring容器中，之后配置ref引用该Driver实例即可。代码如下:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 将Driver注册到Spring容器</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"boltDriver"</span> <span class="attr">class</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDriver"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">//ref引用该实例即可。</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">ref</span>=<span class="string">"boltDriver"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="方案2："><a href="#方案2：" class="headerlink" title="方案2："></a>方案2：</h3><p>方案1中的DataSource是配置Driver类型成员；因此可以找到配置DriverName的变量配置即可，发现存在driverClass，可以配置driverClass设置Neo的Driver驱动名字即可。但是配置之后变红：</p>
-<p><img src="/2019/06/30/spring-datasouce-config/neo-datasouce-error.png" alt></p>
-<p>通过对比url发现，属性名字是setXXX方法中的XXX，该set方法名字为setDriverClassName(此处稍微翻阅源码就可以得知，Bean属性注入是使用set方法，而不是反射Field注入)。因此配置信息如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDrive"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="方案3："><a href="#方案3：" class="headerlink" title="方案3："></a>方案3：</h3><p>使用Mybatis自带的DataSource：org.apache.ibatis.datasource.pooled.PooledDataSource，该类中的driver是一个String类型设置驱动名字的成员：参见org.apache.ibatis.datasource.pooled.PooledDataSource#setDriver方法。 </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDriver"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p> <strong>收获1：</strong></p>
-<p> 对于常见的数据库连接池，不同的实现有着细微的差别，例如对于阿里Druid数据库连接池，对于常用的数据库，我们可以不用设置driver或者driverClassName属性，数据库连接池会根据url自动识别Driver，识别Driver方法com.alibaba.druid.util.JdbcUtils#getDriverClassName ；源码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDriverClassName</span><span class="params">(String rawUrl)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:derby:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.apache.derby.jdbc.EmbeddedDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mysql:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> MYSQL_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:log4jdbc:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> LOG4JDBC_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mariadb:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> MARIADB_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:oracle:"</span>) <span class="comment">//</span></span><br><span class="line">               || rawUrl.startsWith(<span class="string">"JDBC:oracle:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> ORACLE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:alibaba:oracle:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> ALI_ORACLE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:microsoft:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.microsoft.jdbc.sqlserver.SQLServerDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sqlserver:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.microsoft.sqlserver.jdbc.SQLServerDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sybase:Tds:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.sybase.jdbc2.jdbc.SybDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:jtds:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"net.sourceforge.jtds.jdbc.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:fake:"</span>) || rawUrl.startsWith(<span class="string">"jdbc:mock:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.alibaba.druid.mock.MockDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:postgresql:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> POSTGRESQL_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:odps:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> ODPS_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:hsqldb:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.hsqldb.jdbcDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:db2:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> DB2_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sqlite:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.sqlite.JDBC"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:ingres:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.ingres.jdbc.IngresDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:h2:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> H2_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mckoi:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.mckoi.JDBCDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:cloudscape:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"COM.cloudscape.core.JDBCDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:informix-sqli:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.informix.jdbc.IfxDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:timesten:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.timesten.jdbc.TimesTenDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:as400:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.ibm.as400.access.AS400JDBCDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:sapdb:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.sap.dbtech.jdbc.DriverSapDB"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:JSQLConnect:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.jnetdirect.jsql.JSQLDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:JTurbo:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.newatlanta.jturbo.driver.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:firebirdsql:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"org.firebirdsql.jdbc.FBDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:interbase:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"interbase.interclient.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:pointbase:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.pointbase.jdbc.jdbcUniversalDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:edbc:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"ca.edbc.jdbc.EdbcDriver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:mimer:multi1:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"com.mimer.jdbc.Driver"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:dm:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.DM_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:kingbase:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.KINGBASE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:hive:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.HIVE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rawUrl.startsWith(<span class="string">"jdbc:hive2:"</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> JdbcConstants.HIVE_DRIVER;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"unkow jdbc driver : "</span> + rawUrl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>阿里巴巴数据库连接池对常见的数据库都可以识别，但是对于neo没有支持，因此就需要配置driver或者driverClassName。</p>
-<p><strong>收获2：</strong></p>
-<p>对于数据库连接池的一些属性配置信息名字不是固定的，这些属性名字不是DataSource规范中的，而是跟各个具体DataSource实现强相关，因此配置时候可以查看DataSource具体实现进行配置。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxkkakue000a3f2d9ki98wp5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/30/hello-world/" class="article-date">
-  <time datetime="2019-06-30T09:00:17.139Z" itemprop="datePublished">2019-06-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Jonathan-Lee/">Jonathan Lee</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/hello-world/">致匠心</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <center>  
-<font face="微软雅黑">  
-
-<br>
-<br>
-<br>  
-
-<p><img src="/2019/06/30/hello-world/lzs.png" alt><br>人生很多事急不得 你得等它自己熟<br>我20出头入行 30年写了不到300首歌<br>当然算是量少的<br>我想<br>一个人有多少天份 跟他出什么样的作品<br>并无太大关联<br>天分我还是有的<br>我有能耐住性子的天份</p>
-<p><img src="/2019/06/30/hello-world/lzs2.png" alt></p>
-<p>人不能孤独的活着<br>之所以有作品 是为了沟通<br>透过作品去告诉人家心里的想法<br>眼中看世界的样子<br>所在意的 珍惜的<br>所以 作品就是自己</p>
-<p><img src="/2019/06/30/hello-world/lzs3.png" alt></p>
-<p>所有精工制作的对象<br>最珍贵 不能替代的就只有一个字 人<br>人有情怀 有信念 有态度<br>所以 没有理所当然<br>就是要在各种变量可能之中<br>仍然做到最好</p>
-<p><img src="/2019/06/30/hello-world/lzs4.png" alt></p>
-<p>世界再吵杂<br>匠人的内心绝对必须是安静安定的<br>面对大自然赠与的素材<br>我得先成就它<br>它才有可能成就我</p>
-<p><img src="/2019/06/30/hello-world/lzs5.png" alt></p>
-<p>我知道<br>手艺人往往意味着<br>固执 缓慢 少量 劳作<br>但是这些背后所隐含的是<br>专注 技艺 对完美的追求<br>所以<br>我们宁愿这样 也必须这样 也一直这样<br>为什么<br>我们要保留我们最珍贵的 最引以为傲的</p>
-<p><img src="/2019/06/30/hello-world/lzs6.png" alt></p>
-<p>一辈子,总是还得让一些善意执念推着往前<br>我们因此能愿意去听从内心的安排<br>专注做点东西 至少对得起光阴岁月<br>其他的就留给时间去说吧!<br><img src="/2019/06/30/hello-world/lzs7.png" alt><br></p></font><p></p>
-</center> 
+          <p class="article-more-link">
+            <a href="/2019/06/30/spring-datasouce-config/#more">点击阅读</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/hello-world/" data-id="cjxkkaku300023f2de23yrwxm" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxlukr5l0007cj2dee1yoiso" class="article-share-link">Share</a>
       
       
     </footer>
@@ -334,54 +250,16 @@
       
         <h3 id="枚举值在RPC调用时反序列化与序列化的值不一致"><a href="#枚举值在RPC调用时反序列化与序列化的值不一致" class="headerlink" title="枚举值在RPC调用时反序列化与序列化的值不一致"></a>枚举值在RPC调用时反序列化与序列化的值不一致</h3><ul>
 <li><p><strong>场景</strong></p>
-<p>一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。</p>
-</li>
-</ul>
-<ul>
-<li><strong>问题发现</strong></li>
-</ul>
-<p>进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问题，经过查看服务提供方代码发现并没有问题。可能的猜想并没有解决问题，因此只能进行Debug寻找原因。将服务提供方代码Clone下来在本地的测试RPC环境进行调试，调试发现在服务提供方反序列化之后枚举值就是错误的，因此可以将问题锁定在枚举值类的序列化上。因此只好跟踪序列化与反序列化参数代码，序列化代码：</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeEnum</span><span class="params">(Enum&lt;?&gt; value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// null</span></span><br><span class="line">        <span class="keyword">this</span>.writeNull();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        String strVal = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.writeEnumUsingName &amp;&amp; !<span class="keyword">this</span>.writeEnumUsingToString) &#123;</span><br><span class="line">            <span class="comment">// 判断是否是根据名字序列化</span></span><br><span class="line">            strVal = value.name();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.writeEnumUsingToString) &#123;</span><br><span class="line">            <span class="comment">// 是否使用tostring序列化枚举值</span></span><br><span class="line">            strVal = value.toString();</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span> (strVal != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 不为空，则可能是根据名字或者toString的方式序列化</span></span><br><span class="line">            <span class="keyword">char</span> quote = <span class="keyword">this</span>.isEnabled(SerializerFeature.UseSingleQuotes) ? <span class="number">39</span> : <span class="number">34</span>;</span><br><span class="line">            <span class="keyword">this</span>.write(quote);</span><br><span class="line">            <span class="keyword">this</span>.write(strVal);</span><br><span class="line">            <span class="keyword">this</span>.write(quote);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 根据ordinal值序列化(ordinal：序列数)</span></span><br><span class="line">            <span class="keyword">this</span>.writeInt(value.ordinal());</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>  <em>跟进java.lang.Enum#ordinal方法发现原来是JDK提供的方法，文档描述如下：</em></p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Returns the ordinal of <span class="keyword">this</span> enumeration <span class="title">constant</span> <span class="params">(its position in its <span class="keyword">enum</span> declaration, where the initial constant is assigned an ordinal of zero)</span>. Most programmers will have no use <span class="keyword">for</span> <span class="keyword">this</span> method. It is designed <span class="keyword">for</span> use by sophisticated <span class="keyword">enum</span>-based data structures, such as java.util.EnumSet and java.util.EnumMap.</span></span><br></pre></td></tr></table></figure>
-
-<p>  <em>返回枚举值的的序数，也就是声明时候的位置序号，序号从0开始计数。大多数程序员不会使用这个方法，此方法的设计主要是为了那些基于枚举的复杂数据类型，例如：EnumSet与EnumMap。</em></p>
-<p>  到序列化代码this.writeInt(value.ordinal()),此时就可以明白了，RPC调用参数序列化枚举值是根据枚举值的序号进行序列化的（<strong>注意：</strong>序列化机制是跟序列化框架强相关的，一定要根据自己的序列化框架进行实际分析问题）。此时客户端序列化已经完成，接下来便开始Debug服务提供方的代码，经过Debug发现服务提供方法的枚举值数组中的size与客户端不一致，经过对比源码发现：       <img src="/2019/06/30/java-index/enum_code.png" alt>  </p>
-<p>  客户端与服务端的类库版本不一致，而又由于枚举值序列化与反序列化是按照ordinal值进行的，因此便可以确定问题产生原因了，通过重新发布类库此问题得以解决！</p>
-<h3 id="枚举值中ordinal的用法"><a href="#枚举值中ordinal的用法" class="headerlink" title="枚举值中ordinal的用法"></a>枚举值中ordinal的用法</h3><ul>
-<li><p>Java<strong>枚举类型中存在的方法</strong></p>
-<p><img src="/2019/06/30/java-index/enum_method.png" alt></p>
-</li>
-<li><p><strong>ordinal值的用法</strong></p>
-<p>通过JDK文档，可以发现ordinal主要是为了基于枚举的复杂数据结构使用，在JDK中有EnumSet与EnumMap。</p>
-<p><strong>EnumSet：</strong></p>
-<p>是JDK的一个工具类，主要用于枚举值的Set相关操作，例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.EnumMap;</span><br><span class="line"><span class="keyword">import</span> java.util.EnumSet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> JobType &#123;</span><br><span class="line">    SPARK_JOB, HADOOP_JOB, FLINK_JOB;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> JobType2 &#123;</span><br><span class="line">    SPARK_JOB, HADOOP_JOB, FLINK_JOB;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boot</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 将指定类型枚举值的所有值存初始化到EnumSet中</span></span><br><span class="line">        EnumSet es = EnumSet.allOf(JobType.class);</span><br><span class="line">        System.out.println(es.contains(JobType.SPARK_JOB));</span><br><span class="line">        System.out.println(es.contains(JobType2.SPARK_JOB));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>EnumSet是一个抽象类，是不支持自定义实现的（内部有一个默认权限的addAll方法无法重写），JDK提供的方法已经可以满足我们的需要了。</p>
-<p><strong>EnumMap:</strong></p>
-<p>是枚举值有关Map的操作，实例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> JobType &#123;</span><br><span class="line">      SPARK_JOB, HADOOP_JOB, FLINK_JOB;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">enum</span> JobType2 &#123;</span><br><span class="line">      SPARK_JOB, HADOOP_JOB, FLINK_JOB;;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Boot</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">          <span class="comment">//构造器参数是一个泛型参数，表示该EnumMap的key只能是JobType2枚举类型</span></span><br><span class="line">          EnumMap  em = <span class="keyword">new</span> EnumMap(JobType2.class);</span><br><span class="line">          em.put(JobType2.SPARK_JOB, <span class="keyword">new</span> Object());</span><br><span class="line">          <span class="comment">// 报错</span></span><br><span class="line">          em.put(JobType.SPARK_JOB, <span class="keyword">new</span> Object());</span><br><span class="line">          System.out.println(em);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-</li>
-</ul>
-<p><strong>注意：</strong></p>
-<p>上面只是针具具体某一个序列化框架而言，具体问题一定要具体分析！</p>
-
+<p>一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。</p></li></ul>
+        
+          <p class="article-more-link">
+            <a href="/2019/06/30/java-index/#more">点击阅读</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxkkaku900063f2dqaq54vcj" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxlukr5i0004cj2dqdrz3l7g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -417,148 +295,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+        <p>mybatis_index</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/06/30/mybatis-index/#more">点击阅读</a>
+          </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/mybatis-index/" data-id="cjxkkaku700053f2dr7xx57s9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-spark-index" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/30/spark-index/" class="article-date">
-  <time datetime="2019-06-30T08:49:23.000Z" itemprop="datePublished">2019-06-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Spark/">Spark</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/spark-index/">spark_index</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spark-index/" data-id="cjxkkakub00073f2duvrgxv0p" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-spring-multi-datasource" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/29/spring-multi-datasource/" class="article-date">
-  <time datetime="2019-06-29T15:32:35.000Z" itemprop="datePublished">2019-06-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring/">Spring</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/29/spring-multi-datasource/">借助Spring框架实现多数据源进行动态路由数据源进行数据查询</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>场景</p>
-<p>业务需要，不同类型数据分布在不同集群以提高查询性能，为此系统存在多个数据源。数据源实现方式如下。</p>
-</li>
-</ul>
-<ul>
-<li><p>解决方案  </p>
-<p><strong>方案1 ：</strong></p>
-<p> 静态配置多个数据源，按需使用，不具备动态调整能力。示例代码：</p>
-</li>
-</ul>
-<ol start="2">
-<li><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.javartisan.data.*"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:config/env.properties"</span> <span class="attr">ignore-unresolvable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置数据源1“ --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;mysql.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;mysql.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;mysql.password&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"5"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"0"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 数据源1的SessionFactory --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"classpath:config/mybatis-config.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:com/javartisan/data/day/report/mapper/*.xml<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- 数据源1的MapperScannerConfigurer --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.javartisan.data.day.report.mapper"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!--数据源2：Spark DataSource --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"sparkDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;spark.mysql.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;spark.mysql.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;spark.mysql.password&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"5"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"0"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"60000"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;validationQuery&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnReturn"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testWhileIdle"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeBetweenEvictionRunsMillis"</span> <span class="attr">value</span>=<span class="string">"60000"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minEvictableIdleTimeMillis"</span> <span class="attr">value</span>=<span class="string">"25200000"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandoned"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandonedTimeout"</span> <span class="attr">value</span>=<span class="string">"1800"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logAbandoned"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filters"</span> <span class="attr">value</span>=<span class="string">"mergeStat"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 数据源2的SessionFactory --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sparkSqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring."</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"sparkDataSource"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"classpath:config/mybatis-config.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:com/javartisan/data/week/report/mapper/*.xml<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">      <span class="comment">&lt;!-- 数据源2的MapperScannerConfigurer --&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.javartisan.data.week.report.mapper"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sparkSqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>主要是根据Mapper的文件包路径区分数据源,Mapper包路径如下：com.javartisan.data.day.report.mapper与com.javartisan.data.week.report.mapper; 分别表示日报与周报的数据源（业务原因，日报与周报的数据源分布在两个不同MYSQL环境，因此需要多数据源）；这种多数据源就是根据Mapper文件的静态分布规则进行构建的多数据源。</p>
-</li>
-</ol>
-<p>​        <strong>方案2：</strong></p>
-<p>​        Aop实现的多数据源，在查询期间根据数据分布规则进行动态选择dataSource进行查询。具体细节如下：<br>​        这种实现是根据业务显示情况有关，业务数据根据Hash值进行分布式存储，因此在业务实现时候，我们根据           规则自行实现了一套数据库连接池；在基于自行实现连接池之上，我们结合Aop拦截查询语句（定义数据源注        解），根据规则得到数据源所在的某个节点，然后在连接池中拿到指定节点的Connection进行查询。虽然比        方案1优雅并且拓展性好，但是代码相对比较复杂，维护成本高。最好的方案还是借力而行！借力而行就是使        用Spring框架支持的组件拓展，那就是如下方案3。</p>
-<p>​        </p>
-<p>​        <strong>方案3：</strong></p>
-<p>​        AbstractRoutingDataSource多数据源的拓展类,AbstractRoutingDataSource是Spring为了多数据源拓展开放        的抽象类；继承结构：</p>
-<p>​        <img src="/2019/06/29/spring-multi-datasource/mds.png" alt></p>
-<p>​        Spring一个具体实现：IsolationLevelDataSourceRouter，基于事务的隔离级别选择DataSource；原理其实很简单，启动时候将一些DataSource以key/value形似存储到Map&lt;数据源规则的Key，DataSource&gt;，然后获取DataSource时候按照规则的Key获取即可。也就是父类中的抽象方法；关键抽象方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Determine the current lookup key. This will typically be</span></span><br><span class="line"><span class="comment"> * implemented to check a thread-bound transaction context.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Allows for arbitrary keys. The returned key needs</span></span><br><span class="line"><span class="comment"> * to match the stored lookup key type, as resolved by the</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> #resolveSpecifiedLookupKey&#125; method.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>这个方法的实现时候，可以将我们的一些规则借助线程局部变量传入到其中进行一些规则计算，便于选择合适的数据源。首先简单描述一下业务场景：起初，系统的所有数据都是在MySQL中，因此不存在多数据源问题，但是后来由于架构改造；变化为如下：在原有的MYSQL关系数据源之外，又添加了一种是图数据库Neo，将原来存储在MySQL中的账户数据改造存储到图数据库中；这也就是所谓的变为两种数据源；由于数据源的变化，下游查询就会引起变化，而我的需求是这样：每天需要根据MySQL中的业务数据计算业务相关指标同时还要计算一些账户指标，例如每天新注册用户数等。因此就需要在原有基础之上进行扩展，因此改用Spring支持的多数据源。实例代码如下；数据源路由器：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataMillDataSourceRouter</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String dataSourceType = MDC.get(DataSourceTypes.NEO.type);</span><br><span class="line">        <span class="keyword">if</span> (Objects.equals(dataSourceType, DataSourceTypes.NEO.type)) &#123;</span><br><span class="line">            <span class="comment">// NEO DATASOURCE</span></span><br><span class="line">            <span class="keyword">return</span> DataSourceTypes.NEO.type;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> DataSourceTypes.MYSQL.type;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>数据源类型枚举值：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> DataSourceTypes &#123;</span><br><span class="line"> </span><br><span class="line">    NEO(<span class="string">"NEO"</span>), MYSQL(<span class="string">"MYSQL"</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> String type;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">DataSourceTypes</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.type = type;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>NEO数据源注解（默认没有注解则数据源为MySQL,也可以借助路由器指定默认数据源）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> NeoDataSource &#123;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>进行数据源选择的切面类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.Signature;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Around;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.MDC;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.EnableAspectJAutoProxy;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="comment">//@EnableAspectJAutoProxy 与&lt;aop:aspectj-autoproxy/&gt;配置二选一即可</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NeoDataSourceApect</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Logger LOGGER = LoggerFactory.getLogger(NeoDataSourceApect.class);</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Around</span>(value = <span class="string">"@annotation(com.javartisan.data.day.report.multi.datasource.annotation.NeoDataSource)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">process</span><span class="params">(ProceedingJoinPoint pjp)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"> </span><br><span class="line">        String args = Arrays.toString(pjp.getArgs());</span><br><span class="line">        Signature methodName = pjp.getSignature();</span><br><span class="line">        LOGGER.info(<span class="string">"methodName = &#123;&#125; and args = &#123;&#125; start proceed !"</span>, methodName.getName(), args);</span><br><span class="line">        MDC.put(DataSourceTypes.NEO.type, DataSourceTypes.NEO.type);</span><br><span class="line">        Object returnValue = pjp.proceed();</span><br><span class="line">        LOGGER.info(<span class="string">"methodName = &#123;&#125; and args = &#123;&#125;  and returnValue =&#123;&#125; proceed finished !"</span>, methodName.getName(), args, returnValue);</span><br><span class="line">        MDC.remove(DataSourceTypes.NEO.type);</span><br><span class="line">        <span class="keyword">return</span> returnValue;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>备注：<u>只要方法存在NeoDataSource注解就会被拦截添加一个线程局部变量到MDC中，MDC是slf4j中的一个工具类，也可以自行实现一个ThreadLocal工具。</u></p>
-<p>Spring配置文件：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.javartisan.data.*"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过import方式将配置放到子文件中 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"spring-mybatis.xml"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>子配置文件：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:config/env.properties"</span> <span class="attr">ignore-unresolvable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置数据源 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"mysqlDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;mysql.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;mysql.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;mysql.password&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"5"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"0"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"60000"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.javartisan.datamill.day.report.multi.datasource.router.DataMillDataSourceRouter"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetDataSources"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"MYSQL"</span> <span class="attr">value-ref</span>=<span class="string">"mysqlDataSource"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"NEO"</span> <span class="attr">value-ref</span>=<span class="string">"neoDataSource"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"classpath:config/mybatis-config.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:com/javartisan/datamill/day/report/mapper/*.xml<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.javartisan.datamill.day.report.mapper"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!--NEO4J DataSource--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"org.apache.ibatis.datasource.pooled.PooledDataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.javartisanbc.bolt.BoltDriver"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>到此就完成了多数据源的配置，接下来看一下Service实现：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataComputeService</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * 查询Neo数据源方法，使用注解即可</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@NeoDataSource</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getAllOpenAccountCount</span><span class="params">(String startDate)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 伪代码，表达清楚含义即可</span></span><br><span class="line">            <span class="keyword">return</span>  mapper.someMethod(startDate);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * 查询MYSQL数据源</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getMysqlIndex</span><span class="params">(String startDate)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 伪代码，表达清楚含义即可</span></span><br><span class="line">            <span class="keyword">return</span>  mapper.someMethod(startDate);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Service实现如上即可，这样就完成了多数据源的配置；这种方式对新引入的数据源的拓展性比较好，代码也比较清晰简单易于理解与维护。</p>
-<p><strong>注意：</strong></p>
-<p>当我们在一个Service内部内嵌套调用同类的其他Neo数据源方法需要使用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((DataComputeService) AopContext.currentProxy()).someMethod（）</span><br></pre></td></tr></table></figure>
-
-<p>此时需要在修改Aspectj配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span> <span class="attr">expose-proxy</span>=<span class="string">"true"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>expose-proxy是为了将代理类暴露到当前线程局部变量中，这样就可以通过线程局部变量获取代理类了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/29/spring-multi-datasource/" data-id="cjxkkakuc00093f2djffdhcbx" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/mybatis-index/" data-id="cjxlukr5g0003cj2diwme8dfr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -569,6 +315,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         

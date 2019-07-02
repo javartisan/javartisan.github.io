@@ -15,9 +15,17 @@ menu:
 
 #rss: /atom.xml
 
+auto_excerpt:
+  enable: true
+  length: 150
+
 # Content
-excerpt_link: Read More
+excerpt_link: 点击阅读
 fancybox: true
+
+
+
+
 
 # 类目最近文章如果需要开启的打开注释
 # Sidebar
@@ -43,7 +51,7 @@ show_count: false
 # Miscellaneous
 google_analytics:
 gauges_analytics:
-favicon: /favicon.png
+favicon: /favicon.ico
 twitter:
 google_plus:
 fb_admins:

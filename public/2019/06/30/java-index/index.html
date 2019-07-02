@@ -7,24 +7,24 @@
   
   <title>Java枚举类型在RPC调用时由于版本不一致遇见的问题 | Welcome to Javartisan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。    问题发现  进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问">
+  <meta name="description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。">
 <meta name="keywords" content="Java Spark Spring Mybatis Redis Hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java枚举类型在RPC调用时由于版本不一致遇见的问题">
 <meta property="og:url" content="http://javartisan.com/2019/06/30/java-index/index.html">
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
-<meta property="og:description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。    问题发现  进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问">
+<meta property="og:description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://javartisan.com/2019/06/30/java-index/enum_code.png">
 <meta property="og:image" content="http://javartisan.com/2019/06/30/java-index/enum_method.png">
-<meta property="og:updated_time" content="2019-06-30T10:43:12.389Z">
+<meta property="og:updated_time" content="2019-07-02T13:44:16.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java枚举类型在RPC调用时由于版本不一致遇见的问题">
-<meta name="twitter:description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。    问题发现  进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问">
+<meta name="twitter:description" content="枚举值在RPC调用时反序列化与序列化的值不一致 场景 一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。">
 <meta name="twitter:image" content="http://javartisan.com/2019/06/30/java-index/enum_code.png">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.ico">
   
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -113,10 +113,10 @@
         <h3 id="枚举值在RPC调用时反序列化与序列化的值不一致"><a href="#枚举值在RPC调用时反序列化与序列化的值不一致" class="headerlink" title="枚举值在RPC调用时反序列化与序列化的值不一致"></a>枚举值在RPC调用时反序列化与序列化的值不一致</h3><ul>
 <li><p><strong>场景</strong></p>
 <p>一次业务联调测试时候发现，客户端以RPC方式调用服务提供方执行作业，作业类型存在多种，作业类型的区分使用的是Java枚举类表示，在每次调用服务接口时候传入枚举值以表示要执行的作业类型。</p>
+<a id="more"></a>
 </li>
-</ul>
-<ul>
-<li><strong>问题发现</strong></li>
+<li><p><strong>问题发现</strong></p>
+</li>
 </ul>
 <p>进行联调测试时候发现每次客户端传入的类型与服务提供方真实执行的作业类型不匹配，便开始进行寻找原因！当时怀疑是服务提供方的业务代码判断逻辑存在问题，经过查看服务提供方代码发现并没有问题。可能的猜想并没有解决问题，因此只能进行Debug寻找原因。将服务提供方代码Clone下来在本地的测试RPC环境进行调试，调试发现在服务提供方反序列化之后枚举值就是错误的，因此可以将问题锁定在枚举值类的序列化上。因此只好跟踪序列化与反序列化参数代码，序列化代码：</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeEnum</span><span class="params">(Enum&lt;?&gt; value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// null</span></span><br><span class="line">        <span class="keyword">this</span>.writeNull();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        String strVal = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.writeEnumUsingName &amp;&amp; !<span class="keyword">this</span>.writeEnumUsingToString) &#123;</span><br><span class="line">            <span class="comment">// 判断是否是根据名字序列化</span></span><br><span class="line">            strVal = value.name();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.writeEnumUsingToString) &#123;</span><br><span class="line">            <span class="comment">// 是否使用tostring序列化枚举值</span></span><br><span class="line">            strVal = value.toString();</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span> (strVal != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 不为空，则可能是根据名字或者toString的方式序列化</span></span><br><span class="line">            <span class="keyword">char</span> quote = <span class="keyword">this</span>.isEnabled(SerializerFeature.UseSingleQuotes) ? <span class="number">39</span> : <span class="number">34</span>;</span><br><span class="line">            <span class="keyword">this</span>.write(quote);</span><br><span class="line">            <span class="keyword">this</span>.write(strVal);</span><br><span class="line">            <span class="keyword">this</span>.write(quote);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 根据ordinal值序列化(ordinal：序列数)</span></span><br><span class="line">            <span class="keyword">this</span>.writeInt(value.ordinal());</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -145,21 +145,28 @@
 
 
 
-
-
-
-
-
-
 </li>
 </ul>
 <p><strong>注意：</strong></p>
 <p>上面只是针具具体某一个序列化框架而言，具体问题一定要具体分析！</p>
+<p><strong>拓展阅读：</strong></p>
+<p>阿里Java编码规范中：“二方库”中第五条：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">【强制】二方库里可以定义枚举类型，参数可以使用枚举类型，但是接口返回值不允许使用 枚举类型或者包含枚举类型的 POJO 对象。</span><br></pre></td></tr></table></figure>
+
+<p>约定参数可以使用枚举，但是返回值禁止含有枚举值。主要原因：</p>
+<ul>
+<li><p><strong>允许使用参数是因为客户端可以显式传入枚举值证明客户端存在枚举值，所以一般不会存在问题（但是前提必须保证客户端与服务器端依赖的枚举值版本一致，例如枚举值都一致，但是声明顺序不一致可能就会存在问题，因此在添加枚举值字段时候要保证在最后添加枚举值，不要打乱现有的枚举值顺序）。</strong></p>
+</li>
+<li><p><strong>返回值禁止是因为返回值在客户端启动时候无法校验客户端是否包含所有枚举值字段，例如客户端枚举值含有：SPARK_JOB,HADOOP_JOB；但是服务器端包含：SPARK_JOB,HADOOP_JOB，HIVE_JOB,FLINK_JOB；此时客户端返回一个FLINK_JOB客户端反序列化就会报错。</strong></p>
+</li>
+</ul>
+<p>因此需要注意枚举值作为参数在RPC接口调用存在的如上问题。（all in one的模式则不会存在此问题）。</p>
+<p><strong>拓展阅读</strong>：<a href="https://www.zhihu.com/question/52760637" target="_blank" rel="noopener">Java枚举什么不好，《阿里巴巴JAVA开发手册》对于枚举规定的考量是什么？</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxkkaku900063f2dqaq54vcj" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/java-index/" data-id="cjxlukr5i0004cj2dqdrz3l7g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,11 +175,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/06/30/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/30/spring-datasouce-config/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          致匠心
+          整合多数据源Neo连接池时遇见的问题以及方案与收获
         
       </div>
     </a>

@@ -7,23 +7,23 @@
   
   <title>整合多数据源Neo连接池时遇见的问题以及方案与收获 | Welcome to Javartisan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下 方案1：配置信息： 123456&amp;lt;bean name=&quot;neoDataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&amp;gt;        &amp;lt;property name=&quot;driver&quot; value=&quot;org.">
+  <meta name="description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下">
 <meta name="keywords" content="Java Spark Spring Mybatis Redis Hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="整合多数据源Neo连接池时遇见的问题以及方案与收获">
 <meta property="og:url" content="http://javartisan.com/2019/06/30/spring-datasouce-config/index.html">
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
-<meta property="og:description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下 方案1：配置信息： 123456&amp;lt;bean name=&quot;neoDataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&amp;gt;        &amp;lt;property name=&quot;driver&quot; value=&quot;org.">
+<meta property="og:description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://javartisan.com/2019/06/30/spring-datasouce-config/neo-datasouce-error.png">
-<meta property="og:updated_time" content="2019-06-30T10:59:27.628Z">
+<meta property="og:updated_time" content="2019-07-02T13:42:43.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="整合多数据源Neo连接池时遇见的问题以及方案与收获">
-<meta name="twitter:description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下 方案1：配置信息： 123456&amp;lt;bean name=&quot;neoDataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&amp;gt;        &amp;lt;property name=&quot;driver&quot; value=&quot;org.">
+<meta name="twitter:description" content="整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下">
 <meta name="twitter:image" content="http://javartisan.com/2019/06/30/spring-datasouce-config/neo-datasouce-error.png">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.ico">
   
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -110,6 +110,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>整合多数据源时候，配置neo数据库连接池时候使用的Druid连接池，遇见的问题以及问题的解决方案与收获简单记录一下</p>
+<a id="more"></a>
 <h3 id="方案1："><a href="#方案1：" class="headerlink" title="方案1："></a>方案1：</h3><p>配置信息：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"neoDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"org.neo4j.jdbc.bolt.BoltDrive"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;neo.password&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -140,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxkkakue000a3f2d9ki98wp5" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/06/30/spring-datasouce-config/" data-id="cjxlukr5l0007cj2dee1yoiso" class="article-share-link">Share</a>
       
       
     </footer>
@@ -159,9 +160,9 @@
     </a>
   
   
-    <a href="/2019/06/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/06/30/java-index/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">致匠心</div>
+      <div class="article-nav-title">Java枚举类型在RPC调用时由于版本不一致遇见的问题</div>
     </a>
   
 </nav>

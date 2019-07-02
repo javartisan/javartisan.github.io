@@ -5,8 +5,6 @@ categories: Jonathan Lee
 
 <center>  
 <font face="微软雅黑">  
-
-<br/>
 <br/>
 <br/>  
 
@@ -19,6 +17,8 @@ categories: Jonathan Lee
 并无太大关联
 天分我还是有的
 我有能耐住性子的天份
+
+<!-- more -->
 
 ![](./lzs2.png)
 
