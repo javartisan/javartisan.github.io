@@ -5,20 +5,20 @@
   
 
   
-  <title>Javartisan | Welcome to Javartisan Blog</title>
+  <title>基于Redis实现的分布式锁 | Welcome to Javartisan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="人生没有白走的路，每一步都算数！ 李宗盛">
+  <meta name="description" content="分布式场景下，普遍存在同一资源的并发访问，因此对于资源需要进行同步操作，避免出现线程安全问题导致出具错乱，本节将会记录一下基于Redis实现分布式锁的相关细节。">
 <meta name="keywords" content="Java Spark Spring Mybatis Redis Hadoop">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Javartisan">
-<meta property="og:url" content="http://javartisan.com/javartisan/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Redis实现的分布式锁">
+<meta property="og:url" content="http://javartisan.com/2019/07/04/resid-distribute-lock/index.html">
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
-<meta property="og:description" content="人生没有白走的路，每一步都算数！ 李宗盛">
+<meta property="og:description" content="分布式场景下，普遍存在同一资源的并发访问，因此对于资源需要进行同步操作，避免出现线程安全问题导致出具错乱，本节将会记录一下基于Redis实现分布式锁的相关细节。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-30T08:54:36.673Z">
+<meta property="og:updated_time" content="2019-07-03T16:19:56.110Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Javartisan">
-<meta name="twitter:description" content="人生没有白走的路，每一步都算数！ 李宗盛">
+<meta name="twitter:title" content="基于Redis实现的分布式锁">
+<meta name="twitter:description" content="分布式场景下，普遍存在同一资源的并发访问，因此对于资源需要进行同步操作，避免出现线程安全问题导致出具错乱，本节将会记录一下基于Redis实现分布式锁的相关细节。">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -81,12 +81,16 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-resid-distribute-lock" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/javartisan/index.html" class="article-date">
-  <time datetime="2019-06-30T08:49:23.000Z" itemprop="datePublished">2019-06-30</time>
+    <a href="/2019/07/04/resid-distribute-lock/" class="article-date">
+  <time datetime="2019-07-03T16:04:38.000Z" itemprop="datePublished">2019-07-04</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -95,7 +99,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Javartisan
+      基于Redis实现的分布式锁
     </h1>
   
 
@@ -103,17 +107,38 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>分布式场景下，普遍存在同一资源的并发访问，因此对于资源需要进行同步操作，避免出现线程安全问题导致出具错乱，本节将会记录一下基于Redis实现分布式锁的相关细节。</p>
+<a id="more"></a>
+
+
+
+<p><strong>悲观锁：</strong></p>
+<p>所谓的悲观锁，就是比较保守，一旦进行一些需要锁的操作，就立刻需要获取到锁才能执行，没有获取到锁则失败或者等待获取锁。</p>
+<p><strong>乐观锁：</strong></p>
+<p>乐观锁比悲观锁宽松，在执行需要加锁的操作时候，先假设获取到了锁，然后对需要进行副本修改，最后进行提交时候会去比对是否存在其他线程修改了数据，如果没有修改则提交，否则失败。</p>
+<p>举例：</p>
+<p>例如对于银行某一账户的高并发操作（假设只存在排他锁，不存在共享锁），如果有大量用户进行读取和修改操作，对于悲观锁当有大量用户进行读取操作时候每一个都需要进行获取锁会严重降低性能；但是使用乐观锁就可以缓解此问题（乐观锁一般都是基于数据的版本进行实现），例如A读取数据时，B写入数据，两者同时执行时候都会假设获取到乐观锁，因此都会进行操作，假设写操作先与读操作完成，此时就会修改数据版本，随后读操作完成之后会校验数据版本，此时会发现数据版本不一致，因此本次读取就会失败。</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://javartisan.com/javartisan/index.html" data-id="cjxng5u8c000shz2d4r2v9wo8" class="article-share-link">Share</a>
+      <a data-url="http://javartisan.com/2019/07/04/resid-distribute-lock/" data-id="cjxng5u7k0007hz2dyjyfqbz7" class="article-share-link">Share</a>
       
       
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/03/redis-data-safe/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redis数据安全之数据持久化</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
