@@ -5,19 +5,19 @@
   
 
   
-  <title>Redis数据安全之数据备份机制 | Welcome to Javartisan Blog</title>
+  <title>Redis数据安全之数据持久化 | Welcome to Javartisan Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="​         ​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。">
 <meta name="keywords" content="Java Spark Spring Mybatis Redis Hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis数据安全之数据备份机制">
+<meta property="og:title" content="Redis数据安全之数据持久化">
 <meta property="og:url" content="http://javartisan.com/2019/07/03/redis-data-safe/index.html">
 <meta property="og:site_name" content="Welcome to Javartisan Blog">
 <meta property="og:description" content="​         ​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-03T15:04:08.586Z">
+<meta property="og:updated_time" content="2019-07-03T15:33:00.448Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis数据安全之数据备份机制">
+<meta name="twitter:title" content="Redis数据安全之数据持久化">
 <meta name="twitter:description" content="​         ​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。">
   
   
@@ -99,7 +99,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Redis数据安全之数据备份机制
+      Redis数据安全之数据持久化
     </h1>
   
 
@@ -174,6 +174,15 @@
 <p><u>虽然always对于固态每秒可以处理几万个写命令，但是这种每次写入少量数据的方式会导致写入放大进而降低固态磁盘的寿命，可能会几年降低到几个月。</u></p>
 <p>对于<strong>everysec</strong>选项一般比较合适，用户可以考虑使用此配置让Redis每秒进行一个AOF文件同步。<strong>开启此方案与不适用任何持久化方案的性能所差无几。</strong>而且每秒同步一次数据，当系统崩溃时候最多只会丢失一秒的数据。</p>
 <p>最后不推荐使用no，此方案当操作系统需要同步数据的缓冲区被写满之后。可能写磁盘需要耗费较多的时间，因此Redis的写操作将会被阻塞，导致Redis处理请求的速度下降。因此不推荐使用no选项。AOF持久化存在一个缺陷就是AOF文件太大。</p>
+<p><strong>AOF文件重写</strong></p>
+<p>AOF方式可以将数据丢失窗口降低到一秒并且性能有保证；那么还有什么理由不选择AOF呢？AOF也存在其问题，就是随着Redis的长期运行会导致AOF文件过大，极端情况下会占满系统磁盘，还有另一个问题就是Redis重启时候执行AOF文件耗时。</p>
+<p>为了解决AOF文件不断扩大问题，用户可以向Redis发送BGREWRITEAOF命令进行AOF文件重写，缩写大小。BGREWRITEAOF与BGSAVE命令类似，Redis会创建一个子进程进行AOF重写，因为BGREWRITEAOF也同样需要创建子进程，因而也存在影响Redis性能问题。如果不对AOF文件加以控制的话,AOF文件将会是快照文件的几倍，同时删除一个比较大的AOF文件时候也会导致操作系统hang数秒。</p>
+<p>为了解决如上的问题，Redis也提供了类似与save的配置项来自动的进行AOF文件重写，以避免AOF文件过大。两个比较重要配置参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 重写文件的最小大小，是一个参考基值</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line"># 大于文件大小基值的百分比进行重写</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br></pre></td></tr></table></figure>
+
+<p>如上配置含义是当AOF文件大于64MB的二倍，即大于128MB时候进行重写，<strong>也就是操作100%</strong>。</p>
+<p><strong>总结：</strong></p>
+<p>无论是快照方式还是AOF方式，数据持久化到磁盘都是必要的，持久化之外还需要将持久化文件备份到其他节点容灾。Redis持久化数据完整性得以保证，但是随着系统并发量（或者负载）的上升，对Redis扩展为集群的方案是必不可少的，因此对于集群内部节点之间的数据同步便是一个重要的认为。下一篇将会讲解一些Redis集群内节点数据复制的方案。</p>
 
       
     </div>
