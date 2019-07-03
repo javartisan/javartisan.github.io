@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="943a62b0-cb34-4964-9fa3-37643446174a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.deploy_git" beforeDir="false" afterPath="$PROJECT_DIR$/.deploy_git" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/db.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/2019/07/04/resid-distribute-lock/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/2019/07/04/resid-distribute-lock/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +46,15 @@
                 <caret line="22" column="233" selection-start-line="22" selection-start-column="233" selection-end-line="22" selection-end-column="233" />
               </first_editor>
               <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deploy.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -189,11 +200,6 @@
             <path>
               <item name="javartisan.github.io" type="b2602c69:ProjectViewProjectNode" />
               <item name="javartisan.github.io" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="javartisan.github.io" type="b2602c69:ProjectViewProjectNode" />
-              <item name="javartisan.github.io" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -201,6 +207,15 @@
               <item name="javartisan.github.io" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="_posts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="javartisan.github.io" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="javartisan.github.io" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="JShell Console" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
@@ -211,7 +226,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562170803222" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562170815783" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/themes" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -301,17 +316,18 @@
       <workItem from="1561992660024" duration="3512000" />
       <workItem from="1561998649005" duration="61000" />
       <workItem from="1562069242176" duration="5149000" />
-      <workItem from="1562160446011" duration="2116000" />
+      <workItem from="1562160446011" duration="2483000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30147000" />
+    <option name="totallyTimeSpent" value="30514000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1984127" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1984127" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -328,7 +344,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
       <window_info anchor="bottom" id="REST Client" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.49285713" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.49285713" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="CheckStyle" order="11" weight="0.32959184" />
       <window_info anchor="bottom" id="Tool Output" order="12" />
@@ -403,13 +419,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.deploy_git/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-517">
-          <caret line="130" selection-start-line="130" selection-end-line="130" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/mybatis/index.md" />
     <entry file="file://$PROJECT_DIR$/themes/landscape/layout/layout.ejs">
       <provider selected="true" editor-type-id="text-editor">
@@ -481,13 +490,6 @@
     <entry file="file://$PROJECT_DIR$/source/_posts/spring-index.md" />
     <entry file="file://$PROJECT_DIR$/public/CNAME">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deploy.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -653,6 +655,20 @@
             <caret line="12" selection-start-line="12" selection-end-line="12" selection-end-column="13" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/jshell/jshell_console.snippet">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
