@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Redis数据安全之数据备份机制 | Welcome to Javartisan Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="​         ​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。">
+<meta name="keywords" content="Java Spark Spring Mybatis Redis Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis数据安全之数据备份机制">
+<meta property="og:url" content="http://javartisan.com/2019/07/03/redis-data-safe/index.html">
+<meta property="og:site_name" content="Welcome to Javartisan Blog">
+<meta property="og:description" content="​         ​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-03T15:04:08.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis数据安全之数据备份机制">
+<meta name="twitter:description" content="​         ​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Welcome to Javartisan Blog</a>
+      </h1>
+      
+
+
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/lee">Javartisan</a>
+        
+          <a class="main-nav-link" href="/categories/Java">Java</a>
+        
+          <a class="main-nav-link" href="/categories/Spring">Spring</a>
+        
+          <a class="main-nav-link" href="/categories/Mybatis">Mybatis</a>
+        
+          <a class="main-nav-link" href="/categories/Redis">Redis</a>
+        
+          <a class="main-nav-link" href="/categories/Jvm">JVM</a>
+        
+          <a class="main-nav-link" href="/categories/Spark">Spark</a>
+        
+          <a class="main-nav-link" href="/categories/Hive">Hive</a>
+        
+          <a class="main-nav-link" href="/categories/Clickhouse">Clickhouse</a>
+        
+          <a class="main-nav-link" href="/lee">Jonathan Lee</a>
+        
+          <a class="main-nav-link" href="https://blog.csdn.net/Dax1n">CSDN</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://javartisan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-redis-data-safe" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/03/redis-data-safe/" class="article-date">
+  <time datetime="2019-07-03T13:28:57.000Z" itemprop="datePublished">2019-07-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis数据安全之数据备份机制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​        </p>
+<p>​        本文是一篇基于Redis In Action的读书笔记，记录一些有关学习过程中涉及的知识点。本文主要是关于Redis数据持久化相关的内容。主要是关于Redis提供的一些持久化选项如何将数据落盘到磁盘。以及Redis的复制特性，不断的将数据复制到其他节点容错已提供数据的可靠性。同时分析有关复制与持久化的优劣，如何去选择一种适合自己业务场景的方案。</p>
+<a id="more"></a>
+
+<h3 id="数据持久化方案"><a href="#数据持久化方案" class="headerlink" title="数据持久化方案"></a>数据持久化方案</h3><p>Redis支持两种数据方案，分别是：</p>
+<ul>
+<li>快照：它可以将某一时刻的所有数据都持久化到磁盘中。</li>
+<li>追加文件（AOF）：它会将在执行写的时候讲数据变化追加到磁盘上。</li>
+<li>如上两种方式可以单独使用，也可以结合使用甚至可以都不适用。</li>
+</ul>
+<p>如上方案的选择依据，主要还是需要结合数据的性质进行选择，例如对于业务系统的数据缓存，可能会随着时间经常变化，这种数据由于经常变化而且获取相对比较容易，一般就可以不开启持久化选项。但是如果数据通常不可变或者很长时间变化一次并且获取数据方式比较繁琐，例如通过大量计算得到的，这种一般开启持久化比较适合。</p>
+<h4 id="快照持久化方案"><a href="#快照持久化方案" class="headerlink" title="快照持久化方案"></a>快照持久化方案</h4><p>Redis可以通过快照的方式获取某一时刻的数据副本，可以将数据副本拷贝到其他Redis中初始化一个具有相同数据的Redis实例。如果在新的快照数据创建完毕之前，Redis，操作系统或者硬件崩溃则会导致上次做完快照之后的数据丢失。创建快照有如下方法：</p>
+<ul>
+<li>通过客户端给Redis发送BGSAVE命令，此时Redis会Fork一个子进程进行数据快照，主进程可以继续处理客户端的数据请求操作。</li>
+<li>也可以通过客户端发送SAVE命令给Redis，此时Redis也会进行快照操作，但是此时并不是子进程进行快照，而是服务进行进行快照操作，此期间Redis服务不可用，通常不会使用这种方式，一般都是在内存不足无法同时服务并进行快照操作时候才会使用SAVE</li>
+<li>通过配置save操作，save配置格式，例如：save 60 10000 表示60秒内有10000次写操作则进行一次快照，系统会自动触发BGSAVE。如果用户配置了多个save只要有一个符合条件即可进行快照操作。</li>
+<li>当Redis收到SHUTDOWN或者标准TERM时候会执行一个SAVE命令，阻塞客户端不在提供服务，进行数据快照。</li>
+<li>当一个Redis A连接到Redis B，同时向B发送一个SYNC时，B服务器最近没有执行快照，那么B将会执行快照然后复制数据到A。</li>
+</ul>
+<p>使用快照方式保存数据，<strong>一定要记住：</strong>上一次快照与系统崩溃期间的数据丢失是可以忍受的，否则不应该选择此方案。应该选择追加文件的方式，即AOF。</p>
+<p><strong>实战案例：</strong></p>
+<ul>
+<li><p>如果考虑降低快照对资源的消耗，同时对于硬件比较信任的话，可以考虑持久化时间设置的长一些，例如：</p>
+<p>save 900 1 ，也就是说15分钟内又一次写操作便进行一个快照。如果使用快照的方式并且存储大量的数据，尽可能在开发环境中模拟一个预生产环境相同的环境，包括：软件环境，已经环境以及负载，在开发环境中找到一个比较适合的Save方案，避免过于频繁或者过于稀少的快照操作。过于频繁会导致资源浪费，过于稀少会导致数据丢失。</p>
+</li>
+</ul>
+<ul>
+<li><p>对日志进行聚合计算</p>
+<p>例如我们在对日志进行处理的时候，计算页面浏览量时候；可以将页面浏览次数以及处理的日志文件名称以及处理的日志的文件偏移一并快照起来，这样如果系统崩溃的话可以重新通过日志偏移得到一个正确的结果。</p>
+</li>
+</ul>
+<ul>
+<li><p>快照数据量大</p>
+<p>如果Redis中需要进行快照的数据量只有几GB级别，那么进行快照操作还是可比较快的，但是如果需要快照的数据量在即十GB的话并且操作系统剩余内存不充足的情况下进行快照可能会导致系统停顿，也可能导致系统大量使用虚拟页最终导致Redis性能降低至不可用状态。对于Redis执行BGSAVE操作耗时主要取决于所在的操作系统的资源情况。Redis进程没占用1GB内存则创建子进程就需要多花费10-20毫秒，当我们占用50GB时候可能会挺准0.5-1.0秒。为了方案Redis创建子进程导致停顿的出现，我们可以考虑关闭Redis的自动保存选项，从而我们通过定时任务触发BGSAVE或者SAVE，这样我们可以控制停顿出现的时间。</p>
+<p>如果集群资源不充足的话我们可以考虑使用SAVE进行快照，虽然SAVE或阻塞Redis服务，但是SAVE不会Fork一个子进程，而是独自一个进程进行快照没有资源争夺，通常在资源不充足时候比BGSAVE要快的多。据Redis In Action作者经验，对于一个64GB内存的XEN的虚拟上，Redis占用50GB内存，执行BGSAVE时候光Fork一个子进程就需要15秒以上，生成快照需要10-20分钟。但是对于使用SAVE的话则3-5分钟即可完成。对于关闭了自动快照选项转向手动快照而言，我们可以通过脚本在业务流量低的时候进行数据快照，例如在凌晨三点时刻，此时可以通过一些手段在此期间暂定业务系统对Redis的方案，等待快照完毕之后Redis继续提供服务。</p>
+<p>如果用户可以妥善的备份数据的话，并且可以接受偶尔数据丢失的问题，此方案比较适合，但是无法忍受的话需要转向AOF。</p>
+</li>
+</ul>
+<h4 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h4><p>对于AOF持久化，通常执行写操作时候会将写操作命令追加到文件的末尾，以此记录数据的变化。因此对于数据恢复时候只需要从头至尾的执行一遍AOF文件即可恢复AOF记录的所有数据。在AOF模式下存在一个比较重要的参数：appendfsync配置对AOF文件的同步频率。</p>
+<p><strong>注意⚠️：</strong></p>
+<p><u>文件同步将会发生三件事情，分别是：1、file.write方法调用，2、然后将数据写到操作系统的缓冲区，3、然后操作系统在将来某一个时刻将数据写到磁盘中；而只有当数据被写到磁盘才算真正的保存到磁盘中。用户可以通过file.flush方法请求操作系统尽快(注意是尽快)将缓存区数据写到磁盘，具体何时真正写由操作系统决定。</u><br><u>除了上面方法之外，用户可以命令操作系统将文件同步（sync）到磁盘，这种方案将会阻塞，直到缓冲区数据写到磁盘上。</u></p>
+<p><strong>重要参数appendfsync说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">选项</th>
+<th align="center">同步频率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">always</td>
+<td align="center">每一个Redis写命令都要立刻同步到磁盘，严重降低Redis性能</td>
+</tr>
+<tr>
+<td align="center">everysec</td>
+<td align="center">每秒执行一个线式同步到磁盘</td>
+</tr>
+<tr>
+<td align="center">no</td>
+<td align="center">让操作系统决定何时同步到磁盘</td>
+</tr>
+</tbody></table>
+<p>备注：如果用户设置的<strong>always</strong>的话，Redis每秒都要同步到磁盘，这种方式虽然出现丢失的数据少，但是这种方式需要频繁的写磁盘，因而Redis的性能会受到磁盘的限制：转盘式磁盘在这种方式下每秒最终能处理200个写命令；而固态硬盘每秒最多只能写几万个命令。</p>
+<p><strong>警告⚠️：</strong></p>
+<p><u>虽然always对于固态每秒可以处理几万个写命令，但是这种每次写入少量数据的方式会导致写入放大进而降低固态磁盘的寿命，可能会几年降低到几个月。</u></p>
+<p>对于<strong>everysec</strong>选项一般比较合适，用户可以考虑使用此配置让Redis每秒进行一个AOF文件同步。<strong>开启此方案与不适用任何持久化方案的性能所差无几。</strong>而且每秒同步一次数据，当系统崩溃时候最多只会丢失一秒的数据。</p>
+<p>最后不推荐使用no，此方案当操作系统需要同步数据的缓冲区被写满之后。可能写磁盘需要耗费较多的时间，因此Redis的写操作将会被阻塞，导致Redis处理请求的速度下降。因此不推荐使用no选项。AOF持久化存在一个缺陷就是AOF文件太大。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://javartisan.com/2019/07/03/redis-data-safe/" data-id="cjxndgqro0007dg2dasqcobzo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/02/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">致匠心</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Clickhouse/">Clickhouse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jonathan-Lee/">Jonathan Lee</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mybatis/">Mybatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 javartisan<br>
+      Powered by Hexo
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/lee" class="mobile-nav-link">Javartisan</a>
+  
+    <a href="/categories/Java" class="mobile-nav-link">Java</a>
+  
+    <a href="/categories/Spring" class="mobile-nav-link">Spring</a>
+  
+    <a href="/categories/Mybatis" class="mobile-nav-link">Mybatis</a>
+  
+    <a href="/categories/Redis" class="mobile-nav-link">Redis</a>
+  
+    <a href="/categories/Jvm" class="mobile-nav-link">JVM</a>
+  
+    <a href="/categories/Spark" class="mobile-nav-link">Spark</a>
+  
+    <a href="/categories/Hive" class="mobile-nav-link">Hive</a>
+  
+    <a href="/categories/Clickhouse" class="mobile-nav-link">Clickhouse</a>
+  
+    <a href="/lee" class="mobile-nav-link">Jonathan Lee</a>
+  
+    <a href="https://blog.csdn.net/Dax1n" class="mobile-nav-link">CSDN</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
