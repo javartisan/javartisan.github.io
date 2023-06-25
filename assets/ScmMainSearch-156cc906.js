@@ -1,0 +1,1 @@
+import{_ as c,o as r,c as s,a,F as n}from"./index-202b0f72.js";const l={methods:{back(){this.$router.go(-1)}}},_=a("h3",null,"搜索主页",-1);function u(d,e,m,f,i,t){return r(),s(n,null,[_,a("button",{onClick:e[0]||(e[0]=(...o)=>t.back&&t.back(...o))},"返回")],64)}const p=c(l,[["render",u]]);export{p as default};
