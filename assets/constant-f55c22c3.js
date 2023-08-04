@@ -1,1 +1,0 @@
-let n={0:"上架",1:"下架"},r={0:"在售",1:"已售"};const a={skuValidMinDate(){return new Date},skuValidMaxDate(){return new Date(2025,5,1)},formatDate(e=new Date){return e.toISOString().slice(0,10)},addNDays(e){let t=new Date;return t.setDate(t.getDate()+e),t},skuStatusText(e,t){return e==null||e==null?"":e===1?n[e]:t==null||t==null?"":r[t]}};export{a as c};
