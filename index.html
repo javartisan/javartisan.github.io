@@ -1,15 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="./favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>筋斗云</title>
-  <script type="module" crossorigin src="./assets/index-a9fed017.js"></script>
-  <link rel="stylesheet" href="./assets/index-f2d6d473.css">
+    <title>0720~</title>
+    <style>
+        body {
+            font-family: '微软雅黑', sans-serif;
+            background-color: pink;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5em;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
-<div id="app"></div>
+<div class="container">
+    <h2 id="show"></h2>
+</div>
 
+<script>
+
+
+    // 创建一个新的Date实例，表示2024年7月20日
+    var targetDate = new Date(2024, 6, 20);
+
+    // 创建一个新的Date实例，表示当前日期
+    var currentDate = new Date();
+
+    // 计算两个日期之间的差异（以毫秒为单位）
+    var diffMilliseconds = targetDate.getTime() - currentDate.getTime();
+
+    // 将差异转换为天数
+    var diffDays = diffMilliseconds / (1000 * 60 * 60 * 24);
+
+    // 在页面上显示天数
+    document.getElementById("show").innerHTML = "距离2024年7月20日过去了" + Math.abs(Math.floor(diffDays)) + "天"
+</script>
 </body>
 </html>
