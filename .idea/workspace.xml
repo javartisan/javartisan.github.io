@@ -62,6 +62,16 @@
       <recent name="C:\Users\liuguangxin\Desktop\javartisan.github.io\images" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" path-to-node="node" nameIsGenerated="true" path-to-js-file="index.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.index.js" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -70,7 +80,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1727686850128</updated>
-      <workItem from="1727686852668" duration="1530000" />
+      <workItem from="1727686852668" duration="2153000" />
+      <workItem from="1728368101721" duration="1755000" />
     </task>
     <servers />
   </component>

@@ -48,16 +48,16 @@
             }
         }
 
-        h2 {
-            animation: enlarge-shrink 2s infinite;
-            color: pink;
+        h3 {
+            /*animation: enlarge-shrink 2s infinite;*/
+            color: red;
         }
 
     </style>
 </head>
 <body>
 <div class="container">
-    <h2 id="show"></h2>
+    <h3 id="show"></h3>
 </div>
 
 <script>
@@ -76,7 +76,32 @@
     var diffDays = diffMilliseconds / (1000 * 60 * 60 * 24);
 
     // 在页面上显示天数
-    document.getElementById("show").innerHTML = "距2024年7月20日过去了: </br>" + Math.abs(Math.floor(diffDays)) + "天！"
+
+
+    const rk = new Date(2024, 10, 9);
+    var rkDiffMilliseconds = rk.getTime() - currentDate.getTime();
+    var rkDiffDays = rkDiffMilliseconds / (1000 * 60 * 60 * 24);
+
+
+    const qh = new Date(2024, 10, 16);
+    var qhDiffMilliseconds = qh.getTime() - currentDate.getTime();
+    var qhDiffDays = qhDiffMilliseconds / (1000 * 60 * 60 * 24);
+
+    var txts = [
+        "距2024年7月20日见面:" + Math.abs(Math.floor(diffDays)) + "天！",
+        "距2024年11月09日软考:" + Math.abs(Math.floor(rkDiffDays)) + "天！",
+        "距2024年11月16日期货:" + Math.abs(Math.floor(qhDiffDays)) + "天！"
+    ]
+
+    let i = 0;
+    document.getElementById("show").innerHTML = txts[i];
+    setInterval(function () {
+        i++;
+        document.getElementById("show").innerHTML = txts[i % 3];
+
+    }, 3000);
+
+
 </script>
 </body>
 </html>
