@@ -1,46 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f0c4cd5-4354-4566-b743-818731ae43d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMForgetPassword-3fc6e9b2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMForgetPassword-c16df70f.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainAddSku-4653ca4f.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainAddSku-79283005.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainCart-f1a4ba08.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainCate-157f6dc9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainDeviceManager-40204b77.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainLogin-32479142.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainLogin-9db8fbf1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainManageSku-3a9d10bc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainMy-3a9e3d72.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainMy-9c6d5ca3.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainMyAbout-b6049ea0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainMySetting-86ed8d01.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainRigister-1900b5ec.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainRigister-d5b879ae.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainSearch-d38be32b.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainSearch-e380fe3c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainShareApp-094c4046.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainSkuDetail-b0a3a083.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ScmMainSkuDetail-b75ee8ea.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/constant-fd349309.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/function-call-09c59f5d.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/index-05f8954f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/index-a1570a70.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/index-a9fed017.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/index-f2d6d473.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/0720.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/all.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/cart_empty.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/empty.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="1f0c4cd5-4354-4566-b743-818731ae43d3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +81,7 @@
       <workItem from="1728368101721" duration="1810000" />
       <workItem from="1728369936026" duration="328000" />
       <workItem from="1736822640076" duration="1197000" />
-      <workItem from="1738718206283" duration="2099000" />
+      <workItem from="1738718206283" duration="2250000" />
     </task>
     <servers />
   </component>
