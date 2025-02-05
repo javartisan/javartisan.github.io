@@ -87,8 +87,14 @@
     var qhDiffMilliseconds = qh.getTime() - currentDate.getTime();
     var qhDiffDays = qhDiffMilliseconds / (1000 * 60 * 60 * 24);
 
+
+    const lz = new Date(2025, 7, 20);
+    var lzDiffMilliseconds = lz.getTime() - currentDate.getTime();
+    var lzDiffDays = lzDiffMilliseconds / (1000 * 60 * 60 * 24);
+
     var txts = [
         "距2024年7月20日见面过去:" + Math.abs(Math.floor(diffDays)) + "天！",
+        "距2025年07月20日领证还有:" + Math.abs(Math.floor(lzDiffDays)) + "天！",
         "距2024年11月09日软考过去:" + Math.abs(Math.floor(rkDiffDays)) + "天！",
         "距2025年03月22日期货还有:" + Math.abs(Math.floor(qhDiffDays)) + "天！"
     ]
@@ -97,7 +103,7 @@
     document.getElementById("show").innerHTML = txts[i];
     setInterval(function () {
         i++;
-        document.getElementById("show").innerHTML = txts[i % 3];
+        document.getElementById("show").innerHTML = txts[i % 4];
 
     }, 3000);
 
@@ -127,7 +133,7 @@
         }
     };
 
-    sendPostRequest(request.url, request.data, request.callback);
+    // sendPostRequest(request.url, request.data, request.callback);
 
 </script>
 </body>
