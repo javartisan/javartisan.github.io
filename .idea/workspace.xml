@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f0c4cd5-4354-4566-b743-818731ae43d3" name="Changes" comment="" />
+    <list default="true" id="1f0c4cd5-4354-4566-b743-818731ae43d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/static.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cate.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unlogin_icon.png" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,7 +85,7 @@
       <workItem from="1728368101721" duration="1810000" />
       <workItem from="1728369936026" duration="328000" />
       <workItem from="1736822640076" duration="1197000" />
-      <workItem from="1738718206283" duration="2250000" />
+      <workItem from="1738718206283" duration="2386000" />
     </task>
     <servers />
   </component>
