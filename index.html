@@ -33,10 +33,19 @@
             line-height: 1.5;
         }
 
+        /*body {*/
+        /*    background-image: url("images/0720.jpg");*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-size: cover;*/
+        /*}*/
+
         body {
+            margin: 0;
+            padding: 0;
             background-image: url("images/0720.jpg");
             background-repeat: no-repeat;
             background-size: cover;
+            transition: background-image 2s ease-in-out; /* 添加过渡效果 */
         }
 
         @keyframes enlarge-shrink {
@@ -55,7 +64,7 @@
 
     </style>
 </head>
-<body>
+<body  >
 <div class="container">
     <h3 id="show"></h3>
 </div>
@@ -105,6 +114,27 @@
 
     }, 3000);
 
+
+    // 定义图片数组
+    const images = [
+        "images/0720.jpg",
+        "images/cny.jpg",
+        "images/sky.jpg",
+        "images/girl.jpg"
+    ];
+
+    let currentIndex = 0;
+
+    function changeBackgroundImage() {
+        // 更新当前索引
+        currentIndex = (currentIndex + 1) % images.length;
+        // 设置新的背景图片
+        document.body.style.backgroundImage = `url(${images[currentIndex]})`;
+    }
+
+    // 每5秒更换一次背景图片
+    setInterval(changeBackgroundImage, 1000);
+
     function sendPostRequest(url, data, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -117,6 +147,7 @@
         };
         xhr.send(JSON.stringify(data));
     }
+
 
     var request = {
         url: "https://open.feishu.cn/open-apis/bot/v2/hook/716eb84d-eb2c-44f8-91e8-0565e0e352b6",
