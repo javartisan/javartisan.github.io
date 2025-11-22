@@ -94,7 +94,7 @@
             display: flex;
             align-items: center;
             padding: 6px 0;
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .info-item strong {
@@ -113,7 +113,7 @@
             color: #2c3e50;
             padding: 6px 12px;
             border-radius: 15px;
-            font-size: 13px;
+            font-size: 16px;
             font-weight: 500;
             border-left: 3px solid #3498db;
         }
@@ -129,7 +129,7 @@
             padding: 10px;
             border-radius: 6px;
             border-left: 3px solid #3498db;
-            font-size: 13px;
+            font-size: 16px;
             line-height: 1.4;
         }
 
@@ -186,11 +186,11 @@
                 width: 100%;
                 min-height: auto;
             }
-            
+
             .project-list {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .pdf-controls {
                 position: static;
                 text-align: center;
@@ -204,13 +204,13 @@
                 background: white;
                 padding: 0;
             }
-            
+
             .resume-container {
                 box-shadow: none;
                 width: 100%;
                 min-height: auto;
             }
-            
+
             .pdf-controls {
                 display: none;
             }
@@ -220,16 +220,16 @@
         .pdf-optimized {
             font-size: 12px;
         }
-        
+
         .pdf-optimized .section {
             margin-bottom: 15px;
         }
-        
+
         .pdf-optimized .project-list {
             grid-template-columns: repeat(4, 1fr);
             gap: 6px;
         }
-        
+
         .pdf-optimized .project-item {
             padding: 8px;
             font-size: 12px;
@@ -241,10 +241,10 @@
     <div class="pdf-controls">
         <button class="pdf-btn" id="generatePdf">导出PDF</button>
     </div>
-    
+
     <div class="header">
         <h1>李伟国</h1>
-        
+
     </div>
 
     <div class="content">
@@ -274,8 +274,6 @@
             <div class="skills">
                 <div class="skill-tag">中级结构工程师安全员</div>
                 <div class="skill-tag">安全员</div>
-                <div class="skill-tag">项目管理</div>
-                <div class="skill-tag">现场管理</div>
             </div>
         </div>
 
@@ -291,34 +289,34 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>1992年-1999年</td>
-                    <td>大连金广建设集团</td>
-                    <td>测量员</td>
+                    <td style="font-size: 16px">1992年-1999年</td>
+                    <td style="font-size: 16px">大连金广建设集团</td>
+                    <td style="font-size: 16px">测量员</td>
                 </tr>
                 <tr>
-                    <td>2000年-2010年</td>
-                    <td>大连阿尔滨建设集团</td>
-                    <td>施工员</td>
+                    <td style="font-size: 16px">2000年-2010年</td>
+                    <td style="font-size: 16px">大连阿尔滨建设集团</td>
+                    <td style="font-size: 16px">施工员</td>
                 </tr>
                 <tr>
-                    <td>2011年-2016年</td>
-                    <td>大连阿尔滨建设集团</td>
-                    <td>项目经理</td>
+                    <td  style="font-size: 16px">2011年-2016年</td>
+                    <td  style="font-size: 16px">大连阿尔滨建设集团</td>
+                    <td  style="font-size: 16px">项目经理</td>
                 </tr>
                 <tr>
-                    <td>2017年-2019年</td>
-                    <td>北京芝华监理公司</td>
-                    <td>土建监理工程师</td>
+                    <td  style="font-size: 16px">2017年-2019年</td>
+                    <td  style="font-size: 16px">北京芝华监理公司</td>
+                    <td  style="font-size: 16px">土建监理工程师</td>
                 </tr>
                 <tr>
-                    <td>2020年-2022年</td>
-                    <td>大连凯杰建设有限公司</td>
-                    <td>项目经理</td>
+                    <td  style="font-size: 16px">2020年-2022年</td>
+                    <td  style="font-size: 16px">大连凯杰建设有限公司</td>
+                    <td  style="font-size: 16px">项目经理</td>
                 </tr>
                 <tr>
-                    <td>2023年-2025年</td>
-                    <td>河北电建集团有限公司</td>
-                    <td>现场管理</td>
+                    <td  style="font-size: 16px">2023年-2025年</td>
+                    <td  style="font-size: 16px">河北电建集团有限公司</td>
+                    <td  style="font-size: 16px">现场管理</td>
                 </tr>
                 </tbody>
             </table>
@@ -351,39 +349,39 @@
     document.getElementById('generatePdf').addEventListener('click', function() {
         const element = document.getElementById('resume-content');
         const originalClasses = element.className;
-        
+
         // 添加PDF优化类
         element.classList.add('pdf-optimized');
-        
+
         const options = {
             margin: [10, 10, 10, 10],
             filename: '李伟国_个人简历.pdf',
-            image: { 
-                type: 'jpeg', 
-                quality: 0.98 
+            image: {
+                type: 'jpeg',
+                quality: 0.98
             },
-            html2canvas: { 
+            html2canvas: {
                 scale: 2,
                 useCORS: true,
                 logging: false,
                 width: 210 * 3.78, // 210mm to pixels
                 height: 297 * 3.78  // 297mm to pixels
             },
-            jsPDF: { 
-                unit: 'mm', 
-                format: 'a4', 
+            jsPDF: {
+                unit: 'mm',
+                format: 'a4',
                 orientation: 'portrait',
                 compress: true
             },
-            pagebreak: { 
-                mode: ['avoid-all', 'css', 'legacy'] 
+            pagebreak: {
+                mode: ['avoid-all', 'css', 'legacy']
             }
         };
-        
+
         const originalText = this.textContent;
         this.textContent = '正在生成PDF...';
         this.disabled = true;
-        
+
         html2pdf().set(options).from(element).save().then(() => {
             // 恢复原始类名
             element.className = originalClasses;
@@ -394,7 +392,7 @@
             element.className = originalClasses;
             this.textContent = '生成失败，重试';
             this.disabled = false;
-            
+
             setTimeout(() => {
                 this.textContent = originalText;
             }, 3000);
