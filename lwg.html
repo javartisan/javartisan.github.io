@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李伟国 - 个人简历</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .resume-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .info-item strong {
+            min-width: 100px;
+            color: #2c3e50;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill-tag {
+            background: #e8f4fc;
+            color: #2c3e50;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            border-left: 4px solid #3498db;
+        }
+
+        .project-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .project-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .project-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .experience-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .experience-table th {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .experience-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .experience-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .experience-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .experience-table tr:hover {
+            background-color: #e8f4fc;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="resume-container">
+    <div class="header">
+        <h1>李伟国</h1>
+        <p class="subtitle" hidden>资深建筑工程专家 | 30年从业经验</p>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h2 class="section-title">个人信息</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>姓名：</strong> 李伟国
+                </div>
+                <div class="info-item">
+                    <strong>出生日期：</strong> 1972年12月12日
+                </div>
+                <div class="info-item">
+                    <strong>电话：</strong> 18804263937
+                </div>
+                <div class="info-item">
+                    <strong>求职状态：</strong> 随时到岗
+                </div>
+                <div class="info-item">
+                    <strong>工作时间：</strong> 30年
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">职业技能</h2>
+            <div class="skills">
+                <div class="skill-tag">中级结构工程师安全员</div>
+                <div class="skill-tag">安全员</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">工作经历</h2>
+            <table class="experience-table">
+                <thead>
+                <tr>
+                    <th>时间段</th>
+                    <th>公司名称</th>
+                    <th>职位</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1992年-1999年</td>
+                    <td>大连金广建设集团</td>
+                    <td>测量员</td>
+                </tr>
+                <tr>
+                    <td>2000年-2010年</td>
+                    <td>大连阿尔滨建设集团</td>
+                    <td>施工员</td>
+                </tr>
+                <tr>
+                    <td>2011年-2016年</td>
+                    <td>大连阿尔滨建设集团</td>
+                    <td>项目经理</td>
+                </tr>
+                <tr>
+                    <td>2017年-2019年</td>
+                    <td>北京芝华监理公司</td>
+                    <td>土建监理工程师</td>
+                </tr>
+                <tr>
+                    <td>2020年-2022年</td>
+                    <td>大连凯杰建设有限公司</td>
+                    <td>项目经理</td>
+                </tr>
+                <tr>
+                    <td>2023年-2025年</td>
+                    <td>河北电建集团有限公司</td>
+                    <td>现场管理</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">项目经历</h2>
+            <div class="project-list">
+                <div class="project-item">大连开发区王子大厦</div>
+                <div class="project-item">友好大厦</div>
+                <div class="project-item">日月潭酒店</div>
+                <div class="project-item">大连开发区石湾一号</div>
+                <div class="project-item">20号小区</div>
+                <div class="project-item">呼和浩特东岸国际</div>
+                <div class="project-item">新希望家园</div>
+                <div class="project-item">辽宁盘锦高新区创新创业基地项目科技孵化器</div>
+                <div class="project-item">北京安德鲁食品加工车间</div>
+                <div class="project-item">北京永盛集成电路核心零部件项目</div>
+                <div class="project-item">新疆南矿商仓项目</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>李伟国 &copy; 2025 - 个人简历</p>
+    </div>
+</div>
+</body>
+</html>
