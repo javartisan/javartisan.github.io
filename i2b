@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粘贴图片转Base64</title>
+    <style>
+        /* Toast样式 */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* 动画效果 */
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+<h1>粘贴一张图片到这里</h1>
+<p>将图片粘贴到这个区域，页面会自动转换为Base64格式并显示。</p>
+
+<div id="pasteArea" style="border: 2px dashed #ccc; padding: 20px; width: 100%; height: 300px; text-align: center;">
+    <p>在此处粘贴图片</p>
+</div>
+
+<h2>生成的图片标签：</h2>
+<textarea id="imgTagOutput" style="width: 100%; height: 100px; cursor: pointer;" readonly></textarea>
+
+<h2>显示图片：</h2>
+<img id="imgOutput" alt="粘贴的图片将显示在这里" style="max-width: 100%; max-height: 500px;">
+
+<!-- Toast 通知 -->
+<div id="toast">图片标签已复制到剪贴板!</div>
+
+<script>
+    // 获取粘贴区域
+    const pasteArea = document.getElementById('pasteArea');
+    const imgTagOutput = document.getElementById('imgTagOutput');
+    const imgOutput = document.getElementById('imgOutput');
+    const toast = document.getElementById('toast');
+
+    // 监听粘贴事件
+    pasteArea.addEventListener('paste', (event) => {
+        const items = event.clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.startsWith('image')) {
+                const file = items[i].getAsFile();
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    const base64String = reader.result;
+                    // 显示图片
+                    imgOutput.src = base64String;
+                    // 显示Base64代码
+                    imgTagOutput.value = `<img src="${base64String}" alt="粘贴的图片">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+
+    // 双击textarea区域，自动复制内容到剪贴板
+    imgTagOutput.addEventListener('dblclick', () => {
+        // 选择textarea中的内容
+        imgTagOutput.select();
+        imgTagOutput.setSelectionRange(0, 99999); // For mobile devices
+
+        // 使用Clipboard API进行复制
+        navigator.clipboard.writeText(imgTagOutput.value).then(() => {
+            showToast('图片标签已复制到剪贴板!');
+        }).catch(err => {
+            showToast('复制失败！请手动复制。');
+        });
+    });
+
+    // 显示Toast通知
+    function showToast(message) {
+        toast.textContent = message;
+        toast.className = 'show';
+        // 自动隐藏Toast
+        setTimeout(function() {
+            toast.className = toast.className.replace('show', '');
+        }, 3000); // 3秒后隐藏
+    }
+</script>
+</body>
+</html>
