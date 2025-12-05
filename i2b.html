@@ -75,7 +75,7 @@
                     // 显示图片
                     imgOutput.src = base64String;
                     // 显示Base64代码
-                    imgTagOutput.value = `<img src="${base64String}" alt="粘贴的图片">`;
+                    imgTagOutput.value = `<img src="${base64String}" alt="" style="width: 100%; height: auto;">`;
                 }
                 reader.readAsDataURL(file);
             }
