@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>一寸照片裁剪工具</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet"/>
+
+<style>
+body {
+    font-family: "Microsoft YaHei", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f6fa;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.toolbar {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+button, select {
+    margin: 5px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #409eff;
+    color: white;
+}
+
+.img-container {
+    width: 100%;
+    max-height: 600px;
+    background: #ddd;
+}
+
+img {
+    max-width: 100%;
+}
+
+.preview {
+    margin-top: 15px;
+    text-align: center;
+}
+
+canvas {
+    border: 1px solid #ccc;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📷 一寸照片裁剪工具</h2>
+
+<div class="toolbar">
+
+<input type="file" id="fileInput" accept="image/*">
+
+<select id="ratioSelect">
+<option value="0.714">标准一寸 (25×35mm)</option>
+<option value="1">正方形 (1:1)</option>
+<option value="0.667">小一寸 (22×32mm)</option>
+<option value="0.694">大一寸 (33×48mm)</option>
+</select>
+
+<button onclick="zoomIn()">放大</button>
+<button onclick="zoomOut()">缩小</button>
+
+<button onclick="rotate()">旋转</button>
+
+<button onclick="resetCrop()">重置</button>
+
+<button onclick="exportImage()">导出照片</button>
+
+</div>
+
+<div class="img-container">
+<img id="image">
+</div>
+
+<div class="preview">
+<h3>预览</h3>
+<canvas id="previewCanvas"></canvas>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
+<script>
+
+let cropper;
+const image = document.getElementById('image');
+const fileInput = document.getElementById('fileInput');
+const ratioSelect = document.getElementById('ratioSelect');
+const previewCanvas = document.getElementById('previewCanvas');
+
+
+// 上传图片
+
+fileInput.addEventListener('change', function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        image.src = event.target.result;
+
+        if (cropper) {
+            cropper.destroy();
+        }
+
+        cropper = new Cropper(image, {
+
+            aspectRatio: parseFloat(ratioSelect.value),
+
+            viewMode: 1,
+
+            autoCropArea: 0.8,
+
+            movable: true,
+
+            zoomable: true,
+
+            rotatable: true,
+
+            scalable: true,
+
+            crop: updatePreview
+
+        });
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+// 修改比例
+
+ratioSelect.addEventListener('change', function() {
+
+    if (cropper) {
+
+        cropper.setAspectRatio(parseFloat(this.value));
+
+    }
+
+});
+
+
+// 放大
+
+function zoomIn() {
+
+    if (cropper) cropper.zoom(0.1);
+
+}
+
+// 缩小
+
+function zoomOut() {
+
+    if (cropper) cropper.zoom(-0.1);
+
+}
+
+// 旋转
+
+function rotate() {
+
+    if (cropper) cropper.rotate(90);
+
+}
+
+// 重置
+
+function resetCrop() {
+
+    if (cropper) cropper.reset();
+
+}
+
+
+// 更新预览
+
+function updatePreview() {
+
+    if (!cropper) return;
+
+    const canvas = cropper.getCroppedCanvas({
+
+        width: 295,
+        height: 413
+
+    });
+
+    previewCanvas.width = canvas.width;
+
+    previewCanvas.height = canvas.height;
+
+    const ctx = previewCanvas.getContext('2d');
+
+    ctx.drawImage(canvas, 0, 0);
+
+}
+
+
+// 导出
+
+function exportImage() {
+
+    if (!cropper) return;
+
+    const canvas = cropper.getCroppedCanvas({
+
+        width: 295,
+        height: 413
+
+    });
+
+    canvas.toBlob(function(blob) {
+
+        const link = document.createElement('a');
+
+        link.download = '一寸照片.png';
+
+        link.href = URL.createObjectURL(blob);
+
+        link.click();
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>
