@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张一鸣方法论总结</title>
+    <style>
+        /* 苹果系统字体 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.75;
+            padding: 48px 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* 密码登录面板 */
+        .password-wrap {
+            max-width: 420px;
+            margin: 120px auto 0;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+        .password-wrap h2 {
+            text-align: center;
+            font-weight: 600;
+            font-size:22px;
+            margin-bottom:24px;
+        }
+        .input-box {
+            width:100%;
+            padding:14px 16px;
+            font-size:16px;
+            border:1px solid #d2d2d7;
+            border-radius:12px;
+            outline:none;
+            margin-bottom:16px;
+        }
+        .input-box:focus {
+            border-color:#007aff;
+        }
+        .btn-unlock {
+            width:100%;
+            background:#007aff;
+            color:#fff;
+            border:none;
+            padding:14px;
+            border-radius:12px;
+            font-size:16px;
+            cursor:pointer;
+        }
+        .tip-error {
+            color:#ff3b30;
+            font-size:14px;
+            text-align:center;
+            display:none;
+        }
+
+        /* 正文内容 默认隐藏 */
+        .main-content {
+            display: none;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 52px 60px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6e6e73;
+            font-size: 16px;
+            margin-bottom: 48px;
+        }
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 42px 0 16px;
+            color: #000000;
+            border-left:4px solid #007aff;
+            padding-left:14px;
+        }
+        h3 {
+            font-size:18px;
+            font-weight:600;
+            margin:28px 0 12px;
+            color:#2c2c2e;
+        }
+        p {
+            font-size:16px;
+            margin-bottom:12px;
+            color:#333335;
+        }
+        ul {
+            padding-left:22px;
+            margin-bottom:16px;
+        }
+        li {
+            font-size:16px;
+            margin-bottom:10px;
+            color:#333335;
+        }
+        .quote-block {
+            background-color:#f2f7ff;
+            border-radius:12px;
+            padding:20px 24px;
+            margin:24px 0;
+        }
+        .quote-text {
+            font-size:16px;
+            color:#0052cc;
+        }
+        .summary-card {
+            background-color:#f8f8fa;
+            border-radius:14px;
+            padding:24px 28px;
+            margin-top:40px;
+        }
+        .summary-title {
+            font-weight:600;
+            font-size:18px;
+            margin-bottom:14px;
+        }
+        @media(max-width:640px){
+            body{
+                padding:20px 12px;
+            }
+            .container{
+                padding:28px 22px;
+            }
+            h1{
+                font-size:24px;
+            }
+            .password-wrap{
+                padding:28px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 密码解锁面板 -->
+<div class="password-wrap" id="lockPanel">
+    <h2>访问文档，请输入密码</h2>
+    <input class="input-box" id="pwdInput" type="password" placeholder="请输入访问密码">
+    <div class="tip-error" id="errTip">密码错误，请重新输入</div>
+    <br>
+    <button class="btn-unlock" id="unlockBtn">解锁查看</button>
+</div>
+
+<!-- 主体内容，初始隐藏 -->
+<div class="main-content" id="mainContent">
+    <div class="container">
+        <h1>张一鸣个人与企业管理方法论</h1>
+        <div class="subtitle">底层底色：极致理性、回归本质、长期主义、低自我（小ego）</div>
+
+        <h2>一、个人做事与认知方法论（自我管理）</h2>
+
+        <h3>1. 核心心智原则</h3>
+        <ul>
+            <li><strong>延迟满足感</strong>：不是单纯吃苦，愿意牺牲短期快感、短期收益，换取长期更大价值；反对捷径抄近道，愿意为根基做长期投入。区分即时诱惑与真正重要的目标。</li>
+            <li><strong>平常心</strong>：做事回归事情本身，不因胜利膨胀、不因挫败焦虑；不带强烈主观预期做事，避免心态扭曲动作变形。</li>
+            <li><strong>ego要小，追求什么是对的，而非谁是对的</strong>：放下面子、自尊、执念；敢于承认错误，看见自身盲区；不维护自我正确，只维护事实正确。</li>
+            <li><strong>区分愿望式思考 vs 事实思考</strong>：不要把“我希望发生”当成“会发生”；判断优先依据客观事实、数据，而非主观期待、情绪、喜好。</li>
+            <li><strong>认知勤奋＞体力勤奋</strong>：拒绝低水平重复劳动；多复盘、追问本质；对事物的理解深度，就是核心竞争力。</li>
+        </ul>
+
+        <h3>2. 做事执行方法论</h3>
+        <ul>
+            <li><strong>抓本质，拒绝过度追求方法论</strong>：不沉迷工具、模型、漂亮框架，以解决问题为目的，反对为方法论而方法论。</li>
+            <li><strong>分清真正重要的事，要事极少</strong>：真正重要的事通常不超过3件；敢于做减法，拒绝盲目加法。</li>
+            <li><strong>长期判断 + 高频迭代</strong>：大方向做长期判断，落地小步快跑快速验证；不等完美方案再动手。</li>
+            <li><strong>避免盲目All‑in</strong>：All‑in很多时候是思考偷懒；想清楚再全力投入，没想清楚保持多路探索。</li>
+            <li><strong>复盘只看事实，不做情绪归因</strong>：复盘聚焦客观事实、原因、改进动作，不纠结情绪、指责对错。</li>
+        </ul>
+
+        <h3>3. 信息与决策习惯</h3>
+        <ul>
+            <li>第一性原理思考，穿透表象抓住底层逻辑，少类比跟风。</li>
+            <li>独立思考，不盲从权威、不跟风热点。</li>
+            <li>理性看待竞争：不为竞争而竞争，把竞争作为常态，焦点回归用户价值本身。</li>
+        </ul>
+
+
+        <h2>二、企业组织管理方法论（字节实践）</h2>
+
+        <div class="quote-block">
+            <div class="quote-text"><strong>Context not Control：给上下文，而非管控</strong><br/>不靠层层审批、规则、指令控制人；充分透明背景信息、目标、原则、约束，让一线做决策，对结果负责。</div>
+        </div>
+
+        <h3>1. 核心管理逻辑</h3>
+        <ul>
+            <li>不是不要规则，而是<strong>少而清晰的原则，拒绝繁琐流程</strong>。</li>
+            <li>弱化title层级，减少领地意识；信息尽量公开透明，减少黑箱一对一沟通。</li>
+            <li>管理本质：提升组织信息流动效率，让正确的人拿到正确信息做出正确决策。</li>
+        </ul>
+
+        <h3>2. 人才理念：和优秀的人，做有挑战的事</h3>
+        <ul>
+            <li><strong>优先提高人才密度</strong>：人才足够强，制度就可以简单；优先招募理解力强、自驱力、学习能力强的成年人。</li>
+            <li>高标准，坦诚清晰沟通：对事不对人，敢于直接指出问题；表达结论前置，拒绝客套绕弯。</li>
+            <li>公司也是产品：CEO是组织的产品经理，架构、流程、文化像产品一样持续迭代打磨。</li>
+        </ul>
+
+        <h3>3. 目标与考核管理</h3>
+        <ul>
+            <li>OKR公开透明，目标是共识契约，非自上而下强制指令。</li>
+            <li>以结果、数据、用户价值为标尺，反对只看苦劳，看重产出与价值贡献。</li>
+            <li>内部资源市场化：想法可以自下而上争取资源，不完全依赖上级分配。</li>
+        </ul>
+
+        <h3>4. 组织文化：始终创业</h3>
+        <ul>
+            <li>拒绝大公司病，破除部门墙，鼓励跨团队流动转岗。</li>
+            <li>警惕管理者理性自负：克制什么都要管的冲动，学会放权。</li>
+            <li>允许局部试错失败，做好复盘即可，鼓励创新。</li>
+        </ul>
+
+        <h3>5. 业务战略管理</h3>
+        <ul>
+            <li>以用户价值为原点，不以竞争对手、个人喜好为原点。</li>
+            <li>长期优先，可以牺牲部分短期收益，构建底层核心能力。</li>
+            <li>战略不是静态规划，大方向下持续迭代探索机会。</li>
+        </ul>
+
+        <h3>6. 模式代价与边界</h3>
+        <ul>
+            <li>Context not Control高度依赖高素质人才与信息透明，人才不足容易混乱。</li>
+            <li>坦诚文化心理压力较大，对员工心智成熟度要求高。</li>
+            <li>放权不等于放弃责任，必须保持结果闭环，不能走向无政府。</li>
+        </ul>
+
+
+        <div class="summary-card">
+            <div class="summary-title">📋 浓缩版备忘录</div>
+            <p><strong>个人做事：</strong>延迟满足、小ego、事实优先、要事极少；长期判断、高频迭代；拒绝愿望式思考；认知勤奋；平常心。</p>
+            <p><strong>企业管理：</strong>Context not Control，优先信息透明而非层层管控；拉高人才密度，坦诚清晰；公司当作产品持续打磨；目标公开，以价值结果导向；克制管理者理性自负；长期主义，用户价值为本，拒绝部门墙，保持创业心态。</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 修改这里设置你的访问密码
+    const PASSWORD = "xx";
+
+    const lockPanel = document.getElementById('lockPanel');
+    const mainContent = document.getElementById('mainContent');
+    const pwdInput = document.getElementById('pwdInput');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const errTip = document.getElementById('errTip');
+
+    let isUnlocked = false;
+
+    function checkPassword(){
+        if(pwdInput.value === PASSWORD){
+            lockPanel.style.display = 'none';
+            mainContent.style.display = 'block';
+            errTip.style.display = 'none';
+            isUnlocked = true;
+            pwdInput.value = '';
+        }else{
+            errTip.style.display = 'block';
+            pwdInput.value = '';
+        }
+    }
+
+    // 页面失去焦点/切到其他tab，锁定页面
+    function lockPage() {
+        if(!isUnlocked) return;
+        isUnlocked = false;
+        mainContent.style.display = 'none';
+        lockPanel.style.display = 'block';
+        errTip.style.display = 'none';
+        pwdInput.value = '';
+    }
+
+    unlockBtn.addEventListener('click', checkPassword);
+    pwdInput.addEventListener('keydown',function(e){
+        if(e.key === 'Enter') checkPassword();
+    })
+
+    // 监听页面可见性切换：切走tab、最小化浏览器，回来时重新要求密码
+    document.addEventListener('visibilitychange', function () {
+        if(document.hidden){
+            // 页面后置
+        }else{
+            // 切回页面，触发锁定
+            lockPage();
+        }
+    });
+
+    // 兼容部分浏览器窗口最小化
+    window.addEventListener('blur', function(){
+        lockPage();
+    })
+</script>
+
+</body>
+</html>
