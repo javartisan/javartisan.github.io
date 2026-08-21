@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh‑CN">
+<head>
+    <meta charset="UTF‑8">
+    <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
+    <title>Agent2Agent(A2A)协议规范 v1.0.0 中文版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box‑sizing: border‑box;
+        }
+        body {
+            font‑family: "‑apple‑system", BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Noto Sans SC, sans‑serif;
+            background‑color: #f8fafc;
+            color: #1e293b;
+            line‑height: 1.7;
+        }
+        .container {
+            display: grid;
+            grid‑template‑columns: 280px 1fr;
+            min‑height: 100vh;
+        }
+        /* 侧边目录 */
+        .sidebar {
+            background‑color: #ffffff;
+            border‑right: 1px solid #e2e8f0;
+            padding: 24px 16px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow‑y: auto;
+        }
+        .sidebar h2 {
+            font‑size: 18px;
+            margin‑bottom:16px;
+            color:#0f172a;
+        }
+        .toc‑list {
+            list‑style: none;
+        }
+        .toc‑list li {
+            margin‑bottom:6px;
+        }
+        .toc‑list a {
+            text‑decoration:none;
+            color:#475569;
+            font‑size:14px;
+            display:block;
+            padding:4px 6px;
+            border‑radius:4px;
+        }
+        .toc‑list a:hover {
+            background‑color:#eff6ff;
+            color:#2563eb;
+        }
+        .toc‑list .level‑2 { padding‑left:12px; }
+        .toc‑list .level‑3 { padding‑left:24px; font‑size:13px; }
+
+        /* 主内容区 */
+        .main‑content {
+            padding:32px 48px;
+            max‑width:1200px;
+        }
+        h1 {
+            font‑size:32px;
+            margin‑bottom:12px;
+            color:#0f172a;
+        }
+        .meta‑info {
+            color:#64748b;
+            margin‑bottom:32px;
+            padding‑bottom:16px;
+            border‑bottom:1px solid #cbd5e1;
+        }
+        h2 {
+            font‑size:24px;
+            margin‑top:40px;
+            margin‑bottom:16px;
+            color:#1e293b;
+            scroll‑margin‑top:20px;
+        }
+        h3 {
+            font‑size:20px;
+            margin‑top:28px;
+            margin‑bottom:12px;
+            color:#1e293b;
+            scroll‑margin‑top:20px;
+        }
+        h4 {
+            font‑size:17px;
+            margin‑top:20px;
+            margin‑bottom:10px;
+        }
+        p {
+            margin‑bottom:14px;
+        }
+        ul,ol {
+            margin‑left:24px;
+            margin‑bottom:16px;
+        }
+        blockquote {
+            background:#eff6ff;
+            border‑left:4px solid #3b82f6;
+            padding:12px 16px;
+            margin:16px 0;
+            border‑radius:0 6px 6px 0;
+        }
+        table {
+            width:100%;
+            border‑collapse:collapse;
+            margin:18px 0;
+            font‑size:14px;
+        }
+        table th, table td {
+            border:1px solid #cbd5e1;
+            padding:10px 12px;
+            text‑align:left;
+        }
+        table th {
+            background‑color:#f1f5f9;
+        }
+        pre {
+            background‑color:#0f172a;
+            color:#e2e8f0;
+            padding:16px;
+            border‑radius:8px;
+            overflow‑x:auto;
+            margin:16px 0;
+        }
+        code {
+            font‑family:Consolas,Menlo,monospace;
+        }
+        :not(pre) > code {
+            background‑color:#e2e8f0;
+            padding:2px 6px;
+            border‑radius:4px;
+            font‑size:0.92em;
+        }
+        .note‑box {
+            background‑color:#fffbeb;
+            border:1px solid #fcd34d;
+            padding:14px 16px;
+            border‑radius:8px;
+            margin:16px 0;
+        }
+        .warning‑box {
+            background‑color:#fef2f2;
+            border:1px solid #fca5a5;
+            padding:14px 16px;
+            border‑radius:8px;
+            margin:16px 0;
+        }
+        /* 折叠块 */
+        .collapse‑wrap {
+            margin:14px 0;
+            border:1px solid #e2e8f0;
+            border‑radius:8px;
+        }
+        .collapse‑header {
+            padding:12px 16px;
+            background‑color:#f1f5f9;
+            cursor:pointer;
+            user‑select:none;
+        }
+        .collapse‑body {
+            padding:16px;
+            display:none;
+        }
+        .collapse‑wrap.open .collapse‑body {
+            display:block;
+        }
+        /* 移动端适配 */
+        @media(max‑width:900px){
+            .container {
+                grid‑template‑columns:1fr;
+            }
+            .sidebar {
+                display:none;
+            }
+            .main‑content {
+                padding:20px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 侧边导航目录 -->
+    <aside class="sidebar">
+        <h2>📑 文档目录</h2>
+        <ul class="toc‑list">
+            <li><a href="#intro">1. 简介</a></li>
+            <li class="level‑2"><a href="#1‑1">1.1 A2A 核心目标</a></li>
+            <li class="level‑2"><a href="#1‑2">1.2 设计指导原则</a></li>
+            <li class="level‑2"><a href="#1‑3">1.3 规范分层结构</a></li>
+            <li class="level‑2"><a href="#1‑4">1.4 规范性内容</a></li>
+            <li><a href="#term">2. 术语定义</a></li>
+            <li><a href="#ops">3. A2A协议操作</a></li>
+            <li class="level‑2"><a href="#3‑1">3.1 核心操作</a></li>
+            <li class="level‑3"><a href="#3‑1‑1">3.1.1 发送消息 SendMessage</a></li>
+            <li class="level‑3"><a href="#3‑1‑2">3.1.2 发送流式消息 SendStreamingMessage</a></li>
+            <li class="level‑3"><a href="#3‑1‑3">3.1.3 获取任务 GetTask</a></li>
+            <li class="level‑3"><a href="#3‑1‑4">3.1.4 查询任务列表 ListTasks</a></li>
+            <li class="level‑3"><a href="#3‑1‑5">3.1.5 取消任务 CancelTask</a></li>
+            <li class="level‑3"><a href="#3‑1‑6">3.1.6 订阅任务 SubscribeToTask</a></li>
+            <li class="level‑3"><a href="#3‑1‑7">3.1.7 创建推送通知配置</a></li>
+            <li class="level‑3"><a href="#3‑1‑11">3.1.11 获取扩展Agent Card</a></li>
+            <li class="level‑2"><a href="#3‑3‑4">3.3.4 能力校验 Capability Validation（目标章节）</a></li>
+            <li class="level‑2"><a href="#3‑4">3.4 多轮交互</a></li>
+            <li class="level‑2"><a href="#3‑5">3.5 任务更新交付机制</a></li>
+            <li class="level‑2"><a href="#3‑6">3.6 协议版本管理</a></li>
+            <li><a href="#datamodel">4. 协议数据模型</a></li>
+            <li><a href="#binding">5. 协议绑定与互操作性</a></li>
+            <li><a href="#workflow">6. 通用工作流与示例</a></li>
+            <li><a href="#agentcard">8. Agent发现：Agent Card</a></li>
+            <li><a href="#security">13. 安全注意事项</a></li>
+            <li><a href="#appendixb">附录B：A2A与MCP关系</a></li>
+        </ul>
+    </aside>
+
+    <!-- 主内容区域 -->
+    <main class="main‑content">
+        <h1 id="intro">Agent2Agent (A2A) 协议规范</h1>
+        <div class="meta‑info">
+            <p>最新发布版本：<code>1.0.0</code>｜翻译自官方：<a target="_blank" href="https://a2a‑protocol.org/latest/specification/">a2a‑protocol.org/latest/specification</a></p>
+            <p>重点章节：<strong>3.3.4 能力校验 Capability Validation</strong></p>
+        </div>
+
+        <h2 id="intro">1. 简介</h2>
+        <p>Agent2Agent（A2A）协议是一套开放标准，用于实现相互独立、内部实现不透明的AI Agent系统之间通信与互操作。在Agent生态中，各个Agent可能基于不同框架、不同编程语言、由不同厂商开发；A2A提供一套公共交互语言与交互模型。</p>
+        <p>本文档为A2A协议完整技术规范。协议主要目标是让Agent可以完成以下能力：</p>
+        <ul>
+            <li>互相发现对方具备的能力；</li>
+            <li>协商交互模式（文本、文件、结构化数据）；</li>
+            <li>管理协同任务；</li>
+            <li>安全交换信息，共同完成用户目标，<strong>不需要访问彼此的内部状态、记忆或者工具</strong>。</li>
+        </ul>
+
+        <h3 id="1‑1">1.1 A2A 核心目标</h3>
+        <ul>
+            <li><strong>互操作性</strong>：打通不同Agent系统之间的通信壁垒。</li>
+            <li><strong>协同能力</strong>：支持Agent之间任务委派、交换上下文，协同处理复杂用户请求。</li>
+            <li><strong>能力发现</strong>：Agent可以动态查找并理解其他Agent具备的能力。</li>
+            <li><strong>灵活性</strong>：支持多种交互模式：同步请求‑响应、实时流式输出、长耗时任务的异步推送通知。</li>
+            <li><strong>安全性</strong>：面向企业环境的安全通信范式，复用成熟Web安全最佳实践。</li>
+            <li><strong>异步优先</strong>：原生支持长耗时任务以及需要人工介入（人在回路）的交互场景。</li>
+        </ul>
+
+        <h3 id="1‑2">1.2 设计指导原则</h3>
+        <ul>
+            <li><strong>简洁：</strong>复用已经成熟通用标准（HTTP、JSON‑RPC 2.0、SSE服务器推送事件）。</li>
+            <li><strong>企业就绪：</strong>对齐企业级实践，覆盖认证、鉴权、安全隐私、链路追踪、监控。</li>
+            <li><strong>异步优先：</strong>专为可能耗时极长的任务、人工介入交互场景设计。</li>
+            <li><strong>媒介无关：</strong>支持多种内容交换：文本、音视频（文件引用）、结构化数据表单，甚至可以嵌入UI组件。</li>
+            <li><strong>执行黑盒：</strong>Agent协作只依赖对外声明的能力与交换的信息，不需要共享内部思考过程、执行计划、工具实现细节。</li>
+        </ul>
+
+        <h3 id="1‑3">1.3 规范分层结构</h3>
+        <p>整个规范分为三层，三层协同构成完整协议定义：</p>
+        <ol>
+            <li><strong>第一层：标准数据模型</strong>：定义所有A2A实现必须理解的核心数据结构、消息格式，与传输协议无关，使用Protocol Buffer定义。</li>
+            <li><strong>第二层：抽象操作</strong>：描述A2A Agent必须实现的基础能力与行为，不绑定底层传输协议。</li>
+            <li><strong>第三层：协议绑定</strong>：把抽象操作、数据模型映射到具体传输实现：JSON‑RPC、gRPC、HTTP/REST；定义方法名、接口路径以及协议特有行为。</li>
+        </ol>
+        <blockquote>分层的好处：核心语义在所有协议绑定中保持一致；新增传输绑定不需要改动底层数据模型；开发者可以独立理解业务操作，不用关心传输细节；依靠统一标准数据模型保证跨实现互操作。</blockquote>
+
+        <h3 id="1‑4">1.4 规范性内容</h3>
+        <p>除本文档协议要求外，<code>spec/a2a.proto</code> 是全部协议数据对象、请求响应消息的<strong>唯一权威规范性源文件</strong>。构建时会自动生成JSON产物 <code>spec/a2a.json</code>，该文件仅用于工具辅助，不属于规范本体。所有SDK、Schema、衍生代码<strong>必须</strong>从proto文件编译生成，禁止手动修改。</p>
+        <h4>变更控制与弃用生命周期</h4>
+        <ul>
+            <li>proto消息/字段重命名时，保留旧字段标记为已弃用，直到下一个大版本才彻底移除。</li>
+            <li>发生破坏性重大变更，必须附带迁移指引文档。</li>
+            <li>保留旧文档锚点，防止外部链接失效。</li>
+            <li>SDK与JSON Schema应提供弃用别名保证向后兼容。</li>
+            <li>被弃用字段，至少要等到引入该变更后的下一个主版本，才允许删除。</li>
+        </ul>
+
+        <h2 id="term">2. 术语定义</h2>
+        <h3>2.1 要求关键字说明</h3>
+        <p>文档中 <code>MUST(必须)</code>、<code>MUST NOT(严禁)</code>、<code>REQUIRED(必填)</code>、<code>SHALL(应当)</code>、<code>SHALL NOT(禁止)</code>、<code>SHOULD(建议)</code>、<code>SHOULD NOT(不建议)</code>、<code>RECOMMENDED(推荐)</code>、<code>MAY(可选)</code>、<code>OPTIONAL(可选)</code>，遵循 <strong>RFC 2119</strong> 的语义。</p>
+        <h3>2.2 核心概念</h3>
+        <table>
+            <tr><th>名词</th><th>释义</th></tr>
+            <tr><td>A2A Client</td><td>A2A客户端，代表用户或者其他系统，向A2A服务端发起请求的应用/Agent。</td></tr>
+            <tr><td>A2A Server(Remote Agent)</td><td>A2A服务端（远端Agent），暴露A2A兼容接口，处理任务并返回响应的Agent系统。</td></tr>
+            <tr><td>Agent Card</td><td>JSON元数据文档，由A2A服务端对外发布，描述Agent身份、能力、技能、服务接口地址、鉴权要求。</td></tr>
+            <tr><td>Message 消息</td><td>客户端与远端Agent之间一轮通信单元；包含role角色，由一个或多个Part内容片段组成。</td></tr>
+            <tr><td>Task 任务</td><td>A2A管理的基础工作单元，拥有唯一ID，有状态，具备完整生命周期。</td></tr>
+            <tr><td>Part 片段</td><td>Message或者Artifact内部最小内容单元，可以是文本、文件引用、结构化数据。</td></tr>
+            <tr><td>Artifact 产物</td><td>Agent执行任务产出输出（文档、图片、结构化数据），由多个Part构成。</td></tr>
+            <tr><td>Streaming 流式</td><td>任务状态变更、产物分片增量实时推送，依靠传输层流式机制实现。</td></tr>
+            <tr><td>Push Notification 推送通知</td><td>服务端主动向客户端Webhook地址发送HTTP POST异步任务更新，适用于长耗时、客户端无长连接场景。</td></tr>
+            <tr><td>Context 上下文</td><td>可选标识符，逻辑上将一批相关Task、Message归为一组。</td></tr>
+            <tr><td>Extension 扩展</td><td>在A2A核心规范之外，Agent提供额外功能与数据的扩展机制。</td></tr>
+        </table>
+
+        <h2 id="ops">3. A2A协议操作</h2>
+        <p>本章以传输无关的方式描述A2A核心操作；定义所有A2A实现必须支持的基础能力。</p>
+
+        <h3 id="3‑1">3.1 核心操作</h3>
+
+        <h4 id="3‑1‑1">3.1.1 SendMessage 发送消息</h4>
+        <p>发起Agent交互的主操作。客户端向Agent发送消息；返回待处理的任务对象，或者直接返回消息响应。</p>
+        <ul>
+            <li><strong>输入</strong>：SendMessageRequest 请求对象，携带消息、配置、元数据</li>
+            <li><strong>输出</strong>：二选一：Task任务对象；或者Message直接响应消息（简单交互无需任务追踪）</li>
+            <li><strong>错误类型</strong>：ContentTypeNotSupportedError（媒体类型不支持）、UnsupportedOperationError（任务已终止不能继续发消息）、TaskNotFoundError（任务不存在）</li>
+        </ul>
+        <blockquote>行为说明：Agent可以新建Task异步处理消息；也可以对于简单交互直接返回Message。接口必须立刻返回；如果返回Task，后续处理在后台异步继续执行。</blockquote>
+
+        <h4 id="3‑1‑2">3.1.2 SendStreamingMessage 发送流式消息</h4>
+        <p>与SendMessage逻辑类似，但是处理过程中持续返回实时流式更新。</p>
+        <ul>
+            <li>输出为StreamResponse流：初始返回Task或Message；后续持续推送 TaskStatusUpdateEvent 任务状态事件、TaskArtifactUpdateEvent任务产物更新事件。</li>
+            <li>两种流模式：纯消息流（只返回一条Message就关闭连接）；任务生命周期流（先返回Task，后续推送事件直到任务进入终止状态）。</li>
+        </ul>
+
+        <h4 id="3‑1‑3">3.1.3 GetTask 获取任务</h4>
+        <p>查询已经发起任务的当前状态：状态、产物，可选择携带历史消息。常用于轮询任务状态，或者流式连接断开、收到webhook通知后拉取任务最终结果。</p>
+        <table>
+            <tr><th>字段</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+            <tr><td>tenant</td><td>string</td><td>否</td><td>透明路由标识，必须与AgentCard选中接口中的tenant保持一致。</td></tr>
+            <tr><td>id</td><td>string</td><td>是</td><td>待查询任务ID</td></tr>
+            <tr><td>historyLength</td><td>integer</td><td>否</td><td>返回最近多少条历史消息；0代表不要返回任何历史。</td></tr>
+        </table>
+
+        <h4 id="3‑1‑4">3.1.4 ListTasks 查询任务列表</h4>
+        <p>支持过滤条件、游标分页，批量查询任务，用于多任务的发现与管理。<br><strong>重要：使用游标分页，而不是offset偏移分页；返回结果按状态更新时间倒序排列。</strong></p>
+        <div class="collapse‑wrap open">
+            <div class="collapse‑header">▶ 点击展开 ListTasks 请求参数字段表</div>
+            <div class="collapse‑body">
+                <table>
+                    <tr><th>字段</th><th>类型</th><th>必填</th><th>描述</th></tr>
+                    <tr><td>tenant</td><td>string</td><td>否</td><td>路由租户标识</td></tr>
+                    <tr><td>contextId</td><td>string</td><td>否</td><td>按会话上下文过滤任务</td></tr>
+                    <tr><td>status</td><td>TaskState</td><td>否</td><td>按任务状态过滤</td></tr>
+                    <tr><td>pageSize</td><td>integer</td><td>否</td><td>最大返回条数：1‑100；默认最多50条</td></tr>
+                    <tr><td>pageToken</td><td>string</td><td>否</td><td>游标分页token</td></tr>
+                    <tr><td>historyLength</td><td>integer</td><td>否</td><td>每个任务携带历史消息条数上限</td></tr>
+                    <tr><td>statusTimestampAfter</td><td>timestamp</td><td>否</td><td>只返回状态晚于该时间的任务，ISO8601时间</td></tr>
+                    <tr><td>includeArtifacts</td><td>boolean</td><td>否</td><td>是否携带产物，默认false减少报文体积；false时直接省略artifacts字段，不能返回null/空数组。</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h4 id="3‑1‑5">3.1.5 CancelTask 取消任务</h4>
+        <p>请求终止正在运行的任务。服务端会尝试取消，但不保证一定成功（任务可能已经结束）。返回更新后的Task对象。</p>
+        <p>错误：<code>TaskNotCancelableError</code>（任务状态不允许取消）、<code>TaskNotFoundError</code>任务不存在。</p>
+
+        <h4 id="3‑1‑6">3.1.6 SubscribeToTask 订阅任务</h4>
+        <p>建立长连接流，接收<strong>已有任务</strong>的实时更新。不能用于已经进入终止状态的任务。流第一条消息必须返回任务当前快照，防止 GetTask 和订阅之间消息丢失。当任务进入终止状态，流自动关闭。</p>
+
+        <h4 id="3‑1‑7">3.1.7 CreatePushNotificationConfig 创建推送通知配置</h4>
+        <p>为任务配置Webhook回调地址，通过HTTP POST推送异步更新。Agent会向配置URL发送StreamResponse格式负载。该接口只有Agent开启pushNotifications能力才可用。</p>
+
+        <h4>3.1.8~3.1.10 推送通知配置：获取/列表/删除</h4>
+        <p><code>GetTaskPushNotificationConfig</code>读取配置；<code>ListTaskPushNotificationConfigs</code>列出任务全部webhook配置；<code>DeleteTaskPushNotificationConfig</code>删除配置，接口具备幂等性。</p>
+
+        <h4 id="3‑1‑11">3.1.11 GetExtendedAgentCard 获取扩展Agent Card</h4>
+        <p>客户端鉴权完成后获取增强版Agent Card。只有AgentCard中 <code>capabilities.extendedAgentCard=true</code>才可以调用；返回经过权限过滤、包含更多私有技能与能力信息的卡片。需要携带合法鉴权凭证。</p>
+        <ul>
+            <li>错误：UnsupportedOperationError 未声明支持该能力；ExtendedAgentCardNotConfiguredError 声明支持但未配置扩展卡片。</li>
+        </ul>
+
+        <h3 id="3‑3‑4">3.3.4 能力校验 Capability Validation【目标章节】</h3>
+        <div class="note‑box">
+            Agent会在 <code>AgentCard</code> 中声明自身具备的可选能力。当客户端调用Agent未对外声明支持的接口与特性，Agent<strong>必须</strong>返回对应的错误响应。
+        </div>
+        <ul>
+            <li>
+                <strong>推送通知 Push Notifications</strong>
+                <br>当 <code>AgentCard.capabilities.pushNotifications</code> 为false或者该字段不存在时，所有推送通知配置操作（创建、查询、列举、删除）<strong>必须返回 PushNotificationNotSupportedError</strong>。
+            </li>
+            <li>
+                <strong>流式 Streaming</strong>
+                <br>当 <code>AgentCard.capabilities.streaming</code> 为false或不存在时，调用 <code>SendStreamingMessage</code> 或者 <code>SubscribeToTask</code>，<strong>必须返回 UnsupportedOperationError</strong>。
+            </li>
+            <li>
+                <strong>扩展Agent Card</strong>
+                <br>当 <code>AgentCard.capabilities.extendedAgentCard</code> 为false或缺失，调用获取扩展卡片接口，<strong>返回 UnsupportedOperationError</strong>。
+                <br>如果Agent声明支持该能力，但实际没有配置扩展卡片，则<strong>返回 ExtendedAgentCardNotConfiguredError</strong>。
+            </li>
+            <li>
+                <strong>扩展 Extensions</strong>
+                <br>如果AgentCard中将某个扩展标记为 <code>required:true</code>，但客户端请求没有声明支持该扩展，Agent<strong>必须返回 ExtensionSupportRequiredError</strong>。
+            </li>
+        </ul>
+        <blockquote>客户端最佳实践：在调用依赖可选能力的接口<strong>之前</strong>，优先解析Agent Card，预先校验能力是否支持，避免无效请求。</blockquote>
+
+        <h3 id="3‑4">3.4 多轮交互</h3>
+        <p>A2A依靠contextId上下文ID、taskId任务ID实现多轮对话，维持会话连续性。</p>
+        <ul>
+            <li><code>contextId</code>：逻辑分组多个Task、Message；Agent可以生成contextId，也可以接受客户端传入；客户端不应该随意自行构造contextId。</li>
+            <li><code>taskId</code>：<strong>服务端生成</strong>，代表一个状态化任务；客户端不能自定义taskId用于新建任务。</li>
+        </ul>
+        <h4>多轮交互模式</h4>
+        <ol>
+            <li>上下文延续：后续消息带上同一个contextId，继续会话；可以携带taskId继续处理现有任务，也可以不带taskId在同一个会话中新建任务。</li>
+            <li>输入中断状态 <code>TASK_STATE_INPUT_REQUIRED</code>：Agent需要用户补充信息，任务进入该中断状态；客户端带上原有taskId、contextId发送新消息继续交互。</li>
+            <li>引用任务：Message的 <code>referenceTaskIds</code>字段，可以引用一批历史相关任务作为上下文。</li>
+        </ol>
+
+        <h3 id="3‑5">3.5 任务更新交付三种机制</h3>
+        <table>
+            <tr><th>模式</th><th>说明</th><th>适用场景</th><th>依赖能力</th></tr>
+            <tr><td>轮询 Polling(GetTask)</td><td>客户端周期性调用GetTask拉取状态；实现最简单；会产生多余请求、延迟较高。</td><td>简单集成、防火墙严格限制长连接环境。</td><td>无额外能力要求</td></tr>
+            <tr><td>流式 Streaming</td><td>长连接，事件实时推送；低延迟；需要保持连接。SendStreamingMessage / SubscribeToTask。</td><td>交互式应用、实时监控进度。</td><td>需要 <code>streaming:true</code></td></tr>
+            <tr><td>推送通知 Push(Webhook)</td><td>Agent主动POST到客户端webhook地址；客户端不需要维持长连接；客户端服务需要可被公网访问。</td><td>服务端‑服务端对接、超长后台任务、事件驱动架构。</td><td>需要 <code>pushNotifications:true</code></td></tr>
+        </table>
+
+        <h3 id="3‑6">3.6 协议版本管理</h3>
+        <p>协议版本使用 <code>主版本.次版本(Major.Minor)</code>；补丁版本号不影响协议兼容性，请求头中不要携带补丁版本。</p>
+        <ul>
+            <li>客户端：每次请求带上HTTP Header <code>A2A‑Version: 1.0</code>；如果header为空，服务端默认按0.3版本处理。</li>
+            <li>服务端：按照客户端请求的Major‑Minor版本语义处理；不支持该版本返回 <code>VersionNotSupportedError</code>；同一个服务可以对外暴露多个不同版本的接口地址。</li>
+        </ul>
+
+        <h2 id="datamodel">4. 协议数据模型</h2>
+        <p>A2A使用Protocol Buffers定义标准数据模型；不同协议绑定必须输出语义等价的结构。JSON序列化全部使用<strong>驼峰命名camelCase</strong>；枚举值保留大写蛇形 SCREAMING_SNAKE_CASE。</p>
+        <h3>4.1 核心对象概览</h3>
+        <h4>Task 任务</h4>
+        <ul>
+            <li><code>id</code>：任务唯一UUID，服务端生成（必填）</li>
+            <li><code>contextId</code>：会话上下文ID（可选）</li>
+            <li><code>status</code>：TaskStatus状态对象（必填），包含state任务状态码、附带message、时间戳timestamp</li>
+            <li><code>artifacts</code>：产物数组，任务输出结果</li>
+            <li><code>history</code>：消息历史记录数组</li>
+            <li><code>metadata</code>：自定义KV元数据</li>
+        </ul>
+        <h4>TaskState 任务状态枚举</h4>
+        <table>
+            <tr><th>枚举值</th><th>含义</th></tr>
+            <tr><td>TASK_STATE_UNSPECIFIED</td><td>未知未指定状态</td></tr>
+            <tr><td>TASK_STATE_SUBMITTED</td><td>任务已经提交接收确认</td></tr>
+            <tr><td>TASK_STATE_WORKING</td><td>正在执行处理</td></tr>
+            <tr><td>TASK_STATE_COMPLETED</td><td>执行成功【终止状态】</td></tr>
+            <tr><td>TASK_STATE_FAILED</td><td>执行失败【终止状态】</td></tr>
+            <tr><td>TASK_STATE_CANCELED</td><td>被取消【终止状态】</td></tr>
+            <tr><td>TASK_STATE_INPUT_REQUIRED</td><td>需要用户补充输入【中断状态，非终止】</td></tr>
+            <tr><td>TASK_STATE_REJECTED</td><td>Agent拒绝执行任务【终止状态】</td></tr>
+            <tr><td>TASK_STATE_AUTH_REQUIRED</td><td>需要鉴权授权才能继续【中断状态，非终止】</td></tr>
+        </table>
+        <h4>Message消息、Part片段、Artifact产物</h4>
+        <ul>
+            <li>Message：通信单元，role角色（ROLE_USER / ROLE_AGENT）；messageId消息ID；parts内容片段数组；可携带contextId、taskId、referenceTaskIds引用其他任务。</li>
+            <li>Part：内容片段，oneof互斥字段：text文本 / raw二进制base64 / url远程文件地址 / data结构化JSON数据；附带mediaType媒体MIME类型。<strong>必须恰好选择其中一个字段。</strong></li>
+            <li>Artifact：任务输出产物；artifactId唯一ID；parts数组；name、description描述。</li>
+        </ul>
+        <h3>4.2 流式事件</h3>
+        <ul>
+            <li>TaskStatusUpdateEvent：任务状态变更事件；携带taskId、contextId、status对象。</li>
+            <li>TaskArtifactUpdateEvent：产物更新事件；artifact对象；append是否追加模式、lastChunk是否最后分片。</li>
+        </ul>
+        <h3>4.3 推送通知对象</h3>
+        <p>Webhook负载是 <code>StreamResponse</code> 对象；只能包含task / message / statusUpdate / artifactUpdate四选一；Agent发送HTTP POST，带上AuthenticationInfo鉴权头；客户端返回2xx代表接收成功。</p>
+        <h3>4.4 AgentCard Agent发现卡片</h3>
+        <p>Agent对外自描述JSON清单；可以通过 well‑known地址 <code>/.well‑known/agent‑card.json</code> 获取。包含名称、描述、supportedInterfaces多协议接口列表、skills技能列表、capabilities能力集合、securitySchemes鉴权方案、输入输出媒体类型。支持JWS签名保证防篡改。</p>
+
+        <h2 id="binding">5. 协议绑定与互操作性</h2>
+        <p>三种标准绑定：JSON‑RPC 2.0 over HTTP；gRPC over HTTP2；HTTP+JSON REST；自定义传输绑定也要遵守全部语义。</p>
+        <div class="collapse‑wrap">
+            <div class="collapse‑header">▶ 展开：操作与各协议方法映射总表</div>
+            <div class="collapse‑body">
+                <table>
+                    <tr><th>功能</th><th>JSON‑RPC Method</th><th>gRPC Method</th><th>REST接口路径</th></tr>
+                    <tr><td>发送消息</td><td>SendMessage</td><td>SendMessage</td><td>POST /message:send</td></tr>
+                    <tr><td>发送流式消息</td><td>SendStreamingMessage</td><td>SendStreamingMessage</td><td>POST /message:stream</td></tr>
+                    <tr><td>获取任务</td><td>GetTask</td><td>GetTask</td><td>GET /tasks/{id}</td></tr>
+                    <tr><td>列出任务</td><td>ListTasks</td><td>ListTasks</td><td>GET /tasks</td></tr>
+                    <tr><td>取消任务</td><td>CancelTask</td><td>CancelTask</td><td>POST /tasks/{id}:cancel</td></tr>
+                    <tr><td>订阅任务</td><td>SubscribeToTask</td><td>SubscribeToTask</td><td>POST /tasks/{id}:subscribe</td></tr>
+                    <tr><td>创建推送配置</td><td>CreateTaskPushNotificationConfig</td><td>CreateTaskPushNotificationConfig</td><td>POST /tasks/{id}/pushNotificationConfigs</td></tr>
+                    <tr><td>获取扩展AgentCard</td><td>GetExtendedAgentCard</td><td>GetExtendedAgentCard</td><td>GET /extendedAgentCard</td></tr>
+                </table>
+            </div>
+        </div>
+        <h4>错误码映射（节选）</h4>
+        <table>
+            <tr><th>A2A错误类型</th><th>JSON‑RPC错误码</th><th>gRPC状态码</th><th>HTTP状态码</th></tr>
+            <tr><td>TaskNotFoundError</td><td>-32001</td><td>NOT_FOUND</td><td>404</td></tr>
+            <tr><td>UnsupportedOperationError</td><td>-32004</td><td>FAILED_PRECONDITION</td><td>400</td></tr>
+            <tr><td>PushNotificationNotSupportedError</td><td>-32003</td><td>FAILED_PRECONDITION</td><td>400</td></tr>
+            <tr><td>VersionNotSupportedError</td><td>-32009</td><td>FAILED_PRECONDITION</td><td>400</td></tr>
+        </table>
+
+        <h2 id="workflow">6. 通用工作流与示例</h2>
+        <p>文档包含大量HTTP+JSON示例：基础任务执行、流式输出、多轮交互、版本错误、任务列表分页、webhook推送配置、文件二进制上传下载、结构化数据交换、获取鉴权后扩展AgentCard。</p>
+<pre><code>## 基础发送消息请求示例 HTTP+JSON
+POST /message:send HTTP/1.1
+Host: agent.example.com
+Content‑Type: application/a2a+json
+Authorization: Bearer token
+{
+  "message": {
+    "role": "ROLE_USER",
+    "messageId": "msg‑uuid‑001",
+    "parts": [{"text": "今天天气怎么样？"}]
+  }
+}
+</code></pre>
+
+        <h2 id="agentcard">8. Agent发现：Agent Card</h2>
+        <ul>
+            <li>A2A服务端<strong>必须</strong>对外提供Agent Card。</li>
+            <li>标准发现地址：<code>https://域名/.well‑known/agent‑card.json</code></li>
+            <li>supportedInterfaces数组按优先级排序，第一个为首选接口；选中接口如果设置tenant字段，客户端所有请求必须带上完全相同tenant值。</li>
+            <li>支持JWS签名，使用RFC8785 JSON规范化JCS算法做签名前序列化，保证签名跨设备一致性。</li>
+            <li>服务端应当配置Cache‑Control、ETag缓存头，客户端使用条件请求减少重复下载。</li>
+        </ul>
+
+        <h2 id="security">13. 安全注意事项（摘要）</h2>
+        <ul>
+            <li>生产环境全部传输必须启用TLS加密；HTTP生产环境强制HTTPS，gRPC强制TLS。</li>
+            <li>ListTasks/GetTask所有任务接口必须做鉴权鉴权域隔离，用户只能访问自己有权限的任务，不能泄露其他任务存在与否。</li>
+            <li>Webhook推送安全：服务端校验webhook地址，防御SSRF攻击，禁止回环、内网地址；webhook回调必须带上鉴权凭证；客户端校验回调来源身份；webhook逻辑做好幂等处理，允许重复推送。</li>
+            <li>扩展AgentCard接口强制鉴权，不能返回敏感内部信息。</li>
+            <li>全部入参严格校验；限制消息大小、文件大小；做好限流、审计日志。</li>
+        </ul>
+
+        <h2 id="appendixb">附录B：A2A与MCP（Model Context Protocol）关系</h2>
+        <blockquote>
+            <p><strong>MCP（Model Context Protocol）</strong>：聚焦模型/Agent如何连接工具、API、外部资源；标准化工具描述、函数调用、入参输出；解决Agent<strong>调用外部资源</strong>的标准。</p>
+            <p><strong>A2A Agent2Agent Protocol</strong>：聚焦<strong>独立Agent之间对等通信协同</strong>；Agent互相发现能力、委派任务、管理共享任务、交换上下文；解决Agent与Agent之间的伙伴协作、任务委派。</p>
+            <p>二者互补，可以组合使用：A2A客户端Agent通过A2A把复杂任务委派给远端A2A服务Agent；远端Agent内部，使用MCP协议调用工具、数据源，完成业务逻辑。</p>
+        </blockquote>
+
+        <div class="warning‑box">
+            <p>翻译说明：本文档基于官方1.0.0完整spec文本人工翻译；代码片段保留原始字段名（协议JSON字段固定英文，不做翻译）。保存全部内容为 .html 文件，直接浏览器打开即可阅读；侧边目录在手机端自动隐藏。</p>
+        </div>
+    </main>
+</div>
+
+<script>
+// 折叠面板交互
+document.querySelectorAll('.collapse‑header').forEach(header=>{
+    header.addEventListener('click',function(){
+        const wrap = this.parentElement;
+        wrap.classList.toggle('open');
+    })
+})
+</script>
+</body>
+</html>
