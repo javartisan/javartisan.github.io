@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>证券从业法律法规练习题 11-20</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f7fb;color:#1f2937}
+.container{max-width:1000px;margin:0 auto;padding:28px 18px 50px}
+.header{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 8px 25px rgba(37,99,235,.18)}
+.header h1{margin:0 0 8px;font-size:26px}.header p{margin:0;opacity:.9}
+.toolbar{position:sticky;top:0;z-index:10;background:rgba(245,247,251,.94);backdrop-filter:blur(8px);padding:12px 0;margin-bottom:10px;display:flex;gap:10px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:10px 16px;cursor:pointer;font-size:14px;font-weight:600}
+.primary{background:#2563eb;color:#fff}.secondary{background:#fff;color:#374151;border:1px solid #d1d5db}.danger{background:#fee2e2;color:#b91c1c}
+.progress{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;margin-left:auto}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;margin:14px 0;padding:20px;box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.qtitle{font-size:17px;font-weight:700;line-height:1.6;margin-bottom:14px}
+.option{display:block;padding:12px 14px;border:1px solid #e5e7eb;border-radius:9px;margin:8px 0;cursor:pointer;transition:.15s}
+.option:hover{background:#f8fafc;border-color:#93c5fd}
+.option input{margin-right:9px}
+.option.correct{background:#ecfdf5;border-color:#34d399;color:#047857}
+.option.wrong{background:#fef2f2;border-color:#f87171;color:#b91c1c}
+.result{display:none;margin-top:12px;padding:12px;border-radius:9px;line-height:1.7}
+.result.show{display:block}.result.ok{background:#ecfdf5;color:#047857}.result.bad{background:#fff7ed;color:#9a3412}
+.explain{margin-top:8px;color:#4b5563}
+.footer{text-align:center;color:#9ca3af;margin-top:25px;font-size:13px}
+.score{font-size:18px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>证券从业法律法规练习题 11—20</h1>
+    <p>单选题 · 共10题 · 选择答案后立即判断，也可最后统一提交</p>
+  </div>
+
+  <div class="toolbar">
+    <button class="primary" onclick="submitAll()">提交全部答案</button>
+    <button class="secondary" onclick="showAnswers()">查看全部答案</button>
+    <button class="danger" onclick="resetQuiz()">重新作答</button>
+    <div class="progress">已作答：<span id="answered">0</span>/10　得分：<span id="score">0</span></div>
+  </div>
+
+  <div id="quiz"></div>
+  <div class="footer">建议先独立作答，再点击“查看全部答案”复习错题。</div>
+</div>
+
+<script>
+const questions = [
+{n:11,q:"根据《证券发行上市保荐业务管理办法》，证券发行规模达到一定数量的，可以采用联合保荐，但参与联合保荐的保荐机构不得超过（ ）家。",opts:["2","3","4","5"],ans:0,exp:"联合保荐时，参与联合保荐的保荐机构不得超过2家。"},
+{n:12,q:"甲与乙串通，以事先约定的时间、价格和方式相互进行证券交易，影响证券交易价格，获得巨大非法收益，则甲与乙的行为构成（ ）。",opts:["内幕交易罪","利用未公开信息交易罪","操纵证券市场罪","背信运用受托财产罪"],ans:2,exp:"事先约定时间、价格和方式相互交易，并影响证券交易价格、获取非法利益，属于典型的操纵证券市场行为。"},
+{n:13,q:"根据《融资融券交易风险揭示书必备条款》，融资融券交易不同于普通证券交易所特有的风险是（ ）。",opts:["市场风险","系统风险","投资风险放大风险","政策风险"],ans:2,exp:"融资融券具有杠杆效应，可能放大收益，也会放大亏损风险。"},
+{n:14,q:"《股票质押回购交易业务协议》应当明确融入方融入资金可以用于（ ）。",opts:["实体经济生产经营","新股申购","通过竞价交易买入上市交易的股票","投资于被列入国家相关部委发布的淘汰类产业目录"],ans:0,exp:"股票质押回购融入资金应当用于实体经济生产经营等合法用途，不得用于新股申购、通过竞价交易买入股票等禁止用途。"},
+{n:15,q:"根据《合伙企业法》，下列关于合伙企业债务承担的说法，错误的是（ ）。",opts:["合伙企业依法被宣告破产的，普通合伙人对合伙企业债务仍应承担无限连带责任","合伙企业不能清偿到期债务的，债权人可以依法向人民法院提出破产清算申请","合伙企业注销后，原普通合伙人对合伙企业存续期间的债务仍应承担无限连带责任","合伙企业不能清偿到期债务的，债权人可以要求有限合伙人清偿"],ans:3,exp:"有限合伙人以其认缴的出资额为限承担责任，一般不对合伙企业债务承担无限连带责任，因此D错误。"},
+{n:16,q:"（ ）依法对交易商协会、同业拆借中心和中央结算公司进行监督管理。",opts:["中国证监会","财政部","中国人民银行","国务院"],ans:2,exp:"中国人民银行依法对相关银行间市场机构进行监督管理。"},
+{n:17,q:"下列不属于操纵市场行为的是（ ）。",opts:["通过合谋或者集中资金操纵证券市场价格","以自己的不同账户在相同的时间内进行价格和数量相近、方向相反的交易","以散布谣言、传播虚假信息等手段影响证券发行、交易","根据内幕消息买卖证券或者暗示他人买卖证券"],ans:3,exp:"根据内幕消息买卖证券或者暗示他人买卖证券属于内幕交易，不属于操纵市场。"},
+{n:18,q:"公司分配当年税后利润时，应当提取利润的10%列入公司法定公积金。公司法定公积金累计额为公司注册资本的（ ）以上的，可以不再提取。",opts:["20%","30%","50%","60%"],ans:2,exp:"法定公积金累计额达到公司注册资本50%以上的，可以不再提取。"},
+{n:19,q:"下列不属于证券公司及相关从业人员从事私募资产管理业务的禁止行为的是（ ）。",opts:["投资决策出现严重失误导致产品净值大幅度回撤","为规避监管的证券期货业务活动提供交易便利","以获取佣金为目的，使用资产管理计划财产进行不必要的交易","间接向投资者返还管理费"],ans:0,exp:"投资决策失误导致产品净值回撤属于投资经营风险本身，并不当然属于规定的禁止行为；B、C、D属于禁止行为。"},
+{n:20,q:"下列不属于证券公司风险控制指标的是（ ）。",opts:["净资产","风险覆盖率","资本杠杆率","净资本"],ans:0,exp:"证券公司风险控制指标体系包括净资本、风险覆盖率、资本杠杆率等，净资产不是这里所列的核心风险控制指标。"}
+];
+
+const letters=["A","B","C","D"];
+const quiz=document.getElementById("quiz");
+
+function render(){
+  quiz.innerHTML=questions.map((x,i)=>`
+  <div class="card" id="card${i}">
+    <div class="qtitle">${x.n}、${x.q}</div>
+    ${x.opts.map((o,j)=>`
+      <label class="option" id="opt${i}_${j}">
+        <input type="radio" name="q${i}" value="${j}" onchange="instant(${i})">
+        <strong>${letters[j]}.</strong> ${o}
+      </label>`).join("")}
+    <div class="result" id="result${i}"></div>
+  </div>`).join("");
+}
+function selected(i){
+  const el=document.querySelector(`input[name="q${i}"]:checked`);
+  return el ? Number(el.value) : null;
+}
+function instant(i){
+  const v=selected(i);
+  if(v===null)return;
+  check(i,false);
+  updateStats();
+}
+function check(i,force=true){
+  const v=selected(i), x=questions[i], r=document.getElementById("result"+i);
+  if(v===null){ if(force){r.className="result show bad";r.innerHTML="请先选择一个答案。";} return false; }
+  x.opts.forEach((_,j)=>{
+    const el=document.getElementById(`opt${i}_${j}`);
+    el.classList.remove("correct","wrong");
+    if(j===x.ans) el.classList.add("correct");
+    if(j===v && v!==x.ans) el.classList.add("wrong");
+  });
+  const ok=v===x.ans;
+  r.className="result show "+(ok?"ok":"bad");
+  r.innerHTML=ok ? `✓ 回答正确！<div class="explain">${x.exp}</div>` :
+    `✗ 回答错误。正确答案：<strong>${letters[x.ans]}. ${x.opts[x.ans]}</strong><div class="explain">${x.exp}</div>`;
+  return ok;
+}
+function updateStats(){
+  let count=0,score=0;
+  questions.forEach((_,i)=>{if(selected(i)!==null){count++;if(selected(i)===questions[i].ans)score++;}});
+  document.getElementById("answered").textContent=count;
+  document.getElementById("score").textContent=score;
+}
+function submitAll(){
+  questions.forEach((_,i)=>check(i,true));
+  updateStats();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function showAnswers(){
+  questions.forEach((_,i)=>check(i,false));
+  updateStats();
+}
+function resetQuiz(){
+  if(!confirm("确定要清空当前答案并重新作答吗？"))return;
+  questions.forEach((_,i)=>{
+    document.querySelectorAll(`input[name="q${i}"]`).forEach(e=>e.checked=false);
+    document.querySelectorAll(`#card${i} .option`).forEach(e=>e.classList.remove("correct","wrong"));
+    const r=document.getElementById("result"+i);r.className="result";r.innerHTML="";
+  });
+  updateStats();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+render();
+</script>
+</body>
+</html>
