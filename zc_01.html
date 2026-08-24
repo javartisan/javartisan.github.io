@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>证券从业法律法规练习题 1-10</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f7fb;color:#1f2937}.container{max-width:1000px;margin:auto;padding:28px 18px 50px}
+.header{background:linear-gradient(135deg,#2563eb,#4f46e5);color:white;border-radius:16px;padding:28px;margin-bottom:18px}.header h1{margin:0 0 8px}.header p{margin:0;opacity:.9}
+.toolbar{position:sticky;top:0;z-index:5;background:rgba(245,247,251,.95);padding:12px 0;display:flex;gap:10px;flex-wrap:wrap}.toolbar button{border:0;border-radius:9px;padding:10px 16px;font-weight:600;cursor:pointer}.primary{background:#2563eb;color:#fff}.secondary{background:#fff;border:1px solid #d1d5db!important}.danger{background:#fee2e2;color:#b91c1c}.stats{margin-left:auto;background:#fff;border:1px solid #e5e7eb;border-radius:9px;padding:10px 14px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;margin:14px 0;padding:20px;box-shadow:0 3px 12px #00000008}.q{font-size:17px;font-weight:700;line-height:1.65;margin-bottom:14px}.opt{display:block;padding:12px 14px;border:1px solid #e5e7eb;border-radius:9px;margin:8px 0;cursor:pointer}.opt:hover{background:#f8fafc}.opt input{margin-right:9px}.correct{background:#ecfdf5!important;border-color:#34d399!important;color:#047857}.wrong{background:#fef2f2!important;border-color:#f87171!important;color:#b91c1c}
+.result{display:none;margin-top:12px;padding:12px;border-radius:9px;line-height:1.7}.show{display:block}.ok{background:#ecfdf5;color:#047857}.bad{background:#fff7ed;color:#9a3412}.explain{margin-top:6px;color:#4b5563}.footer{text-align:center;color:#9ca3af;margin-top:25px;font-size:13px}
+</style></head><body><div class="container">
+<div class="header"><h1>证券从业法律法规练习题 1—10</h1><p>单选题 · 共10题 · 建议先独立作答，再查看答案与解析</p></div>
+<div class="toolbar"><button class="primary" onclick="submitAll()">提交全部答案</button><button class="secondary" onclick="showAnswers()">查看全部答案</button><button class="danger" onclick="resetQuiz()">重新作答</button><div class="stats">已作答：<b id="done">0</b>/10　得分：<b id="score">0</b></div></div>
+<div id="quiz"></div><div class="footer">证券从业法律法规 · 练习题 1—10</div></div>
+<script>
+const qs=[
+["关于证券投资咨询人员申请登记为从事证券投资咨询业务的人员必须具备的条件，下列说法错误的是()。",["具有中华人民共和国国籍","具备完全民事行为能力","具有专科以上学历","未受过刑事处罚或者与证券业务有关的严重行政处罚"],2,"证券投资咨询人员登记条件中，学历要求并非简单表述为“专科以上学历”，因此C错误。"],
+["股份有限公司的发起人不得超过()。",["50人","30人","200人","100人"],2,"股份有限公司设立时，发起人应当在二人以上二百人以下，因此不得超过200人。"],
+["根据《证券法》，向特定对象发行证券累计超过()人，属于公开发行，但依法实施员工持股计划的员工人数不计算在内。",["100","1000","500","200"],3,"向特定对象发行证券累计超过200人的，属于公开发行；依法实施员工持股计划的员工人数不计算在内。"],
+["根据《证券公司风险处置条例》，证券公司出现重大风险，在实施某些风险处置措施过程中达到规定条件的，可以由证监会对其进行行政重组。上述风险处置措施不包括()。",["接管","停业整顿","托管","撤销证券业务许可"],3,"行政重组对应的风险处置措施包括接管、托管、停业整顿等；撤销证券业务许可不属于题干所述过程中的该项措施。"],
+["根据《期货和衍生品法》，在中国境内开展期货交易和衍生品交易活动应当遵守法律、行政法规和国家有关规定，同时遵循()的原则，禁止欺诈、操纵市场和内幕交易的行为。",["自愿、平等、有偿","诚实信用、平等互利、公序良俗","公开、公平、公正","高效、透明、诚信"],2,"期货和衍生品交易活动遵循公开、公平、公正的原则。"],
+["下列关于证券公司与客户关系的基本原则，说法正确的是()。",["证券公司不得挪用客户交易结算资金，但是经公司最高决策机构审批同意的除外","证券公司有权拒绝其他任何单位或者个人对客户资料的查询","从控制公司成本支出考虑，证券公司可以设置职能部门或者岗位，负责与客户进行沟通，处理客户的投诉等事宜","证券公司在经营活动中应当履行法定的信息披露义务，保障客户在充分知情的基础上作出决定"],3,"证券公司应依法履行信息披露义务，使客户在充分知情基础上作出决定，D正确。"],
+["我国证券市场法律法规体系的主要层级包括()。",["法律、行政法规、部门规章三个层级","法律、行政法规、部门规章、规范性文件、行业自律规则五个层级","法律、行政法规、部门规章、规范性文件四个层级","法律、行政法规、部门规章、规范性文件、行业自律规则、各组织机构规章制度六个层级"],1,"我国证券市场法律法规体系通常划分为法律、行政法规、部门规章、规范性文件和行业自律规则五个层级。"],
+["证券公司应当于每年()前，完成对上一年网络和信息安全工作的专项评估，编制网络和信息安全管理年报，报送中国证监会及其派出机构。",["8月31日","12月31日","4月30日","6月30日"],2,"应当于每年4月30日前完成上一年度网络和信息安全工作的专项评估并编制年报。"],
+["根据《证券法》下列关于禁止内幕交易的相关说法，错误的是()。",["证券交易内幕信息的知情人，在内幕信息公开前，不得买卖该公司的证券","非法获取内幕信息的人，在内幕信息公开前，不得买卖该公司的证券","证券交易内幕信息的知情人，在内幕信息公开前，不得买卖该公司的证券，但可以建议他人买卖该证券","禁止证券交易内幕信息的知情人和非法获取内幕信息的人利用内幕信息从事证券交易活动"],2,"内幕信息知情人不得利用内幕信息买卖证券，也不得建议他人买卖相关证券，因此C错误。"],
+["证券公司风险管理部门人员工作称职的，其薪酬收入总额应当不低于公司总部业务及业务管理部门同职级人员的()。",["一定比例","最低水平","中位数","平均水平"],2,"证券公司应建立合理的薪酬约束机制，风险管理部门人员薪酬收入总额应不低于公司总部业务及业务管理部门同职级人员的平均水平。"]
+];
+const L=["A","B","C","D"];const root=document.getElementById("quiz");
+function render(){root.innerHTML=qs.map((x,i)=>`<div class="card" id="c${i}"><div class="q">第${i+1}题 ${x[0]}</div>${x[1].map((o,j)=>`<label class="opt" id="o${i}_${j}"><input type="radio" name="q${i}" value="${j}" onchange="check(${i})"><b>${L[j]}.</b> ${o}</label>`).join("")}<div class="result" id="r${i}"></div></div>`).join("")}
+function val(i){let e=document.querySelector(`input[name=q${i}]:checked`);return e?+e.value:null}
+function check(i){let v=val(i);if(v===null)return;let x=qs[i],r=document.getElementById("r"+i);x[1].forEach((_,j)=>{let e=document.getElementById(`o${i}_${j}`);e.classList.remove("correct","wrong");if(j===x[2])e.classList.add("correct");if(j===v&&v!==x[2])e.classList.add("wrong")});let ok=v===x[2];r.className="result show "+(ok?"ok":"bad");r.innerHTML=ok?"✓ 回答正确！":"✗ 回答错误。正确答案：<b>"+L[x[2]]+". "+x[1][x[2]]+"</b>";r.innerHTML+=`<div class="explain">${x[3]}</div>`;stats()}
+function stats(){let n=0,s=0;qs.forEach((x,i)=>{let v=val(i);if(v!==null){n++;if(v===x[2])s++}});done.textContent=n;score.textContent=s}
+function submitAll(){qs.forEach((_,i)=>{if(val(i)!==null)check(i);else{let r=document.getElementById("r"+i);r.className="result show bad";r.textContent="请先选择答案。"}});stats();scrollTo({top:0,behavior:"smooth"})}
+function showAnswers(){qs.forEach((_,i)=>{let v=val(i);if(v===null){document.getElementById("r"+i).className="result show ok";document.getElementById("r"+i).innerHTML="正确答案：<b>"+L[qs[i][2]]+". "+qs[i][1][qs[i][2]]+"</b><div class=explain>"+qs[i][3]+"</div>";document.getElementById("o"+i+"_"+qs[i][2]).classList.add("correct")}else check(i)});stats()}
+function resetQuiz(){if(!confirm("确定重新作答？"))return;qs.forEach((_,i)=>{document.querySelectorAll(`input[name=q${i}]`).forEach(e=>e.checked=false);document.querySelectorAll(`#c${i} .opt`).forEach(e=>e.className="opt");document.getElementById("r"+i).className="result"});stats();scrollTo({top:0,behavior:"smooth"})}
+render();
+</script></body></html>
