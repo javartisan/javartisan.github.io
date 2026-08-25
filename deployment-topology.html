@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>系统部署拓扑图 · 区间通信</title>
+  <style>
+    :root {
+      --ink: #1c2430;
+      --muted: #5c6774;
+      --in: #1a6a86;
+      --out: #b03a2e;
+      --paper: #efe9dc;
+      --card: #fffdf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #fff8e8, transparent),
+        var(--paper);
+      padding: 28px 28px 40px;
+    }
+    h1 { margin: 0; font-size: 28px; letter-spacing: .03em; }
+    .lead { color: var(--muted); font-size: 13px; margin: 8px 0 16px; max-width: 980px; }
+
+    .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+    .chip {
+      border: 1px solid #cfc6b6; background: #fff; border-radius: 999px;
+      padding: 6px 13px; font-size: 12px; cursor: pointer;
+    }
+    .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .fs-btn { margin-left: 4px; }
+    .keys { margin-left: auto; display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+    .k { display: flex; align-items: center; gap: 6px; }
+    .k em { width: 26px; height: 0; border-top: 3px solid var(--in); font-style: normal; }
+    .k em.o { border-top: 3px dashed var(--out); }
+    .k em.d { width: 12px; height: 12px; border: 2px solid #8a6d3b; background: #fff; transform: rotate(45deg); border-top: 2px solid #8a6d3b; }
+
+    .stage {
+      background: var(--card);
+      border: 1px solid #e4d9c5;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(70, 50, 10, .06);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(380px, 1.4fr) 120px minmax(300px, 1fr);
+      grid-template-areas:
+        "user  sso  ext"
+        "c1    sso  ext"
+        "acc   .    ext"
+        "c2    .    ext"
+        "app   api  ext"
+        "app   db   data"
+        "c3    .    data"
+        "agent deny data"
+        "c4    .    data"
+        "model .    data";
+      column-gap: 10px;
+      row-gap: 0;
+      align-items: stretch;
+    }
+    .user { grid-area: user; }
+    .access { grid-area: acc; }
+    .app { grid-area: app; }
+    .agent { grid-area: agent; }
+    .model { grid-area: model; }
+    .ext { grid-area: ext; }
+    .data { grid-area: data; }
+    .c1 { grid-area: c1; }
+    .c2 { grid-area: c2; }
+    .c3 { grid-area: c3; }
+    .c4 { grid-area: c4; }
+    .sso { grid-area: sso; }
+    .api { grid-area: api; }
+    .db { grid-area: db; }
+    .deny { grid-area: deny; }
+
+    .zone {
+      border: 1.5px dashed;
+      border-radius: 12px;
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      transition: opacity .2s, filter .2s, outline .2s;
+    }
+    .zone h2 { margin: 0 0 4px; font-size: 13px; letter-spacing: .08em; }
+    .hint { margin: 0 0 10px; font-size: 11px; color: var(--muted); }
+    .user { background: #f8e7b0; border-color: #c9a227; }
+    .access { background: #cfe4f6; border-color: #5dade2; }
+    .app { background: #ccecd6; border-color: #27ae60; }
+    .agent { background: #d3e6f2; border-color: #2e86c1; }
+    .model { background: #eadcf6; border-color: #8e44ad; }
+    .ext { background: #f6d19c; border-color: #d68910; margin-bottom: 16px; }
+    .data { background: #d9dde3; border-color: #7f8c8d; margin-top: 16px; }
+
+    .row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .box {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: 9px;
+      padding: 10px 11px;
+      font-size: 12px;
+      flex: 1 1 130px;
+    }
+    .box b { display: block; margin-bottom: 3px; }
+    .box span { display: block; color: var(--muted); font-size: 11px; line-height: 1.4; }
+    .box em {
+      display: inline-block; margin-top: 7px; font-style: normal;
+      font-size: 10px; font-weight: 700; color: #1a5276;
+      background: #eaf4fb; border-radius: 999px; padding: 2px 7px;
+    }
+    .box em.out {
+      color: #7b241c; background: #fdecea;
+    }
+
+    .tiles { display: grid; gap: 8px; flex: 1; align-content: center; }
+    .ext .tiles { grid-template-columns: 1fr 1fr; min-height: 120px; }
+    .data .tiles { grid-template-columns: 1fr 1fr; align-content: start; }
+    .data .tiles .box.wide { grid-column: 1 / -1; }
+    .mods, .ags {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .mods { grid-template-columns: repeat(5, 1fr); }
+    .ags { grid-template-columns: repeat(2, 1fr); }
+    .models { grid-template-columns: 1fr; }
+    .mod, .ag {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: 7px;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 11px;
+    }
+    .ag span { display: block; color: var(--muted); font-size: 10px; margin-top: 2px; }
+    .foot, .foot { margin: 8px 0 0; font-size: 11px; color: var(--muted); }
+
+    .vlink, .vlink {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 58px; gap: 2px;
+    }
+    .hlink, .hlink {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      min-height: 100%;
+    }
+    .lab, .lab {
+      position: relative;
+      font-size: 10px; font-weight: 700; line-height: 1.35; text-align: center;
+      color: var(--in); background: #fff; border: 1px solid #b9d0dc;
+      border-radius: 7px; padding: 5px 7px; max-width: 108px;
+    }
+    .lab.out, .lab.out { color: var(--out); border-color: #f5b7b1; }
+    .lab i, .lab i {
+      position: absolute; left: -8px; top: -8px; width: 16px; height: 16px;
+      border-radius: 50%; background: var(--ink); color: #fff; font-style: normal;
+      font-size: 10px; display: flex; align-items: center; justify-content: center;
+    }
+    .arr, .arr { color: var(--in); font-size: 16px; }
+    .arr.out, .arr.out { color: var(--out); }
+    .dia {
+      width: 14px; height: 14px; background: #fff; border: 2px solid #8a6d3b;
+      transform: rotate(45deg); margin-bottom: 3px;
+    }
+
+    .sso, .api, .db, .c4, .deny { display: flex; align-items: center; justify-content: center; }
+
+    .deny .lab, .deny .lab {
+      max-width: 112px;
+      color: var(--out);
+      border: 1px dashed var(--out);
+      background: #fdecea;
+    }
+    .deny .lab i, .deny .lab i { background: var(--out); }
+
+    .stage.dim .zone, .stage.dim .vlink, .stage.dim .hlink,
+    .stage.dim .vlink, .stage.dim .hlink { opacity: .28; filter: grayscale(.45); }
+    .stage.dim .on { opacity: 1; filter: none; outline: 2px solid rgba(28,36,48,.2); outline-offset: 2px; }
+    .stage.dim .vlink.on, .stage.dim .hlink.on,
+    .stage.dim .vlink.on, .stage.dim .hlink.on { outline: none; }
+
+    .caption {
+      margin: 0 0 12px; font-size: 12px; color: var(--muted);
+      background: #fff; border: 1px solid #e4d9c5; border-radius: 8px;
+      padding: 8px 12px; line-height: 1.55;
+    }
+    .caption b { color: var(--ink); }
+    .flow.on { outline: 2px solid var(--ink); outline-offset: 1px; }
+    .flows { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .flow {
+      background: #fff; border: 1px solid #e4d9c5; border-radius: 10px;
+      padding: 10px 12px; font-size: 12px; line-height: 1.55;
+    }
+    .flow b { display: block; margin-bottom: 2px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; }
+    th, td { border: 1px solid #e6dccb; padding: 8px 10px; text-align: left; }
+    th { background: #1c2430; color: #fff; }
+    tr:nth-child(even) td { background: #fbf7ef; }
+    .p { display: inline-block; border-radius: 999px; padding: 1px 7px; font-size: 10px; font-weight: 700; }
+    .p-in { background: #d6eaf8; color: #1a5276; }
+    .p-out { background: #fadbd8; color: #7b241c; }
+    .p-no { background: #d5f5e3; color: #145a32; }
+    footer { margin-top: 16px; color: var(--muted); font-size: 11px; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .bar { display: none; }
+      .stage { box-shadow: none; }
+    }
+    #board:fullscreen, #board:-webkit-full-screen {
+      background: var(--paper);
+      padding: 20px 28px 28px;
+      overflow: auto;
+      width: 100%;
+      height: 100%;
+    }
+    #board:fullscreen .stage, #board:-webkit-full-screen .stage {
+      min-height: calc(100vh - 160px);
+    }
+    @media (max-width: 1080px) {
+      .layout {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .mods, .ags { grid-template-columns: 1fr 1fr; }
+      .hlink, .vlink, .hlink, .vlink { min-height: 48px; }
+      .flows { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="board">
+  <h1>系统部署拓扑图（区间通信）</h1>
+  <p class="lead">客户关注的是谁连谁。本图按「分区隔离、单向发起、最小端口」绘制：用户只进 ；<b>Agent 运行区与模型服务区分开部署</b>；数据库不对用户和 Agent 暴露；出网仅 SSO、知识库和模型 API。</p>
+
+  <div class="bar">
+    <button class="chip on" data-f="all">全貌</button>
+    <button class="chip" data-f="login">① 登录</button>
+    <button class="chip" data-f="biz">② 业务操作</button>
+    <button class="chip" data-f="agent">③ 调用 Agent</button>
+    <button type="button" class="chip fs-btn" id="fsBtn" title="全屏显示拓扑图">全屏</button>
+    <div class="keys">
+      <span class="k"><em></em>内网 · 应用发起</span>
+      <span class="k"><em class="o"></em>出网 HTTP</span>
+      <span class="k"><em class="d"></em>防火墙</span>
+    </div>
+  </div>
+  <p class="caption" id="caption"><b>全貌：</b>三条链路同时可见。点上方按钮后，只高亮该链路经过的分区与箭头。</p>
+
+  <div class="stage" id="stage">
+    <div class="layout">
+      <section class="zone user" data-z="login biz">
+        <h2>用户接入区</h2>
+        <div class="row">
+          <div class="box"><b>浏览器 / 办公网用户</b><span>只访问门户域名，不直连后端端口</span></div>
+        </div>
+      </section>
+
+      <div class="vlink c1" data-z="login biz">
+        <div class="dia" title="边界防火墙"></div>
+        <div class="lab"><i>1</i>HTTP <br>用户入站</div>
+        <div class="arr">▼</div>
+      </div>
+
+      <section class="zone access" data-z="login biz">
+        <h2>接入层</h2>
+        <div class="row">
+          <div class="box"><b>Nginx（可前置 WAF）</b><span>静态站点 + 反代 /api</span></div>
+        </div>
+      </section>
+
+      <div class="vlink c2" data-z="login biz">
+        <div class="lab"><i>2</i>HTTP 内网<br>静态资源<br>/api → :8899</div>
+        <div class="arr">▼</div>
+      </div>
+
+      <section class="zone app" data-z="login biz agent">
+        <h2>应用服务区 · 容器</h2>
+        <p class="hint">mtf-web + mtf-server。业务模块不单独对用户暴露端口，一律经 8899 出站访问下游。</p>
+        <div class="row">
+          <div class="box"><b>mtf-web</b><span>Vue 静态资源</span></div>
+          <div class="box"><b>mtf-server :8899</b><span>唯一业务 API · 连接发起方</span></div>
+        </div>
+        <div class="mods">
+          <div class="mod">需求整理</div>
+          <div class="mod">业务用例</div>
+          <div class="mod">系统用例</div>
+          <div class="mod">自动化脚本</div>
+          <div class="mod">Prompt</div>
+          <div class="mod">文档管理</div>
+          <div class="mod">监控信息</div>
+          <div class="mod">经验信息</div>
+          <div class="mod">配置服务</div>
+          <div class="mod">工具 · MCP · Skill 流</div>
+        </div>
+      </section>
+
+      <div class="vlink c3" data-z="agent">
+        <div class="lab"><i>3</i>应用 → Agent<br>HTTP / WS 内网</div>
+        <div class="arr">▼</div>
+      </div>
+
+      <section class="zone agent" data-z="agent">
+        <h2>Agent 运行区</h2>
+        <p class="hint">只被 mtf-server 调用；不对用户暴露端口，不直连数据库。</p>
+        <div class="ags">
+          <div class="ag"><b>OpenCode</b><span>HTTP :10081 · Skill / Tool / MCP</span></div>
+          <div class="ag"><b>Claude Code</b><span>HTTP :10082</span></div>
+          <div class="ag"><b>DSH</b><span>HTTP :3080</span></div>
+          <div class="ag"><b>Codex</b><span>WS / JSON-RPC :10083</span></div>
+        </div>
+        <p class="foot">Agent 只编排工具与会话，推理请求发往模型服务区。</p>
+      </section>
+
+      <div class="vlink c4" data-z="agent">
+        <div class="lab"><i>4</i>Agent → 模型<br>HTTP <br>单向调用</div>
+        <div class="arr">▼</div>
+      </div>
+
+      <section class="zone model" data-z="agent">
+        <h2>模型服务区</h2>
+        <p class="hint">部署在 Agent 运行区之下，独立分区。模型不回调 Agent。</p>
+        <div class="ags models">
+          <div class="ag"><b>通用模型 / Model Server</b><span>内网推理服务API</span></div>
+        </div>
+        <p class="foot">二选一：内网 Model Server API。</p>
+      </section>
+
+      <div class="hlink deny" data-z="agent">
+        <div class="lab out"><i>6</i>Agent 禁止直接访问<br>↛ 数据层 / 中间件</div>
+      </div>
+
+      <div class="hlink sso" data-z="login">
+        <div class="lab out"><i>A</i>浏览器 ⇄ SSO<br>OAuth HTTP</div>
+      </div>
+      <div class="hlink api" data-z="agent">
+        <div class="lab out"><i>B</i>应用服务区 → 国泰侧<br>HTTP 出站 ▶</div>
+      </div>
+      <div class="hlink db" data-z="biz agent">
+        <div class="lab"><i>5</i>JDBC / S3 / Redis<br>应用 → 数据层 ▶</div>
+      </div>
+
+      <section class="zone ext" data-z="login agent">
+        <h2>外部服务集成区 · 国泰侧</h2>
+        <p class="hint">系统出站访问。国泰不反向打入内网。</p>
+        <div class="tiles">
+          <div class="box"><b>统一登录 SSO</b><span>OAuth / 统一认证<br>浏览器跳转完成登录</span><em class="out">HTTP 出站</em></div>
+          <div class="box"><b>国泰知识库</b><span>技术文档 / 数据报告<br>由 mtf-server 调用</span><em class="out">HTTP 出站</em></div>
+        </div>
+      </section>
+
+      <section class="zone data" data-z="biz agent">
+        <h2>统一数据层 / 中间件区</h2>
+        <p class="hint">主从 HA · DEV / SIT / UAT / PROD 隔离。仅 mtf-server 访问。</p>
+        <div class="tiles">
+          <div class="box wide"><b>Nacos :8848</b><span>Prompt Registry + AgentCard 发现；应用订阅，脚本注册</span><em>HTTP 内网</em></div>
+          <div class="box"><b>关系库 OB-V4</b><span>业务数据 / JDBC :2881<br>（或 MySQL :3306）</span><em>JDBC 内网</em></div>
+          <div class="box"><b>文档库 OB-V4</b><span>文档元数据与检索</span><em>JDBC 内网</em></div>
+          <div class="box"><b>对象存储 MinIO</b><span>附件与导出文件</span><em>S3 :9000</em></div>
+          <div class="box"><b>缓存 Redis</b><span>会话与热点缓存</span><em>:6379 内网</em></div>
+        </div>
+      </section>
+    </div>
+  </div>
+  </div>
+
+  <h3>评审时按这三条链路讲</h3>
+  <div class="flows">
+    <div class="flow" data-f="login"><b>① 登录</b>浏览器 → Nginx → mtf-web / mtf-server:8899 → 浏览器跳转国泰 SSO（A）→ 回写会话。不经过 Agent、数据层、知识库（B）。</div>
+    <div class="flow" data-f="biz"><b>② 业务操作</b>浏览器 → Nginx → mtf-server → 数据层（⑤ JDBC / S3 / Redis）。不经过 Agent 与国泰出网。</div>
+    <div class="flow" data-f="agent"><b>③ 调用 Agent</b>mtf-server → Nacos 查 AgentCard → Agent 运行区（③）→ 模型（④）；同时可走数据层（⑤）与国泰知识库（B）。Agent 禁止直连数据层（⑥）。</div>
+  </div>
+
+  <h3>区间通信矩阵</h3>
+  <table>
+    <thead>
+      <tr><th>源</th><th>目标</th><th>协议 / 端口</th><th>方向</th><th>出网</th><th>鉴权</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>浏览器</td><td>Nginx</td><td>HTTP </td><td>用户入站</td><td><span class="p p-in">用户侧</span></td><td>SSO Token / Cookie</td></tr>
+      <tr><td>Nginx</td><td>mtf-web / mtf-server</td><td>HTTP 静态 / :8899</td><td>内网反代</td><td><span class="p p-no">否</span></td><td>反向代理</td></tr>
+      <tr><td>浏览器</td><td>国泰 SSO</td><td>HTTP </td><td>OAuth 跳转</td><td><span class="p p-out">国泰侧</span></td><td>统一认证</td></tr>
+      <tr><td>mtf-server</td><td>国泰知识库 / SSO API</td><td>HTTP </td><td>应用出站</td><td><span class="p p-out">国泰侧</span></td><td>SSO / API</td></tr>
+      <tr><td>mtf-server</td><td>Nacos</td><td>HTTP :8848</td><td>应用出站</td><td><span class="p p-no">否</span></td><td>Nacos 账号</td></tr>
+      <tr><td>mtf-server</td><td>OB / MySQL</td><td>JDBC :2881 / :3306</td><td>应用出站</td><td><span class="p p-no">否</span></td><td>DB 账号</td></tr>
+      <tr><td>mtf-server</td><td>Redis / MinIO</td><td>:6379 / S3 :9000</td><td>应用出站</td><td><span class="p p-no">否</span></td><td>密码 / AK</td></tr>
+      <tr><td>mtf-server</td><td>OpenCode / Claude / DSH</td><td>HTTP :10081 / :10082 / :3080</td><td>应用 → Agent</td><td><span class="p p-no">否</span></td><td>可选 Basic</td></tr>
+      <tr><td>mtf-server</td><td>Codex Harness</td><td>WS / JSON-RPC :10083</td><td>应用 → Agent</td><td><span class="p p-no">否</span></td><td>可选 Token</td></tr>
+      <tr><td>Agent 运行区</td><td>模型服务区</td><td>HTTP </td><td>Agent 出站，单向</td><td><span class="p p-out">内网模型</span></td><td>API Key</td></tr>
+      <tr><td>Agent</td><td>OB / Redis / MinIO</td><td>—</td><td>不连通</td><td><span class="p p-no">禁止</span></td><td>—</td></tr>
+    </tbody>
+  </table>
+  <footer>浏览器打开后点顶部链路可高亮对应分区；打印本页可导出 PDF。</footer>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const caption = document.getElementById('caption');
+    const text = {
+      all: '<b>全貌：</b>三条链路同时可见。点上方按钮后，只高亮该链路经过的分区与箭头。',
+      login: '<b>① 登录：</b>用户接入区 → 接入层 → 应用服务区 → 国泰 SSO（A）。不点亮 Agent、数据层、知识库出站（B）。',
+      biz: '<b>② 业务操作：</b>用户接入区 → 接入层 → 应用服务区 → 数据层（⑤）。不点亮 Agent 与国泰出网。',
+      agent: '<b>③ 调用 Agent：</b>应用 → Agent（③）→ 模型（④）；⑤ 应用→数据层、B 应用→国泰知识库一并点亮。⑥ 表示 Agent 禁止直连数据层。'
+    };
+    document.querySelectorAll('.chip[data-f]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        const key = btn.dataset.f;
+        caption.innerHTML = text[key];
+        document.querySelectorAll('[data-z]').forEach(el => el.classList.remove('on'));
+        document.querySelectorAll('.flow').forEach(el => el.classList.toggle('on', el.dataset.f === key));
+        if (key === 'all') { stage.classList.remove('dim'); return; }
+        stage.classList.add('dim');
+        document.querySelectorAll('[data-z]').forEach(el => {
+          if (el.dataset.z.split(/\s+/).includes(key)) el.classList.add('on');
+        });
+      });
+    });
+
+    const board = document.getElementById('board');
+    const fsBtn = document.getElementById('fsBtn');
+    const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+    const enterFs = (el) => (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+    const exitFs = () => (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    const syncFsBtn = () => { fsBtn.textContent = fsEl() ? '退出全屏' : '全屏'; };
+    fsBtn.addEventListener('click', () => {
+      if (fsEl()) exitFs();
+      else enterFs(board);
+    });
+    document.addEventListener('fullscreenchange', syncFsBtn);
+    document.addEventListener('webkitfullscreenchange', syncFsBtn);
+  </script>
+</body>
+</html>
