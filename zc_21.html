@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>证券从业法律法规练习题 21-30</title><style>*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f7fb;color:#1f2937}.container{max-width:1000px;margin:0 auto;padding:28px 18px 50px}.header{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 8px 25px rgba(37,99,235,.18)}.header h1{margin:0 0 8px;font-size:26px}.header p{margin:0;opacity:.9}.toolbar{position:sticky;top:0;z-index:10;background:rgba(245,247,251,.94);backdrop-filter:blur(8px);padding:12px 0;margin-bottom:10px;display:flex;gap:10px;flex-wrap:wrap}button{border:0;border-radius:9px;padding:10px 16px;cursor:pointer;font-size:14px;font-weight:600}.primary{background:#2563eb;color:#fff}.secondary{background:#fff;color:#374151;border:1px solid #d1d5db}.danger{background:#fee2e2;color:#b91c1c}.progress{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;margin-left:auto}.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;margin:14px 0;padding:20px;box-shadow:0 3px 12px rgba(0,0,0,.04)}.qtitle{font-size:17px;font-weight:700;line-height:1.6;margin-bottom:14px}.option{display:block;padding:12px 14px;border:1px solid #e5e7eb;border-radius:9px;margin:8px 0;cursor:pointer;transition:.15s}.option:hover{background:#f8fafc;border-color:#93c5fd}.option input{margin-right:9px}.option.correct{background:#ecfdf5;border-color:#34d399;color:#047857}.option.wrong{background:#fef2f2;border-color:#f87171;color:#b91c1c}.result{display:none;margin-top:12px;padding:12px;border-radius:9px;line-height:1.7}.result.show{display:block}.result.ok{background:#ecfdf5;color:#047857}.result.bad{background:#fff7ed;color:#9a3412}.explain{margin-top:8px;color:#4b5563}.opt-item{display:block;margin:4px 0;}.footer{text-align:center;color:#9ca3af;margin-top:25px;font-size:13px}.score{font-size:18px;font-weight:700}</style></head><body><div class="container"> <div class="header"> <h1>证券从业法律法规练习题 21—30</h1> <p>单选题 · 共10题 · 选择答案后立即判断，也可最后统一提交</p> </div> <div class="toolbar"> <button class="primary" onclick="submitAll()">提交全部答案</button> <button class="secondary" onclick="showAnswers()">查看全部答案</button> <button class="danger" onclick="resetQuiz()">重新作答</button> <div class="progress">已作答：<span id="answered">0</span>/10　得分：<span id="score">0</span></div> </div> <div id="quiz"></div> <div class="footer">建议先独立作答，再点击“查看全部答案”复习错题。</div></div><script>
+const questions = [
+{
+n:21,
+q:"有限责任公司的设立方式是()。",
+opts:["发起设立","募集设立","公开募集","内部募集"],
+ans:0,
+exp:"解析：公司设立分为发起设立与募集设立。发起设立由发起人认购公司全部股份，适用于有限责任公司、股份有限公司；募集设立只适用于股份有限公司。有限责任公司只能发起设立。<span class='opt-item'>A.发起设立 ✔ 正确</span><span class='opt-item'>B.募集设立 ✘ 仅适用于股份有限公司，有限责任公司不能募集设立</span><span class='opt-item'>C.公开募集 ✘ 公开募集是募集设立的手段，有限责任公司不得公开募集股份</span><span class='opt-item'>D.内部募集 ✘ 不存在“内部募集”这一法定公司设立方式，属于干扰概念</span>教材章节：第一章 第二节 公司法-公司设立"
+},
+{
+n:22,
+q:"证券的包销、代销期限最长不超过()。",
+opts:["180日","90日","60日","360日"],
+ans:1,
+exp:"解析：《证券法》明确，证券代销、包销期限最长不得超过90日。<span class='opt-item'>A.180日 ✘ 干扰时间，不是承销期限法定上限</span><span class='opt-item'>B.90日 ✔ 正确</span><span class='opt-item'>C.60日 ✘ 无对应承销业务法定规定</span><span class='opt-item'>D.360日 ✘ 与法条规定完全不符</span>教材章节：第一章 第三节 证券法-证券承销制度"
+},
+{
+n:23,
+q:"证券公司可以与客户自行约定追加担保物后的维持担保比例要求，仅计算现金及信用证券账户内证券市值总和的维持担保比例超过()时，客户可以提取保证金可用余额中的现金、充抵保证金的证券。",
+opts:["300%","100%","500%","80%"],
+ans:0,
+exp:"解析：维持担保比例超过300%，客户可提取保证金可用余额的现金或充抵证券；提取后维持担保比例仍不得低于300%。<span class='opt-item'>A.300% ✔ 正确</span><span class='opt-item'>B.100% ✘ 远低于提取阈值，该比例几乎资不抵债，不能提取</span><span class='opt-item'>C.500% ✘ 不是法规规定的提取维持担保比例</span><span class='opt-item'>D.80% ✘ 属于严重低于警戒线，禁止提取担保物</span>教材章节：第三章 第三节 融资融券业务"
+},
+{
+n:24,
+q:"开放式基金的基金份额在基金存续期间，基金份额持有人()。",
+opts:["可在任何时间申请赎回","可以在基金合同约定的时间和场所申请赎回","可以在任何场所申请赎回","不得申请赎回"],
+ans:1,
+exp:"解析：开放式基金份额持有人按照基金合同约定的时间、场所办理申购、赎回，不是任意时间、任意地点。<span class='opt-item'>A.可在任何时间申请赎回 ✘ 不能任何时间赎回，需遵守开放日、交易时间约定</span><span class='opt-item'>B.可以在基金合同约定的时间和场所申请赎回 ✔ 正确</span><span class='opt-item'>C.可以在任何场所申请赎回 ✘ 不能在任何场所赎回，需在合同约定销售机构办理</span><span class='opt-item'>D.不得申请赎回 ✘ 不得赎回是封闭式基金特征</span>教材章节：第一章 第四节 证券投资基金法-基金份额"
+},
+{
+n:25,
+q:"证券公司向普通投资者销售产品前，应当告知的信息不包括()。",
+opts:["可能直接导致超过原始本金损失的事项","就产品收益提供的确定性判断","限制销售对象权利行使期限或者可解除合同期限等全部限制内容","可能直接导致本金亏损的事项"],
+ans:1,
+exp:"解析：经营机构严禁对投资收益做确定性判断；其余三项均属于向普通投资者销售前必须告知事项。<span class='opt-item'>A.可能直接导致超过原始本金损失的事项 ✘ 属于应当告知内容</span><span class='opt-item'>B.就产品收益提供的确定性判断 ✔ 正确（本题选不包括）</span><span class='opt-item'>C.限制销售对象权利行使期限或者可解除合同期限等全部限制内容 ✘ 属于应当告知内容</span><span class='opt-item'>D.可能直接导致本金亏损的事项 ✘ 属于应当告知内容</span>教材章节：第二章 第二节 投资者适当性管理"
+},
+{
+n:26,
+q:"根据《证券法》，证券承销业务的种类不包括()。",
+opts:["自行销售","代销","全额包销","余额包销"],
+ans:0,
+exp:"解析：证券承销分为代销、包销；包销又分全额包销、余额包销。自行销售是发行人自己卖证券，不属于承销业务。<span class='opt-item'>A.自行销售 ✔ 正确（本题选不包括）</span><span class='opt-item'>B.代销 ✘ 属于法定承销类型</span><span class='opt-item'>C.全额包销 ✘ 属于包销子类，属于承销</span><span class='opt-item'>D.余额包销 ✘ 属于包销子类，属于承销</span>教材章节：第一章 第三节 证券法-证券承销制度"
+},
+{
+n:27,
+q:"下列关于分类监管制度对证券公司正向激励作用的说法，错误的是()。",
+opts:["提升风险控制能力","培育核心竞争力","加强合规管理","便于证券公司广告宣传"],
+ans:3,
+exp:"解析：证券公司分类结果不得用于广告、营销、宣传等商业用途；分类监管正向激励包括加强合规、提升风控、培育核心竞争力。<span class='opt-item'>A.提升风险控制能力 ✘ 属于正向激励作用</span><span class='opt-item'>B.培育核心竞争力 ✘ 属于正向激励作用</span><span class='opt-item'>C.加强合规管理 ✘ 属于正向激励作用</span><span class='opt-item'>D.便于证券公司广告宣传 ✔ 正确（本题选错误）</span>教材章节：第二章 第一节 证券公司概述-证券公司分类监管"
+},
+{
+n:28,
+q:"证券公司应当采取有效措施确保在柜台市场交易的私募产品持有人数量符合相关规定，其中，非公开募集基金的合格投资者累计不得超过()人。",
+opts:["150","100","300","200"],
+ans:3,
+exp:"解析：《证券投资基金法》规定，非公开募集基金只能向合格投资者募集，合格投资者累计不得超过200人。<span class='opt-item'>A.150 ✘ 干扰数字，不是法定上限</span><span class='opt-item'>B.100 ✘ 干扰数字，不是法定上限</span><span class='opt-item'>C.300 ✘ 干扰数字，不是法定上限</span><span class='opt-item'>D.200 ✔ 正确</span>教材章节：第一章 第四节 证券投资基金法-非公开募集基金"
+},
+{
+n:29,
+q:"证券公司从事证券自营业务，可以依据()的附件《证券公司证券自营投资品种清单》买卖其中所列的证券。",
+opts:["《证券公司证券自营业务指引》","《证券公司内部控制指引》","《证券公司风险控制指标管理办法》","《关于证券公司证券自营业务投资范围及有关事项的规定》"],
+ans:3,
+exp:"解析：《关于证券公司证券自营业务投资范围及有关事项的规定》附带《证券公司证券自营投资品种清单》，界定自营可买卖证券范围。<span class='opt-item'>A.《证券公司证券自营业务指引》 ✘ 规范自营业务操作流程，无该投资品种清单附件</span><span class='opt-item'>B.《证券公司内部控制指引》 ✘ 针对内控建设，不规定自营投资品种</span><span class='opt-item'>C.《证券公司风险控制指标管理办法》 ✘ 管控风控指标，不规定自营投资清单</span><span class='opt-item'>D.《关于证券公司证券自营业务投资范围及有关事项的规定》 ✔ 正确</span>教材章节：第三章 第一节 证券自营业务"
+},
+{
+n:30,
+q:"中国证监会等监管机构制定证券公司信用业务相关监管政策、实施监督管理的法律、行政法规依据是()。",
+opts:["《中国证券登记结算有限责任公司证券出借及转融通登记结算业务规则(试行)》","《证券法》和《证券公司监督管理条例》","《转融通业务监督管理试行办法》","《证券公司融资融券业务管理办法》"],
+ans:1,
+exp:"解析：本题限定法律+行政法规；《证券法》是法律，《证券公司监督管理条例》是行政法规。A为自律业务规则，C、D属于证监会部门规章。<span class='opt-item'>A.《中国证券登记结算有限责任公司证券出借及转融通登记结算业务规则(试行)》 ✘ 自律业务规则，不属于法律、行政法规</span><span class='opt-item'>B.《证券法》和《证券公司监督管理条例》 ✔ 正确</span><span class='opt-item'>C.《转融通业务监督管理试行办法》 ✘ 属于证监会部门规章</span><span class='opt-item'>D.《证券公司融资融券业务管理办法》 ✘ 属于证监会部门规章</span>教材章节：第三章 第三节 融资融券业务-法规体系"
+}
+];
+const letters=["A","B","C","D"];
+const quiz=document.getElementById("quiz");
+function render(){
+ quiz.innerHTML=questions.map((x,i)=>`
+ <div class="card" id="card${i}">
+ <div class="qtitle">${x.n}、${x.q}</div>
+ ${x.opts.map((o,j)=>`
+ <label class="option" id="opt${i}_${j}">
+ <input type="radio" name="q${i}" value="${j}" onchange="instant(${i})">
+ <strong>${letters[j]}.</strong> ${o}
+ </label>`).join("")}
+ <div class="result" id="result${i}"></div>
+ </div>`).join("");
+}
+function selected(i){
+ const el=document.querySelector(`input[name="q${i}"]:checked`);
+ return el ? Number(el.value) : null;
+}
+function instant(i){
+ const v=selected(i);
+ if(v===null)return;
+ check(i,false);
+ updateStats();
+}
+function check(i,force=true){
+ const v=selected(i), x=questions[i], r=document.getElementById("result"+i);
+ if(v===null){
+ if(force){r.className="result show bad";r.innerHTML="请先选择一个答案。";}
+ return false;
+ }
+ x.opts.forEach((_,j)=>{
+ const el=document.getElementById(`opt${i}_${j}`);
+ el.classList.remove("correct","wrong");
+ if(j===x.ans) el.classList.add("correct");
+ if(j===v && v!==x.ans) el.classList.add("wrong");
+ });
+ const ok=v===x.ans;
+ r.className="result show "+(ok?"ok":"bad");
+ r.innerHTML=ok ? `✓ 回答正确！<div class="explain">${x.exp}</div>` : `✗ 回答错误。正确答案：<strong>${letters[x.ans]}. ${x.opts[x.ans]}</strong><div class="explain">${x.exp}</div>`;
+ return ok;
+}
+function updateStats(){
+ let count=0,score=0;
+ questions.forEach((_,i)=>{if(selected(i)!==null){count++;if(selected(i)===questions[i].ans)score++;}});
+ document.getElementById("answered").textContent=count;
+ document.getElementById("score").textContent=score;
+}
+function submitAll(){
+ questions.forEach((_,i)=>check(i,true));
+ updateStats();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function showAnswers(){
+ questions.forEach((_,i)=>check(i,false));
+ updateStats();
+}
+function resetQuiz(){
+ if(!confirm("确定要清空当前答案并重新作答吗？"))return;
+ questions.forEach((_,i)=>{
+ document.querySelectorAll(`input[name="q${i}"]`).forEach(e=>e.checked=false);
+ document.querySelectorAll(`#card${i} .option`).forEach(e=>e.classList.remove("correct","wrong"));
+ const r=document.getElementById("result"+i);r.className="result";r.innerHTML="";
+ });
+ updateStats();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+render();
+</script></body></html>
