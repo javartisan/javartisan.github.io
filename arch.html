@@ -48,18 +48,18 @@
     }
     .layout {
       display: grid;
-      grid-template-columns: minmax(380px, 1.4fr) 120px minmax(300px, 1fr);
+      grid-template-columns: minmax(360px, 1.35fr) 178px minmax(300px, 1fr);
       grid-template-areas:
-        "user  sso  ext"
-        "c1    sso  ext"
-        "acc   .    ext"
-        "c2    .    ext"
-        "app   api  ext"
-        "app   db   data"
-        "c3    .    data"
-        "agent deny data"
-        "c4    .    data"
-        "model .    data";
+        "user  brsso  ext"
+        "c1    brsso  ext"
+        "acc   brsso  ext"
+        "c2    .      ext"
+        "app   api    ext"
+        "app   db     data"
+        "c3    .      data"
+        "agent deny   data"
+        "c4    .      data"
+        "model .      data";
       column-gap: 10px;
       row-gap: 0;
       align-items: stretch;
@@ -75,7 +75,7 @@
     .c2 { grid-area: c2; }
     .c3 { grid-area: c3; }
     .c4 { grid-area: c4; }
-    .sso { grid-area: sso; }
+    .brsso { grid-area: brsso; }
     .api { grid-area: api; }
     .db { grid-area: db; }
     .deny { grid-area: deny; }
@@ -119,7 +119,26 @@
     }
 
     .tiles { display: grid; gap: 8px; flex: 1; align-content: center; }
-    .ext .tiles { grid-template-columns: 1fr 1fr; min-height: 120px; }
+    .ext .tiles { grid-template-columns: 1.25fr 1fr; min-height: 120px; }
+    .ext .tiles .sso-box { grid-row: 1 / span 3; }
+    .steps {
+      margin: 8px 0 0; padding: 0; list-style: none;
+      font-size: 11px; color: var(--ink); line-height: 1.45;
+    }
+    .steps li {
+      display: grid; grid-template-columns: 22px 1fr; gap: 6px;
+      margin: 0 0 5px; align-items: start;
+    }
+    .steps .grp {
+      display: block; margin: 8px 0 4px; font-size: 10px;
+      font-weight: 700; color: #922b21; letter-spacing: .04em;
+    }
+    .steps .grp:first-child { margin-top: 2px; }
+    .steps b {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 16px; border-radius: 999px; font-size: 10px;
+      background: #7b241c; color: #fff;
+    }
     .data .tiles { grid-template-columns: 1fr 1fr; align-content: start; }
     .data .tiles .box.wide { grid-column: 1 / -1; }
     .mods, .ags {
@@ -127,7 +146,24 @@
       gap: 6px;
       margin-top: 8px;
     }
-    .mods { grid-template-columns: repeat(5, 1fr); }
+    .sub {
+      border: 1px dashed rgba(39, 174, 96, .5);
+      background: rgba(255, 255, 255, .42);
+      border-radius: 10px;
+      padding: 8px 10px 10px;
+    }
+    .sub + .sub { margin-top: 8px; }
+    .sub h3 {
+      margin: 0 0 7px; font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; color: #1e8449;
+    }
+    .sub.tech { border-color: #5dade2; background: rgba(255,255,255,.55); }
+    .sub.tech h3 { color: #1a5276; }
+    .carry {
+      text-align: center; font-size: 10px; color: #1e8449; font-weight: 700;
+      margin: 6px 0 6px;
+    }
+    .mods { grid-template-columns: repeat(6, 1fr); margin-top: 0; }
     .ags { grid-template-columns: repeat(2, 1fr); }
     .models { grid-template-columns: 1fr; }
     .mod, .ag {
@@ -155,6 +191,11 @@
       color: var(--in); background: #fff; border: 1px solid #b9d0dc;
       border-radius: 7px; padding: 5px 7px; max-width: 108px;
     }
+    .lab.wide { max-width: none; flex: 1; text-align: left; padding-left: 18px; }
+    .lab em {
+      display: block; font-style: normal; font-weight: 500; font-size: 9px;
+      color: inherit; opacity: .82; margin-top: 2px;
+    }
     .lab.out, .lab.out { color: var(--out); border-color: #f5b7b1; }
     .lab i, .lab i {
       position: absolute; left: -8px; top: -8px; width: 16px; height: 16px;
@@ -168,7 +209,24 @@
       transform: rotate(45deg); margin-bottom: 3px;
     }
 
-    .sso, .api, .db, .c4, .deny { display: flex; align-items: center; justify-content: center; }
+    .brsso, .api, .db, .c4, .deny { display: flex; align-items: center; justify-content: center; }
+    .lane {
+      display: flex; flex-direction: column; align-items: stretch; gap: 5px;
+      background: rgba(255,255,255,.78); border: 1px dashed #e6b0aa;
+      border-radius: 10px; padding: 8px 6px; width: 100%;
+    }
+    .lane .ttl {
+      font-size: 10px; font-weight: 700; color: #922b21; letter-spacing: .04em;
+      text-align: center; line-height: 1.3;
+    }
+    .hop {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .lab.wide i { left: 4px; }
+    .hlink.api .hop, .hlink.db .hop { width: 100%; }
+    .hlink.api, .hlink.db {
+      flex-direction: column; gap: 8px; justify-content: center;
+    }
 
     .deny .lab, .deny .lab {
       max-width: 112px;
@@ -181,8 +239,17 @@
     .stage.dim .zone, .stage.dim .vlink, .stage.dim .hlink,
     .stage.dim .vlink, .stage.dim .hlink { opacity: .28; filter: grayscale(.45); }
     .stage.dim .on { opacity: 1; filter: none; outline: 2px solid rgba(28,36,48,.2); outline-offset: 2px; }
-    .stage.dim .vlink.on, .stage.dim .hlink.on,
-    .stage.dim .vlink.on, .stage.dim .hlink.on { outline: none; }
+    .stage.dim .hlink.on .lab { opacity: .28; filter: grayscale(.45); }
+    .stage.dim .hlink.on .hop { opacity: .28; filter: grayscale(.45); }
+    .stage.dim .lab.on,
+    .stage.dim .lane.on,
+    .stage.dim .lane.on .lab,
+    .stage.dim .lane.on .arr,
+    .stage.dim .lane.on .hop,
+    .stage.dim .hlink.on .hop.on,
+    .stage.dim .hlink.on .hop.on .lab,
+    .stage.dim .hlink.on .hop.on .arr { opacity: 1; filter: none; }
+    .stage.dim .zone.on [data-z]:not(.on) { opacity: .28; filter: grayscale(.45); }
 
     .caption {
       margin: 0 0 12px; font-size: 12px; color: var(--muted);
@@ -190,13 +257,6 @@
       padding: 8px 12px; line-height: 1.55;
     }
     .caption b { color: var(--ink); }
-    .flow.on { outline: 2px solid var(--ink); outline-offset: 1px; }
-    .flows { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .flow {
-      background: #fff; border: 1px solid #e4d9c5; border-radius: 10px;
-      padding: 10px 12px; font-size: 12px; line-height: 1.55;
-    }
-    .flow b { display: block; margin-bottom: 2px; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; }
     th, td { border: 1px solid #e6dccb; padding: 8px 10px; text-align: left; }
     th { background: #1c2430; color: #fff; }
@@ -230,14 +290,13 @@
       }
       .mods, .ags { grid-template-columns: 1fr 1fr; }
       .hlink, .vlink, .hlink, .vlink { min-height: 48px; }
-      .flows { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div id="board">
   <h1>系统部署拓扑图（区间通信）</h1>
-  <p class="lead">客户关注的是谁连谁。本图按「分区隔离、单向发起、最小端口」绘制：用户只进 ；<b>Agent 运行区与模型服务区分开部署</b>；数据库不对用户和 Agent 暴露；出网仅 SSO、知识库和模型 API。</p>
+  <p class="lead">客户关注的是谁连谁。本图按「分区隔离、单向发起、最小端口」绘制：用户只进 ；<b>Agent 运行区与模型服务区分开部署</b>；数据库不对用户和 Agent 暴露；出网为 SSO、知识库、SIT / UAT 与模型 API。业务流程见 <a href="./business-flow.html" style="color:#1a6a86">业务流程图</a>。</p>
 
   <div class="bar">
     <button class="chip on" data-f="all">全貌</button>
@@ -258,7 +317,7 @@
       <section class="zone user" data-z="login biz">
         <h2>用户接入区</h2>
         <div class="row">
-          <div class="box"><b>浏览器 / 办公网用户</b><span>只访问门户域名，不直连后端端口</span></div>
+          <div class="box"><b>浏览器 / 办公网用户</b><span>访问门户；未登录时跳转到国泰统一登录页，不直连后端端口</span></div>
         </div>
       </section>
 
@@ -282,22 +341,31 @@
 
       <section class="zone app" data-z="login biz agent">
         <h2>应用服务区 · 容器</h2>
-        <p class="hint">mtf-web + mtf-server。业务模块不单独对用户暴露端口，一律经 8899 出站访问下游。</p>
-        <div class="row">
-          <div class="box"><b>mtf-web</b><span>Vue 静态资源</span></div>
-          <div class="box"><b>mtf-server :8899</b><span>唯一业务 API · 连接发起方</span></div>
+        <p class="hint">技术组件对外监听；服务层业务能力全部跑在 mtf-server 内，不单独暴露端口。</p>
+        <div class="sub tech">
+          <h3>技术组件（运行时）</h3>
+          <div class="row">
+            <div class="box"><b>mtf-web</b><span>Vue 静态资源，经 Nginx 反代</span><em>静态站点</em></div>
+            <div class="box"><b>mtf-server :8899</b><span>唯一业务 API · 登录后用 code 调 SSO</span><em>HTTP :8899</em></div>
+          </div>
         </div>
-        <div class="mods">
-          <div class="mod">需求整理</div>
-          <div class="mod">业务用例</div>
-          <div class="mod">系统用例</div>
-          <div class="mod">自动化脚本</div>
-          <div class="mod">Prompt</div>
-          <div class="mod">文档管理</div>
-          <div class="mod">监控信息</div>
-          <div class="mod">经验信息</div>
-          <div class="mod">配置服务</div>
-          <div class="mod">工具 · MCP · Skill 流</div>
+        <div class="carry">▼ 业务能力承载于 mtf-server</div>
+        <div class="sub">
+          <h3>服务层（业务逻辑）</h3>
+          <div class="mods">
+            <div class="mod">需求整理</div>
+            <div class="mod">业务用例</div>
+            <div class="mod">系统用例</div>
+            <div class="mod">自动化脚本</div>
+            <div class="mod">Prompt</div>
+            <div class="mod">文档管理</div>
+            <div class="mod">监控信息</div>
+            <div class="mod">经验信息</div>
+            <div class="mod">配置服务</div>
+            <div class="mod">用户信息</div>
+            <div class="mod">权限信息</div>
+            <div class="mod">工具 · MCP · Skill 流控</div>
+          </div>
         </div>
       </section>
 
@@ -336,45 +404,109 @@
         <div class="lab out"><i>6</i>Agent 禁止直接访问<br>↛ 数据层 / 中间件</div>
       </div>
 
-      <div class="hlink sso" data-z="login">
-        <div class="lab out"><i>A</i>浏览器 ⇄ SSO<br>OAuth HTTP</div>
+      <div class="hlink brsso" data-z="login">
+        <div class="lane">
+          <div class="ttl">浏览器 ↔ 统一登录 SSO<br>前台跳转 · 不经 mtf-server</div>
+          <div class="hop">
+            <div class="lab out wide"><i>A1</i>浏览器 → SSO<br><em>/authorize 打开统一登录页</em></div>
+            <div class="arr out">▶</div>
+          </div>
+          <div class="hop">
+            <div class="lab out wide"><i>A2</i>浏览器 ⇄ SSO<br><em>用户在国泰页输入账密</em></div>
+            <div class="arr out">⇄</div>
+          </div>
+          <div class="hop">
+            <div class="lab out wide"><i>A3</i>SSO → 浏览器<br><em>302 回调门户 ?code=</em></div>
+            <div class="arr out">◀</div>
+          </div>
+        </div>
       </div>
-      <div class="hlink api" data-z="agent">
-        <div class="lab out"><i>B</i>应用服务区 → 国泰侧<br>HTTP 出站 ▶</div>
+      <div class="hlink api">
+        <div class="lane" data-z="login">
+          <div class="ttl">mtf-server → 统一登录 SSO<br>后台接口 · 浏览器不直连</div>
+          <div class="hop">
+            <div class="lab out wide"><i>A4</i>mtf-server → SSO<br><em>/token　code 换 access_token</em></div>
+            <div class="arr out">▶</div>
+          </div>
+          <div class="hop">
+            <div class="lab out wide"><i>A5</i>mtf-server → SSO<br><em>/userinfo　拉用户 + 权限</em></div>
+            <div class="arr out">▶</div>
+          </div>
+        </div>
+          <div class="hop" data-z="agent">
+            <div class="lab out wide"><i>B</i>mtf-server → 知识库<br><em>HTTP 出站（非登录）</em></div>
+            <div class="arr out">▶</div>
+          </div>
+          <div class="hop" data-z="biz">
+            <div class="lab out wide"><i>C</i>mtf-server → SIT 测管<br><em>同步业务用例</em></div>
+            <div class="arr out">▶</div>
+          </div>
+          <div class="hop" data-z="biz">
+            <div class="lab out wide"><i>D</i>mtf-server → UAT 自动化<br><em>同步自动化脚本</em></div>
+            <div class="arr out">▶</div>
+          </div>
       </div>
-      <div class="hlink db" data-z="biz agent">
-        <div class="lab"><i>5</i>JDBC / S3 / Redis<br>应用 → 数据层 ▶</div>
+      <div class="hlink db">
+        <div class="hop" data-z="login">
+          <div class="lab wide"><i>A6</i>JDBC 查本地用户 / 权限<br><em>mtf-server → 关系库</em></div>
+          <div class="arr">▶</div>
+        </div>
+        <div class="hop" data-z="biz agent">
+          <div class="lab wide"><i>5</i>JDBC / S3 / Redis<br><em>应用 → 数据层</em></div>
+          <div class="arr">▶</div>
+        </div>
       </div>
 
-      <section class="zone ext" data-z="login agent">
+      <section class="zone ext" data-z="login biz agent">
         <h2>外部服务集成区 · 国泰侧</h2>
-        <p class="hint">系统出站访问。国泰不反向打入内网。</p>
+        <p class="hint">系统出站访问。国泰不反向打入内网。SSO、知识库、SIT 测管与 UAT 自动化均在此侧。</p>
         <div class="tiles">
-          <div class="box"><b>统一登录 SSO</b><span>OAuth / 统一认证<br>浏览器跳转完成登录</span><em class="out">HTTP 出站</em></div>
-          <div class="box"><b>国泰知识库</b><span>技术文档 / 数据报告<br>由 mtf-server 调用</span><em class="out">HTTP 出站</em></div>
+          <div class="box sso-box" data-z="login">
+            <b>统一登录 SSO</b>
+            <span>出网 HTTP · 同一套国泰统一登录</span>
+            <ul class="steps">
+              <li class="grp">浏览器通道（不经 mtf-server）</li>
+              <li><b>A1</b><span>/authorize 打开统一登录页</span></li>
+              <li><b>A2</b><span>用户在国泰页输入账密完成本地认证</span></li>
+              <li><b>A3</b><span>302 回调门户 redirect_uri，附带 authorization code</span></li>
+              <li class="grp">服务端通道（仅 mtf-server）</li>
+              <li><b>A4</b><span>/token　用 code 换 access_token</span></li>
+              <li><b>A5</b><span>/userinfo　拿到身份标识</span></li>
+              <li><b>A6</b><span>JDBC 查统一库，补齐用户信息 / 权限</span></li>
+            </ul>
+            <em class="out">HTTP 出站</em>
+          </div>
+          <div class="box" data-z="agent">
+            <b>国泰知识库</b>
+            <span>技术文档 / 数据报告<br>由 mtf-server 调用，不参与登录</span>
+            <em class="out">HTTP 出站</em>
+          </div>
+          <div class="box" data-z="biz">
+            <b>SIT 测管平台</b>
+            <span>业务用例同步目标<br>由 mtf-server 出站推送</span>
+            <em class="out">HTTP 出站 · 同步用例</em>
+          </div>
+          <div class="box" data-z="biz">
+            <b>UAT 自动化平台</b>
+            <span>自动化脚本同步目标<br>由 mtf-server 出站推送</span>
+            <em class="out">HTTP 出站 · 同步脚本</em>
+          </div>
         </div>
       </section>
 
-      <section class="zone data" data-z="biz agent">
+      <section class="zone data" data-z="login biz agent">
         <h2>统一数据层 / 中间件区</h2>
-        <p class="hint">主从 HA · DEV / SIT / UAT / PROD 隔离。仅 mtf-server 访问。</p>
+        <p class="hint">主从 HA · DEV / SIT / UAT / PROD 隔离。仅 mtf-server 访问。登录后按 SSO 身份查关系库用户信息。</p>
         <div class="tiles">
-          <div class="box wide"><b>Nacos :8848</b><span>Prompt Registry + AgentCard 发现；应用订阅，脚本注册</span><em>HTTP 内网</em></div>
-          <div class="box"><b>关系库 OB-V4</b><span>业务数据 / JDBC :2881<br>（或 MySQL :3306）</span><em>JDBC 内网</em></div>
-          <div class="box"><b>文档库 OB-V4</b><span>文档元数据与检索</span><em>JDBC 内网</em></div>
-          <div class="box"><b>对象存储 MinIO</b><span>附件与导出文件</span><em>S3 :9000</em></div>
-          <div class="box"><b>缓存 Redis</b><span>会话与热点缓存</span><em>:6379 内网</em></div>
+          <div class="box wide" data-z="biz agent"><b>Nacos :8848</b><span>Prompt Registry + AgentCard 发现；应用订阅，脚本注册</span><em>HTTP 内网</em></div>
+          <div class="box" data-z="login biz agent"><b>关系库 OB-V4</b><span>业务数据 / 登录用户与权限 / JDBC :2881<br>（或 MySQL :3306）</span><em>JDBC 内网</em></div>
+          <div class="box" data-z="biz agent"><b>文档库 OB-V4</b><span>文档元数据与检索</span><em>JDBC 内网</em></div>
+          <div class="box" data-z="biz agent"><b>对象存储 MinIO</b><span>附件与导出文件</span><em>S3 :9000</em></div>
+          <div class="box" data-z="biz agent"><b>缓存 Redis</b><span>会话与热点缓存</span><em>:6379 内网</em></div>
         </div>
       </section>
     </div>
   </div>
-  </div>
-
-  <h3>评审时按这三条链路讲</h3>
-  <div class="flows">
-    <div class="flow" data-f="login"><b>① 登录</b>浏览器 → Nginx → mtf-web / mtf-server:8899 → 浏览器跳转国泰 SSO（A）→ 回写会话。不经过 Agent、数据层、知识库（B）。</div>
-    <div class="flow" data-f="biz"><b>② 业务操作</b>浏览器 → Nginx → mtf-server → 数据层（⑤ JDBC / S3 / Redis）。不经过 Agent 与国泰出网。</div>
-    <div class="flow" data-f="agent"><b>③ 调用 Agent</b>mtf-server → Nacos 查 AgentCard → Agent 运行区（③）→ 模型（④）；同时可走数据层（⑤）与国泰知识库（B）。Agent 禁止直连数据层（⑥）。</div>
   </div>
 
   <h3>区间通信矩阵</h3>
@@ -385,8 +517,15 @@
     <tbody>
       <tr><td>浏览器</td><td>Nginx</td><td>HTTP </td><td>用户入站</td><td><span class="p p-in">用户侧</span></td><td>SSO Token / Cookie</td></tr>
       <tr><td>Nginx</td><td>mtf-web / mtf-server</td><td>HTTP 静态 / :8899</td><td>内网反代</td><td><span class="p p-no">否</span></td><td>反向代理</td></tr>
-      <tr><td>浏览器</td><td>国泰 SSO</td><td>HTTP </td><td>OAuth 跳转</td><td><span class="p p-out">国泰侧</span></td><td>统一认证</td></tr>
-      <tr><td>mtf-server</td><td>国泰知识库 / SSO API</td><td>HTTP </td><td>应用出站</td><td><span class="p p-out">国泰侧</span></td><td>SSO / API</td></tr>
+      <tr><td>浏览器</td><td>国泰 SSO /authorize</td><td>HTTP 出站</td><td>A1 打开统一登录页</td><td><span class="p p-out">国泰侧</span></td><td>浏览器跳转</td></tr>
+      <tr><td>浏览器</td><td>国泰 SSO 登录页</td><td>HTTP</td><td>A2 用户账密认证（浏览器直连 SSO）</td><td><span class="p p-out">国泰侧</span></td><td>统一认证</td></tr>
+      <tr><td>国泰 SSO</td><td>浏览器 → Nginx</td><td>HTTP 302 回调</td><td>A3 redirect_uri 带回 authorization code</td><td><span class="p p-out">回门户</span></td><td>OAuth code</td></tr>
+      <tr><td>mtf-server</td><td>国泰 SSO /token</td><td>HTTP 出站</td><td>A4 服务端用 code 换 access_token</td><td><span class="p p-out">国泰侧</span></td><td>client_id / secret</td></tr>
+      <tr><td>mtf-server</td><td>国泰 SSO /userinfo</td><td>HTTP 出站</td><td>A5 拿到身份标识</td><td><span class="p p-out">国泰侧</span></td><td>Bearer token</td></tr>
+      <tr><td>mtf-server</td><td>关系库 OB / MySQL</td><td>JDBC :2881 / :3306</td><td>A6 按 SSO 身份查询本地用户信息 / 权限</td><td><span class="p p-no">否</span></td><td>DB 账号</td></tr>
+      <tr><td>mtf-server</td><td>国泰知识库</td><td>HTTP</td><td>业务出站（B，非登录）</td><td><span class="p p-out">国泰侧</span></td><td>SSO / API</td></tr>
+      <tr><td>mtf-server</td><td>SIT 测管平台</td><td>HTTP</td><td>C 同步业务用例</td><td><span class="p p-out">国泰侧</span></td><td>平台账号 / Token</td></tr>
+      <tr><td>mtf-server</td><td>UAT 自动化平台</td><td>HTTP</td><td>D 同步自动化脚本</td><td><span class="p p-out">国泰侧</span></td><td>平台账号 / Token</td></tr>
       <tr><td>mtf-server</td><td>Nacos</td><td>HTTP :8848</td><td>应用出站</td><td><span class="p p-no">否</span></td><td>Nacos 账号</td></tr>
       <tr><td>mtf-server</td><td>OB / MySQL</td><td>JDBC :2881 / :3306</td><td>应用出站</td><td><span class="p p-no">否</span></td><td>DB 账号</td></tr>
       <tr><td>mtf-server</td><td>Redis / MinIO</td><td>:6379 / S3 :9000</td><td>应用出站</td><td><span class="p p-no">否</span></td><td>密码 / AK</td></tr>
@@ -403,9 +542,9 @@
     const caption = document.getElementById('caption');
     const text = {
       all: '<b>全貌：</b>三条链路同时可见。点上方按钮后，只高亮该链路经过的分区与箭头。',
-      login: '<b>① 登录：</b>用户接入区 → 接入层 → 应用服务区 → 国泰 SSO（A）。不点亮 Agent、数据层、知识库出站（B）。',
-      biz: '<b>② 业务操作：</b>用户接入区 → 接入层 → 应用服务区 → 数据层（⑤）。不点亮 Agent 与国泰出网。',
-      agent: '<b>③ 调用 Agent：</b>应用 → Agent（③）→ 模型（④）；⑤ 应用→数据层、B 应用→国泰知识库一并点亮。⑥ 表示 Agent 禁止直连数据层。'
+      login: '<b>① 登录：</b>浏览器 ↔ SSO（A1–A3）后，mtf-server 调同一套 SSO（A4 /token、A5 /userinfo），再经 A6 JDBC 查统一数据层关系库补齐用户信息 / 权限。知识库（B）不点亮。',
+      biz: '<b>② 业务操作：</b>用户接入区 → 接入层 → 应用服务区 → 数据层（⑤）；国泰侧点亮 SIT 测管（C 同步用例）与 UAT 自动化（D 同步脚本）。不点亮 Agent、SSO、知识库。',
+      agent: '<b>③ 调用 Agent：</b>应用 → Agent（③）→ 模型（④）；⑤ 应用→数据层、B 应用→国泰知识库一并点亮。⑥ 表示 Agent 禁止直连数据层。SIT / UAT 不点亮。'
     };
     document.querySelectorAll('.chip[data-f]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -414,11 +553,13 @@
         const key = btn.dataset.f;
         caption.innerHTML = text[key];
         document.querySelectorAll('[data-z]').forEach(el => el.classList.remove('on'));
-        document.querySelectorAll('.flow').forEach(el => el.classList.toggle('on', el.dataset.f === key));
         if (key === 'all') { stage.classList.remove('dim'); return; }
         stage.classList.add('dim');
         document.querySelectorAll('[data-z]').forEach(el => {
           if (el.dataset.z.split(/\s+/).includes(key)) el.classList.add('on');
+        });
+        document.querySelectorAll('.hlink, .vlink').forEach(h => {
+          if (h.querySelector('[data-z].on, .lab.on')) h.classList.add('on');
         });
       });
     });
