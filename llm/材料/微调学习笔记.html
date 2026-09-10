@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小模型微调学习笔记（SmolLM2-135M） · 学习路线</title>
+  <style>
+:root {
+  --bg: #f4f1ea;
+  --sidebar: #1c1917;
+  --sidebar-text: #e7e5e4;
+  --sidebar-muted: #a8a29e;
+  --card: #fffdf8;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --link: #0f766e;
+  --link-hover: #115e59;
+  --code-bg: #f5f5f4;
+  --accent: #c2410c;
+  --ref-bg: #ecfdf5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: var(--sidebar);
+  color: var(--sidebar-text);
+  padding: 20px 16px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+.sidebar a { color: var(--sidebar-text); text-decoration: none; }
+.sidebar a:hover { color: #fff; }
+.sidebar .brand {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  margin: 0 0 6px;
+}
+.sidebar .brand a { color: #fdba74; }
+.sidebar .hint {
+  color: var(--sidebar-muted);
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.sidebar h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-muted);
+  margin: 18px 0 8px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.sidebar li { margin: 0; }
+.sidebar li a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.sidebar li a.active {
+  background: #292524;
+  color: #fdba74;
+}
+.sidebar .sub {
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.sidebar .sub a {
+  font-size: 12.5px;
+  color: var(--sidebar-muted);
+  padding: 4px 10px;
+}
+.main {
+  padding: 28px 28px 72px;
+}
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumb a { color: var(--link); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; }
+article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 34px 36px;
+  box-shadow: 0 10px 30px rgba(28,25,23,.04);
+  max-width: 920px;
+}
+article h1 { margin-top: 0; font-size: 1.85rem; }
+article h2 {
+  margin-top: 2em;
+  padding-bottom: .35em;
+  border-bottom: 1px solid var(--border);
+}
+article a { color: var(--link); }
+article a:hover { color: var(--link-hover); }
+code {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  background: var(--code-bg);
+  padding: .12em .38em;
+  border-radius: 6px;
+  font-size: .9em;
+}
+pre {
+  background: #1c1917;
+  color: #f5f5f4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: .95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+blockquote {
+  margin: 1em 0;
+  padding: .3em 1em;
+  border-left: 4px solid var(--accent);
+  background: #fff7ed;
+  color: var(--muted);
+}
+.refs {
+  max-width: 920px;
+  margin-top: 18px;
+  background: var(--ref-bg);
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.refs h3 { margin: 0 0 8px; font-size: 14px; color: #065f46; }
+.refs ul { margin: 0; padding-left: 1.2em; }
+.refs li { margin: 4px 0; font-size: 14px; }
+.footer {
+  max-width: 920px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    
+<aside class="sidebar">
+  <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
+  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <h3>入口</h3>
+  <ul><li><a class="" href="../index.html">首页</a></li>
+<li><a class="" href="../学习大纲.html">学习大纲</a></li>
+<li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../README.html">README</a></li></ul>
+  <h3>材料</h3>
+  <ul><li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+<li><a class="active" href="微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
+<li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
+<li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
+</aside>
+
+    <div class="main">
+      <div class="crumb"><a href="../index.html">首页</a> / 材料/微调学习笔记.html</div>
+      <article>
+<h1 id="smollm2-135m">小模型微调学习笔记（SmolLM2-135M）</h1>
+<p>面向初学者，整理自本项目实践中的核心概念。</p>
+<hr>
+<p><a id="note-1"></a></p>
+<h2 id="1-base-vs-instruct">1. Base 模型 vs Instruct 模型</h2>
+<h3 id="11">1.1 分别是什么</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>代表</th>
+<th>主要能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base</td>
+<td><code>SmolLM2-135M</code></td>
+<td>预训练后会「续写下一个词」，不一定会稳定答题</td>
+</tr>
+<tr>
+<td>Instruct</td>
+<td><code>SmolLM2-135M-Instruct</code></td>
+<td>在 Base 上又学过「听指令、按对话回答」</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-instruct-base">1.2 Instruct 是不是从 Base 微调来的？</h3>
+<p><strong>是。</strong> 常见流程：</p>
+<ol>
+<li><strong>Base</strong>：海量文本预训练 → 学会语言与知识  </li>
+<li><strong>Instruct</strong>：再用指令/对话数据做 SFT（有时再加 DPO 等偏好对齐）→ 更会按问题回答  </li>
+</ol>
+<p>可以记：</p>
+<blockquote>
+<p><code>Instruct ≈ Base + 指令微调（+ 可选偏好对齐）</code></p>
+</blockquote>
+<h3 id="13-instruct">1.3 做问答微调为什么优先用 Instruct？</h3>
+<p>因为目标是「问一句、答一句」，不是随便续写文章。</p>
+<ul>
+<li>Base：容易把问题当成文章开头，继续写教程、代码、跑题内容  </li>
+<li>Instruct：已熟悉对话角色（user / assistant）和答题习惯，小数据时更稳  </li>
+</ul>
+<p><strong>一句话：</strong> 学「听话答题」优先用 Instruct；再在其上做领域 SFT（如 Java 问答）。</p>
+<hr>
+<p><a id="note-2"></a></p>
+<h2 id="2-sft">2. SFT 是什么</h2>
+<p><strong>SFT = Supervised Fine-Tuning（监督微调）</strong></p>
+<p>用「标准问答」教模型：遇到这类问题，就按参考答案的风格回答。</p>
+<h3 id="21">2.1 典型数据格式</h3>
+<pre><code class="language-json">{&quot;prompt&quot;: &quot;什么是 Java interface？&quot;, &quot;completion&quot;: &quot;interface 是 Java 中用于定义接口规范的类型。&quot;}
+</code></pre>
+<p>对话模型里常转成 messages：</p>
+<pre><code class="language-json">{
+  &quot;messages&quot;: [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个简洁的 Java 助教...&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;什么是 Java interface？&quot;},
+    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;interface 是 Java 中用于定义接口规范的类型。&quot;}
+  ]
+}
+</code></pre>
+<h3 id="22-sft">2.2 SFT 在优化什么</h3>
+<p>提高「标准答案」在模型里的出现概率（交叉熵损失）。<br>
+像跟读：老师给标准答案，学生尽量复现。</p>
+<hr>
+<p><a id="note-3"></a></p>
+<h2 id="3-dpo">3. 偏好对齐与 DPO</h2>
+<h3 id="31-dpo">3.1 DPO 是什么缩写</h3>
+<p><strong>DPO = Direct Preference Optimization（直接偏好优化）</strong></p>
+<p>目标：让模型更偏向「人更喜欢的回答」，同时远离「更差的回答」。</p>
+<h3 id="32">3.2 偏好对齐用什么数据？</h3>
+<p>不完全是普通问答对，而是<strong>同一问题下的好坏对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prompt</td>
+<td>问题</td>
+<td>Java 接口能 new 吗？</td>
+</tr>
+<tr>
+<td>chosen</td>
+<td>更好的回答</td>
+<td>不能，接口不能直接实例化。</td>
+</tr>
+<tr>
+<td>rejected</td>
+<td>更差的回答</td>
+<td>可以随便 new，看心情。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-sft-vs-dpo">3.3 SFT vs DPO（对比）</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SFT</th>
+<th>DPO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据</td>
+<td><code>(问题, 标准答案)</code></td>
+<td><code>(问题, 好答案, 差答案)</code></td>
+</tr>
+<tr>
+<td>目标</td>
+<td>学会怎么答</td>
+<td>学会哪种答更好</td>
+</tr>
+<tr>
+<td>损失</td>
+<td>交叉熵（模仿答案）</td>
+<td>偏好对比损失</td>
+</tr>
+<tr>
+<td>常见顺序</td>
+<td>先做</td>
+<td>通常在 SFT 之后</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一句话：</strong><br>
+SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
+<h3 id="34-dpo">3.4 DPO 在算什么（直观理解）</h3>
+<p>对同一个 prompt，比较模型给 chosen / rejected 的概率：</p>
+<ul>
+<li>希望：<code>P(chosen | prompt)</code> 明显高于 <code>P(rejected | prompt)</code></li>
+<li>常用参考模型（常是 SFT 后的模型）约束，避免改太猛、把原能力改坏</li>
+</ul>
+<p>实现上可用 TRL 的 <code>DPOTrainer</code>。推荐流程：</p>
+<ol>
+<li>先 SFT  </li>
+<li>再准备 preference 数据  </li>
+<li>用 DPO 继续训  </li>
+</ol>
+<hr>
+<p><a id="note-4"></a></p>
+<h2 id="4-135m">4. 数据量大概多少合适（针对 135M 小模型）</h2>
+<p>质量比数量更重要；135M 可比大模型少很多数据。</p>
+<h3 id="41-sft">4.1 指令微调（SFT）</h3>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>建议规模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>入门练手</td>
+<td>几十～几百</td>
+</tr>
+<tr>
+<td>垂直领域可用</td>
+<td>1k～10k（Java 问答常见目标 <strong>2k～5k</strong>）</td>
+</tr>
+<tr>
+<td>通用指令能力</td>
+<td>10k～100k+</td>
+</tr>
+</tbody>
+</table>
+<p>务实建议：领域问答先冲 <strong>1k～3k 高质量短问答</strong>。</p>
+<h3 id="42-dpo">4.2 偏好对齐（DPO 等）</h3>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>建议规模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小幅纠偏</td>
+<td>500～2k 对</td>
+</tr>
+<tr>
+<td>较明显提升</td>
+<td>2k～10k 对</td>
+</tr>
+</tbody>
+</table>
+<p>数据很少时，先把 SFT 做好，再考虑 DPO。</p>
+<h3 id="43">4.3 比“条数”更关键的</h3>
+<ul>
+<li>答案短、风格统一  </li>
+<li>同一知识点多改写问法  </li>
+<li>训练 / 测试严格分开  </li>
+<li>小模型更怕脏数据，宁少勿滥  </li>
+</ul>
+<hr>
+<p><a id="note-5"></a></p>
+<h2 id="5">5. 微调过程每一步在做什么</h2>
+<p>典型训练一步的数据流：</p>
+<pre><code class="language-text">SmolLM2-135M → Tokenizer → input_ids → Transformer → logits → Loss → Backward → 参数更新
+</code></pre>
+<h3 id="51">5.1 逐步说明</h3>
+<ol>
+<li>
+<p><strong>SmolLM2-135M</strong><br>
+   待微调的语言模型起点（已有预训练权重）。</p>
+</li>
+<li>
+<p><strong>Tokenizer</strong><br>
+   把文本切成 token（子词/词片段），变成模型能处理的离散符号。</p>
+</li>
+<li>
+<p><strong>input_ids</strong><br>
+   每个 token 对应的整数 ID。模型只认数字，不认原始字符串。</p>
+</li>
+<li>
+<p><strong>Transformer</strong><br>
+   模型主体。根据上下文，预测下一个 token。</p>
+</li>
+<li>
+<p><strong>logits</strong><br>
+   词表上每个候选 token 的原始分数（尚未变成概率）。分数越高越可能被选中。</p>
+</li>
+<li>
+<p><strong>Loss（损失）</strong><br>
+   拿预测和标准答案对比。Loss 越小，说明当前预测越接近标签。</p>
+</li>
+<li>
+<p><strong>Backward（反向传播）</strong><br>
+   计算每个参数对 Loss 的贡献（梯度），知道该往哪个方向改权重。</p>
+</li>
+<li>
+<p><strong>参数更新</strong><br>
+   优化器（如 AdamW）按学习率更新参数。<br>
+   - 全量微调：更新全部参数<br>
+   - LoRA：主要更新少量适配器参数，流程相同  </p>
+</li>
+</ol>
+<h3 id="52">5.2 和推理的区别</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>训练（微调）</th>
+<th>推理（生成）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是否算 Loss</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>是否反向传播</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>是否更新参数</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>主要目的</td>
+<td>让模型学得更好</td>
+<td>用已有权重生成文本</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a id="note-6"></a></p>
+<h2 id="6-lora">6. LoRA 简要理解</h2>
+<p><strong>LoRA = Low-Rank Adaptation（低秩适配）</strong></p>
+<ul>
+<li>不直接大改原模型全部权重  </li>
+<li>在注意力/MLP 等层旁路加很小的「补丁矩阵」，主要训练这些补丁  </li>
+<li>省内存、少过拟合，适合小数据和本机实验  </li>
+</ul>
+<p>训练结束后可把 LoRA <strong>merge</strong> 回底座，导出一份普通完整模型，方便加载评测。</p>
+<hr>
+<p><a id="note-7"></a></p>
+<h2 id="7">7. 和本项目的对应关系</h2>
+<table>
+<thead>
+<tr>
+<th>文件/目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sft001.py</code></td>
+<td>Instruct + LoRA 的 SFT 训练脚本（含初学者注释）</td>
+</tr>
+<tr>
+<td><code>data/train.jsonl</code></td>
+<td>SFT 训练数据（prompt / completion）</td>
+</tr>
+<tr>
+<td><code>data/test.jsonl</code></td>
+<td>独立测试集（不要拿来训练）</td>
+</tr>
+<tr>
+<td><code>eval_compare.py</code></td>
+<td>Instruct 底座 vs 微调模型对比，并生成报告</td>
+</tr>
+<tr>
+<td><code>models/SmolLM2-135M-Instruct</code></td>
+<td>Instruct 底座本地缓存</td>
+</tr>
+<tr>
+<td><code>models/smollm2-135m-java</code></td>
+<td>微调并合并后的模型</td>
+</tr>
+</tbody>
+</table>
+<p>建议学习顺序：</p>
+<ol>
+<li>读懂本文 Base / Instruct / SFT  </li>
+<li>对照 <code>sft001.py</code> 注释跑通训练  </li>
+<li>用 <code>eval_compare.py</code> 看效果  </li>
+<li>数据够了再学 DPO 偏好对齐  </li>
+</ol>
+<p>相关文档：</p>
+<ul>
+<li><code>Encoder-Decoder与LLM问答流程.md</code>（同目录）</li>
+<li><code>模型文件说明/</code>（同目录）</li>
+<li>学习计划入口：<code>../学习计划.md</code></li>
+</ul>
+<hr>
+<p><a id="note-8"></a></p>
+<h2 id="8">8. 速记卡片</h2>
+<ul>
+<li><strong>Base</strong>：会续写；<strong>Instruct</strong>：更会答题  </li>
+<li><strong>SFT</strong>：模仿标准答案  </li>
+<li><strong>DPO</strong>：同一问题里拉高好答案、压低差答案  </li>
+<li><strong>Tokenizer → input_ids → Transformer → logits → Loss → Backward → 更新参数</strong>  </li>
+<li>
+<p>小模型：先把 SFT 数据质量做上去，再考虑偏好对齐  </p>
+</li>
+<li>
+<p><strong>Base</strong>：会续写；<strong>Instruct</strong>：更会答题  </p>
+</li>
+<li><strong>SFT</strong>：模仿标准答案  </li>
+<li><strong>DPO</strong>：同一问题里拉高好答案、压低差答案  </li>
+<li><strong>Tokenizer → input_ids → Transformer → logits → Loss → Backward → 更新参数</strong>  </li>
+<li>小模型：先把 SFT 数据质量做上去，再考虑偏好对齐  </li>
+</ul>
+      </article>
+      
+      <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
+    </div>
+  </div>
+</body>
+</html>

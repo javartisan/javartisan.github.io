@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>tokenizer.json 结构说明 · 学习路线</title>
+  <style>
+:root {
+  --bg: #f4f1ea;
+  --sidebar: #1c1917;
+  --sidebar-text: #e7e5e4;
+  --sidebar-muted: #a8a29e;
+  --card: #fffdf8;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --link: #0f766e;
+  --link-hover: #115e59;
+  --code-bg: #f5f5f4;
+  --accent: #c2410c;
+  --ref-bg: #ecfdf5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: var(--sidebar);
+  color: var(--sidebar-text);
+  padding: 20px 16px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+.sidebar a { color: var(--sidebar-text); text-decoration: none; }
+.sidebar a:hover { color: #fff; }
+.sidebar .brand {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  margin: 0 0 6px;
+}
+.sidebar .brand a { color: #fdba74; }
+.sidebar .hint {
+  color: var(--sidebar-muted);
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.sidebar h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-muted);
+  margin: 18px 0 8px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.sidebar li { margin: 0; }
+.sidebar li a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.sidebar li a.active {
+  background: #292524;
+  color: #fdba74;
+}
+.sidebar .sub {
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.sidebar .sub a {
+  font-size: 12.5px;
+  color: var(--sidebar-muted);
+  padding: 4px 10px;
+}
+.main {
+  padding: 28px 28px 72px;
+}
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumb a { color: var(--link); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; }
+article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 34px 36px;
+  box-shadow: 0 10px 30px rgba(28,25,23,.04);
+  max-width: 920px;
+}
+article h1 { margin-top: 0; font-size: 1.85rem; }
+article h2 {
+  margin-top: 2em;
+  padding-bottom: .35em;
+  border-bottom: 1px solid var(--border);
+}
+article a { color: var(--link); }
+article a:hover { color: var(--link-hover); }
+code {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  background: var(--code-bg);
+  padding: .12em .38em;
+  border-radius: 6px;
+  font-size: .9em;
+}
+pre {
+  background: #1c1917;
+  color: #f5f5f4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: .95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+blockquote {
+  margin: 1em 0;
+  padding: .3em 1em;
+  border-left: 4px solid var(--accent);
+  background: #fff7ed;
+  color: var(--muted);
+}
+.refs {
+  max-width: 920px;
+  margin-top: 18px;
+  background: var(--ref-bg);
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.refs h3 { margin: 0 0 8px; font-size: 14px; color: #065f46; }
+.refs ul { margin: 0; padding-left: 1.2em; }
+.refs li { margin: 4px 0; font-size: 14px; }
+.footer {
+  max-width: 920px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    
+<aside class="sidebar">
+  <div class="brand"><a href="../../index.html">SmolLM 学习路线</a></div>
+  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <h3>入口</h3>
+  <ul><li><a class="" href="../../index.html">首页</a></li>
+<li><a class="" href="../../学习大纲.html">学习大纲</a></li>
+<li><a class="" href="../../学习计划.html">学习计划</a></li>
+<li><a class="" href="../../README.html">README</a></li></ul>
+  <h3>材料</h3>
+  <ul><li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+<li><a class="" href="../微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="README.html">模型文件说明索引</a></li>
+<li><a class="" href="01-目录与各文件总览.html">01 目录与各文件总览</a></li>
+<li><a class="active" href="02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
+</aside>
+
+    <div class="main">
+      <div class="crumb"><a href="../../index.html">首页</a> / 材料/模型文件说明/02-tokenizer.json结构说明.html</div>
+      <article>
+<h1 id="tokenizerjson">tokenizer.json 结构说明</h1>
+<p>本文说明 <code>tokenizer.json</code> 内部各主要字段的作用，并澄清常见概念混淆。</p>
+<p>对应文件示例：<code>models/smollm2-135m-java/tokenizer.json</code></p>
+<hr>
+<p><a id="tok-1"></a></p>
+<h2 id="1">1. 它到底是什么？</h2>
+<p><code>tokenizer.json</code> <strong>不是</strong>「目标语言领域所有字符的编码表」，也不是 Java 专用字典。</p>
+<p>它是预训练时定好的<strong>通用分词引擎配置</strong>，主要包括：</p>
+<ul>
+<li>通用词表（token ↔ id）</li>
+<li>BPE 切词 / 合并规则</li>
+<li>特殊符号</li>
+<li>编码前预处理、解码还原规则</li>
+</ul>
+<p>本项目做 SFT/LoRA 时，一般<strong>只改模型权重</strong>，tokenizer 通常从 Instruct 底座原样拷贝，不会按 Java 语料重编一套码。</p>
+<table>
+<thead>
+<tr>
+<th>误解</th>
+<th>实际情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>领域（Java）全部字符编码</td>
+<td>否，是通用词表</td>
+</tr>
+<tr>
+<td>每个汉字都单独占一个 ID</td>
+<td>不一定，常被拆成多个子词/字节 token</td>
+</tr>
+<tr>
+<td>微调后重新生成了词表</td>
+<td>通常没有</td>
+</tr>
+</tbody>
+</table>
+<p>词表大小固定（SmolLM2 约 <code>vocab_size=49152</code>）。</p>
+<hr>
+<p><a id="tok-2"></a></p>
+<h2 id="2">2. 顶层主要字段</h2>
+<p>你这份文件顶层大致是：</p>
+<pre><code class="language-text">version
+truncation
+padding
+added_tokens
+normalizer
+pre_tokenizer
+post_processor
+decoder
+model          ← 核心（vocab + merges）
+</code></pre>
+<h3 id="21-version">2.1 <code>version</code></h3>
+<p>文件格式版本（如 <code>1.0</code>），给加载器识别规范用。</p>
+<h3 id="22-truncation-padding">2.2 <code>truncation</code> / <code>padding</code></h3>
+<p>默认截断、填充策略。<br>
+为 <code>null</code> 时表示不在此文件写死，通常由代码调用时指定。</p>
+<h3 id="23-added_tokens">2.3 <code>added_tokens</code></h3>
+<p>额外特殊 token，例如：</p>
+<ul>
+<li><code>&lt;|endoftext|&gt;</code></li>
+<li><code>&lt;|im_start|&gt;</code></li>
+<li><code>&lt;|im_end|&gt;</code></li>
+</ul>
+<p>常见子字段：<code>id</code>、<code>content</code>、<code>special</code>、<code>lstrip</code>、<code>rstrip</code>。<br>
+对话模型很依赖这些符号。</p>
+<h3 id="24-normalizer">2.4 <code>normalizer</code></h3>
+<p>切词前的文本规范化（小写、Unicode 正规化等）。<br>
+为 <code>null</code> 表示基本不做额外规范化。</p>
+<h3 id="25-pre_tokenizer">2.5 <code>pre_tokenizer</code></h3>
+<p>BPE 之前的「粗切」：按空格/标点/字节级规则先切开。<br>
+你这里常见类型是 <code>Sequence</code>（多步组合）。</p>
+<h3 id="26-post_processor">2.6 <code>post_processor</code></h3>
+<p>分词后的后处理（如 BERT 自动加 <code>[CLS]</code>/<code>[SEP]</code>）。<br>
+为 <code>null</code> 时，对话格式主要靠 <code>chat_template.jinja</code>，不靠这里。</p>
+<h3 id="27-decoder">2.7 <code>decoder</code></h3>
+<p>把 <code>input_ids</code> <strong>还原成可读文本</strong>的规则。<br>
+SmolLM 常见为 <code>ByteLevel</code>，负责处理前导空格等细节（如 <code>Ġ</code> → 空格）。</p>
+<h3 id="28-model">2.8 <code>model</code>（最核心）</h3>
+<p>真正的分词模型。本项目为 <strong>BPE</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>子字段</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>BPE</code></td>
+</tr>
+<tr>
+<td><code>vocab</code></td>
+<td>词表：<code>token字符串 → id</code>（约 49152）</td>
+</tr>
+<tr>
+<td><code>merges</code></td>
+<td>合并规则列表（约数万条）</td>
+</tr>
+<tr>
+<td><code>unk_token</code> 等</td>
+<td>未知词与其它 BPE 开关</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>vocab</code></strong>：允许出现哪些 token、对应哪个数字  </li>
+<li><strong><code>merges</code></strong>：按什么优先级把小片合成更大 token  </li>
+</ul>
+<p><code>print_tokens.py</code> 打印的 token / input_id，主要来自这里。</p>
+<hr>
+<p><a id="tok-3"></a></p>
+<h2 id="3">3. 编码 / 解码流水线</h2>
+<pre><code class="language-text">原文
+  → normalizer（可选）
+  → pre_tokenizer（粗切）
+  → model.BPE（merges 合并，查 vocab → input_ids）
+  → post_processor（可选）
+  → input_ids
+
+反过来：
+  input_ids → decoder → 可读文本
+</code></pre>
+<p>API 对应关系：</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>常用方法</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文本 → 数字</td>
+<td><code>tokenizer.encode(...)</code> / <code>tokenize</code> + 查词表</td>
+<td><code>input_ids</code></td>
+</tr>
+<tr>
+<td>数字 → 文本</td>
+<td><code>tokenizer.decode(...)</code></td>
+<td>字符串</td>
+</tr>
+</tbody>
+</table>
+<p>注意：<code>tokenizer.json</code> 里通常<strong>没有</strong>名叫 <code>encoder</code> 的顶层字段；<br>
+编码能力由 <code>pre_tokenizer</code> + <code>model</code> 共同完成，解码才单独有 <code>decoder</code> 字段。</p>
+<hr>
+<p><a id="tok-4"></a></p>
+<h2 id="4">4. 重要概念区分（易混）</h2>
+<table>
+<thead>
+<tr>
+<th>说法</th>
+<th>指什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tokenizer 的 <strong>encode</strong></td>
+<td>文本 → token → <code>input_ids</code></td>
+</tr>
+<tr>
+<td>tokenizer 的 <strong>decode</strong></td>
+<td><code>input_ids</code> → 文本</td>
+</tr>
+<tr>
+<td>Transformer <strong>Encoder</strong></td>
+<td>网络结构中的编码层（如 BERT）</td>
+</tr>
+<tr>
+<td>SmolLM2</td>
+<td>主要是 <strong>Decoder-only</strong> 因果语言模型，不是 Encoder-Decoder</td>
+</tr>
+</tbody>
+</table>
+<p>初学时最容易把「大模型 Encoder」误当成「tokenizer encode」。<br>
+二者不是一回事。</p>
+<hr>
+<p><a id="tok-5"></a></p>
+<h2 id="5-token-input_id">5. token 与 input_id</h2>
+<ul>
+<li><strong>token</strong>：文本片段（子词/字节片等）  </li>
+<li><strong>input_id</strong>：该片段在词表中的整数编号  </li>
+</ul>
+<p>模型计算用的是数字；人查看时再用 decode 还原成文字。<br>
+中文常被拆成多个 token，单个看起来可能像乱码，但整段 decode 后会恢复正常。</p>
+<hr>
+<p><a id="tok-6"></a></p>
+<h2 id="6">6. 和同目录其它文件的关系</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tokenizer.json</code></td>
+<td>分词引擎主体（本文件）</td>
+</tr>
+<tr>
+<td><code>tokenizer_config.json</code></td>
+<td>怎么用 tokenizer、特殊符号、模板相关配置</td>
+</tr>
+<tr>
+<td><code>vocab.json</code> / <code>merges.txt</code></td>
+<td>词表与合并规则的可读/兼容副本</td>
+</tr>
+<tr>
+<td><code>special_tokens_map.json</code></td>
+<td>特殊符号速查</td>
+</tr>
+<tr>
+<td><code>chat_template.jinja</code></td>
+<td>对话消息如何拼成模型输入文本</td>
+</tr>
+</tbody>
+</table>
+<p>加载时：<code>AutoTokenizer.from_pretrained(目录)</code> 会综合读取这些文件。</p>
+      </article>
+      
+      <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
+    </div>
+  </div>
+</body>
+</html>
