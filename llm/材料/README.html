@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="llm-gate">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>学习材料索引 · 学习路线</title>
   <style>
+html.llm-gate { visibility: hidden; }
 :root {
   --bg: #f5f5f7;
   --sidebar: #111113;
@@ -267,6 +268,7 @@ blockquote {
   .main { padding: 20px 16px 56px; align-items: stretch; }
 }
 </style>
+  <script src="../auth.js"></script>
 </head>
 <body>
   <div class="layout">
@@ -274,7 +276,7 @@ blockquote {
 <aside class="sidebar">
   <div class="sidebar-top">
     <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
-    <p class="hint">Javartisan · 学习站点</p>
+    <p class="hint">Javartisan · 学习站点 · <a href="../login.html?logout=1">退出</a></p>
   </div>
   <nav class="sidebar-nav" aria-label="站点导航">
     <div class="sidebar-nav-inner">
@@ -405,7 +407,7 @@ python learn/week02/01_probe_device.py
 python learn/week03/01_lora_idea.py
 </code></pre>
       </article>
-      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="第2周-模型上下文长度涉及的因素.html">第 2 周：模型上下文长度涉及的因素</a> <code>材料/第2周-模型上下文长度涉及的因素.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li><li><a href="第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="第2周-模型上下文长度涉及的因素.html">第 2 周：模型上下文长度涉及的因素</a> <code>材料/第2周-模型上下文长度涉及的因素.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>
