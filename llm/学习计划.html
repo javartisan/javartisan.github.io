@@ -197,6 +197,7 @@ blockquote {
 <li><a class="" href="材料/微调学习笔记.html">微调学习笔记</a></li>
 <li><a class="" href="材料/第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
 <ul class="sub"><li><a class="" href="材料/第1周代码学习.html">第 1 周 代码学习</a></li></ul>
+<li><a class="" href="材料/第2周-BaseAutoModelClass与Auto家族.html">第2周 Auto 工厂</a></li>
 <li><a class="" href="材料/模型文件说明/README.html">模型文件说明索引</a></li>
 <li><a class="" href="材料/模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="材料/模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -265,6 +266,10 @@ Reasoning（更复杂推理能力，后期拓展）
 <tr>
 <td><a href="./材料/第1周知识体系与答疑.html">第1周知识体系与答疑.md</a></td>
 <td>四个 tokenizer API、BPE、Embedding 层、<code>train</code>/Dropout/<code>backward</code>/<code>step</code>、大厂评测</td>
+</tr>
+<tr>
+<td><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html">第2周-BaseAutoModelClass与Auto家族.md</a></td>
+<td><code>_BaseAutoModelClass</code>、继承图、各任务 <code>AutoModelFor*</code>（第 2 周）</td>
 </tr>
 <tr>
 <td><a href="./材料/模型文件说明/README.html">模型文件说明/</a></td>
@@ -497,7 +502,8 @@ Reasoning（更复杂推理能力，后期拓展）
 </ul>
 <hr>
 <h2 id="2-mps-360m">第 2 周：切换 MPS + 观察 更大一点的模型（大纲：360M）</h2>
-<p>大纲目标：对比 CPU 与 MPS 的训练速度、内存、batch size。</p>
+<p><a id="week2"></a></p>
+<p>大纲目标：对比 CPU 与 MPS 的训练速度、内存、batch size；并搞懂加载模型时的 <code>Auto*</code> 工厂。</p>
 <h3 id="_6">现实约束（很重要）</h3>
 <ul>
 <li>Intel Mac 上 PyTorch 官方轮子停在较旧版本，MPS 能力有限甚至不可用。  </li>
@@ -505,8 +511,22 @@ Reasoning（更复杂推理能力，后期拓展）
 <li>360M 若太慢/内存不够：先用 135M 做同实验，再尝试 360M。</li>
 </ul>
 <h3 id="_7">本周总目标</h3>
-<p>建立“算力/内存/吞吐”直觉，不追求一次训出完美模型。</p>
-<h3 id="_8">建议日程</h3>
+<ol>
+<li>建立“算力/内存/吞吐”直觉，不追求一次训出完美模型。  </li>
+<li>弄清 <code>_BaseAutoModelClass</code> / <code>AutoModelForCausalLM</code>：你写的是 Auto 入口，真正拿到的是具体模型类。</li>
+</ol>
+<h3 id="_8">概念加餐（本周必读）</h3>
+<ul>
+<li>文档：<a href="./材料/第2周-BaseAutoModelClass与Auto家族.html">材料/第2周-BaseAutoModelClass与Auto家族.md</a>  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-1">第 1 节：<code>_BaseAutoModelClass</code> 是什么</a>  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-1-1">§1.1：Llama / BERT / ViT 含义与作用</a>  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-3">第 3 节：继承结构关系图</a>  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-4">第 4 节：子类按任务分组</a>  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-5">第 5 节：和本项目怎么对上号</a>  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-6">第 6 节：初学者易混点</a>  </li>
+<li>一句话：<code>AutoModelForCausalLM</code> 是工厂；<code>LlamaForCausalLM</code>（举例）才是真正网络。Llama / BERT / ViT 是不同架构家族。</li>
+</ul>
+<h3 id="_9">建议日程</h3>
 <h4 id="day-1">Day 1：探测设备</h4>
 <ul>
 <li>跑：<code>python learn/week02/01_probe_device.py</code></li>
@@ -516,10 +536,15 @@ Reasoning（更复杂推理能力，后期拓展）
 <li><code>pick_device()</code>（cpu 或 mps）</li>
 <li>笔记：你的机器实际能用什么设备  </li>
 </ul>
-<h4 id="day-2">Day 2：模型和张量搬家</h4>
+<h4 id="day-2-auto">Day 2：模型和张量搬家 + Auto 工厂</h4>
 <ul>
 <li>跑：<code>python learn/week02/02_move_to_device.py</code></li>
 <li>搞懂：<code>model.to(device)</code> 只搬家；<code>input_ids</code> 也要 <code>.to(device)</code></li>
+<li>读：<a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-1">Auto 家族文档 §1～§3、§5</a></li>
+<li>做文档里的 <a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-7">最小实验 §7</a>：打印 <code>type(model).__name__</code>，确认不是 <code>AutoModelForCausalLM</code></li>
+<li>产出笔记：</li>
+<li>Auto 入口类 vs 实际模型类  </li>
+<li>为什么问答/SFT 用 <code>AutoModelForCausalLM</code> 而不是裸 <code>AutoModel</code></li>
 </ul>
 <h4 id="day-23135m">Day 2～3：同模型不同设备对比（135M 即可）</h4>
 <ul>
@@ -563,10 +588,11 @@ Reasoning（更复杂推理能力，后期拓展）
 <li>batch 越大通常更吃内存（涨的是激活，不是权重份数）</li>
 <li>gradient accumulation 可「模拟更大 batch」、峰值内存接近小 batch</li>
 </ul>
-<h4 id="day-6-360m">Day 6：尝试 360M（可选）</h4>
+<h4 id="day-6-360m-auto">Day 6：尝试 360M（可选）+ 再次核对 Auto 映射</h4>
 <ul>
 <li>跑：<code>python learn/week02/06_try_360m.py</code></li>
 <li>本地没有权重再：<code>python learn/week02/06_try_360m.py --download</code></li>
+<li>加载后同样打印 <code>type(model).__name__</code>，对照 <a href="./材料/第2周-BaseAutoModelClass与Auto家族.html#auto-4">子类分组表</a></li>
 <li>若失败：记录失败原因（内存/速度/下载），不算不及格  </li>
 </ul>
 <h4 id="day-7_1">Day 7：周复盘</h4>
@@ -574,24 +600,31 @@ Reasoning（更复杂推理能力，后期拓展）
 <li>跑：<code>python learn/week02/07_week2_report.py</code></li>
 <li>打开 <code>reports/week02_device.md</code>，填「最稳配置」和三句话  </li>
 <li>总结：你的机器上最稳的训练配置是什么  </li>
+<li>重答：</li>
+<li><code>_BaseAutoModelClass</code> 是什么？  </li>
+<li><code>AutoModelForCausalLM</code> 和具体 <code>*ForCausalLM</code> 谁才是网络本体？  </li>
+<li>为什么换任务有时要换 <code>AutoModelFor*</code> 而不是只换权重路径？</li>
 </ul>
 <h3 id="2">第 2 周验收标准</h3>
 <ul>
 <li>[ ] 会测设备可用性（<code>01_probe_device.py</code>）</li>
 <li>[ ] 能解释 batch size 与内存的关系（权重几乎固定，激活随 batch 涨）</li>
 <li>[ ] 有一张自己的速度/内存对比表（<code>03</code> / <code>04</code> 输出，或 <code>07</code> 汇总）</li>
+<li>[ ] 能说明 <code>_BaseAutoModelClass</code> 是 Auto 工厂基类，不能直接当网络用</li>
+<li>[ ] 能说出本项目为何用 <code>AutoModelForCausalLM</code>，并知道 <code>type(model)</code> 通常是具体类</li>
+<li>[ ] 能根据任务大致判断该用哪类 <code>AutoModelFor*</code>（生成 / 分类 / 抽取式 QA）</li>
 </ul>
 <hr>
 <h2 id="3-lora17b">第 3 周：LoRA（大纲：1.7B 参数高效微调）</h2>
 <p>大纲目标：理解为什么不需要更新全部参数。</p>
-<h3 id="_9">现实约束</h3>
+<h3 id="_10">现实约束</h3>
 <ul>
 <li>1.7B 全量微调在本机通常不现实；<strong>LoRA 正是为了这个</strong>。  </li>
 <li>若 1.7B 仍太重：用 135M/360M + LoRA 把原理学透，再视资源挑战 1.7B。</li>
 </ul>
-<h3 id="_10">本周总目标</h3>
+<h3 id="_11">本周总目标</h3>
 <p>彻底理解 LoRA：“冻住大模型，只训练小补丁”。</p>
-<h3 id="_11">建议日程</h3>
+<h3 id="_12">建议日程</h3>
 <h4 id="day-1lora">Day 1：LoRA 概念</h4>
 <ul>
 <li>读：<a href="./材料/微调学习笔记.html#note-6">材料/微调学习笔记.md 第 6 节：LoRA 简要理解</a> + <code>scripts/sft001.py</code> 中 <code>build_lora_config</code>  </li>
@@ -599,7 +632,7 @@ Reasoning（更复杂推理能力，后期拓展）
 <li><code>r</code>、<code>lora_alpha</code>、<code>target_modules</code>  </li>
 <li>全量微调 vs LoRA  </li>
 </ul>
-<h4 id="day-2_1">Day 2：看适配器文件</h4>
+<h4 id="day-2">Day 2：看适配器文件</h4>
 <ul>
 <li>对照：</li>
 <li><code>checkpoints/.../adapter_final/adapter_config.json</code></li>
@@ -635,14 +668,14 @@ Reasoning（更复杂推理能力，后期拓展）
 <hr>
 <h2 id="4-qlora-lora">第 4 周：QLoRA（量化 + LoRA）</h2>
 <p>大纲目标：理解如何降低大模型微调的显存/内存需求。</p>
-<h3 id="_12">现实约束</h3>
+<h3 id="_13">现实约束</h3>
 <ul>
 <li>QLoRA 在 NVIDIA CUDA 生态最成熟；Mac 上工具链可能不完整。  </li>
 <li>本周以<strong>原理 + 条件允许时的小实验</strong>为主，不硬通。</li>
 </ul>
-<h3 id="_13">本周总目标</h3>
+<h3 id="_14">本周总目标</h3>
 <p>建立“先压缩底座，再挂 LoRA”的意识。</p>
-<h3 id="_14">建议日程</h3>
+<h3 id="_15">建议日程</h3>
 <h4 id="day-12">Day 1～2：概念学习</h4>
 <ul>
 <li>学：</li>
@@ -703,9 +736,9 @@ Reasoning（更复杂推理能力，后期拓展）
 <hr>
 <h2 id="5-dpo">第 5 周：DPO（偏好对齐）</h2>
 <p>大纲目标：理解 Preference Alignment，以及为什么需要偏好数据。</p>
-<h3 id="_15">本周总目标</h3>
+<h3 id="_16">本周总目标</h3>
 <p>从“模仿标准答案”走到“学会哪种更好”。</p>
-<h3 id="_16">建议日程</h3>
+<h3 id="_17">建议日程</h3>
 <h4 id="day-1sft-vs-dpo">Day 1：SFT vs DPO</h4>
 <ul>
 <li>读：<a href="./材料/微调学习笔记.html">材料/微调学习笔记.md</a>  </li>
@@ -734,7 +767,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </tr>
 </tbody>
 </table>
-<h4 id="day-2_2">Day 2：手写偏好数据（非常重要）</h4>
+<h4 id="day-2_1">Day 2：手写偏好数据（非常重要）</h4>
 <p>从 <code>train.jsonl</code>/<code>test.jsonl</code> 选 10 个问题，写成：</p>
 <pre><code class="language-json">{&quot;prompt&quot;:&quot;...&quot;,&quot;chosen&quot;:&quot;更好的短答案&quot;,&quot;rejected&quot;:&quot;明显更差的答案&quot;}
 </code></pre>
@@ -785,11 +818,12 @@ Reasoning（更复杂推理能力，后期拓展）
 <li>重点：<a href="./材料/Encoder-Decoder与LLM问答流程.html#ed-8">第 8 节</a>、<a href="./材料/Encoder-Decoder与LLM问答流程.html#ed-9">第 9 节</a>  </li>
 <li><a href="./材料/微调学习笔记.html">材料/微调学习笔记.md</a>  </li>
 <li><a href="./材料/第1周知识体系与答疑.html">材料/第1周知识体系与答疑.md</a>（脚本 API、训练一步、大厂训练与评测）  </li>
+<li><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html">材料/第2周-BaseAutoModelClass与Auto家族.md</a>（Auto 工厂与继承图）  </li>
 <li><a href="./材料/README.html">材料/README.md</a>（材料总索引）  </li>
 <li><a href="./材料/模型文件说明/README.html">材料/模型文件说明/</a>  </li>
 </ul>
 <hr>
-<h2 id="_17">每周固定节奏（推荐）</h2>
+<h2 id="_18">每周固定节奏（推荐）</h2>
 <table>
 <thead>
 <tr>
@@ -813,7 +847,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </tbody>
 </table>
 <hr>
-<h2 id="_18">与本仓库的对应关系（实践地图）</h2>
+<h2 id="_19">与本仓库的对应关系（实践地图）</h2>
 <table>
 <thead>
 <tr>
@@ -832,7 +866,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </tr>
 <tr>
 <td>第 2 周动手</td>
-<td><code>learn/week02/</code>（01～07：设备、CPU/MPS、batch、累积、360M、复盘）</td>
+<td><code>learn/week02/</code>（01～07）；概念见 <a href="./材料/第2周-BaseAutoModelClass与Auto家族.html">第2周-BaseAutoModelClass与Auto家族.md</a></td>
 </tr>
 <tr>
 <td>Python 星号 / Dropout 小例</td>
@@ -871,6 +905,10 @@ Reasoning（更复杂推理能力，后期拓展）
 <td><a href="./材料/第1周知识体系与答疑.html">第1周知识体系与答疑.md</a></td>
 </tr>
 <tr>
+<td>第 2 周 Auto 工厂</td>
+<td><a href="./材料/第2周-BaseAutoModelClass与Auto家族.html">第2周-BaseAutoModelClass与Auto家族.md</a></td>
+</tr>
+<tr>
 <td>模型文件</td>
 <td><a href="./材料/模型文件说明/README.html">材料/模型文件说明/</a></td>
 </tr>
@@ -881,7 +919,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </tbody>
 </table>
 <hr>
-<h2 id="_19">完成后的能力画像（你要成为的样子）</h2>
+<h2 id="_20">完成后的能力画像（你要成为的样子）</h2>
 <p>完成 5 周后，你应能：</p>
 <ol>
 <li>从零讲解一次 Decoder-only 问答如何发生  </li>
@@ -891,7 +929,7 @@ Reasoning（更复杂推理能力，后期拓展）
 <li>把大纲知识链讲给另一个初学者听懂  </li>
 </ol>
 <hr>
-<h2 id="_20">下一步（现在立刻做）</h2>
+<h2 id="_21">下一步（现在立刻做）</h2>
 <ol>
 <li>先完成 <strong>第 0 阶段 2～3 天</strong>（专治基础薄弱和疑虑）  </li>
 <li>再进入第 1 周 Day 1：从 <code>python learn/week01/01_load_tokenizer.py</code> 按编号往下跑  </li>
@@ -902,7 +940,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </ol>
 <p>HTML 站点（nginx）：在仓库根目录执行 <code>python docs/学习路线/md2html.py</code>，产物在 <code>docs/学习路线/html/</code>。</p>
       </article>
-      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="材料/README.html">学习材料索引</a> <code>材料/README.html</code></li><li><a href="材料/Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="材料/微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="材料/第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="材料/模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="材料/模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="材料/模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li></ul></section>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="材料/README.html">学习材料索引</a> <code>材料/README.html</code></li><li><a href="材料/Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="材料/微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="材料/第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="材料/第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="材料/模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="材料/模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="材料/模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>

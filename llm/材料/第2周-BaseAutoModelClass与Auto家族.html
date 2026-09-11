@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周） · 学习路线</title>
+  <style>
+:root {
+  --bg: #f4f1ea;
+  --sidebar: #1c1917;
+  --sidebar-text: #e7e5e4;
+  --sidebar-muted: #a8a29e;
+  --card: #fffdf8;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --link: #0f766e;
+  --link-hover: #115e59;
+  --code-bg: #f5f5f4;
+  --accent: #c2410c;
+  --ref-bg: #ecfdf5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: var(--sidebar);
+  color: var(--sidebar-text);
+  padding: 20px 16px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+.sidebar a { color: var(--sidebar-text); text-decoration: none; }
+.sidebar a:hover { color: #fff; }
+.sidebar .brand {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  margin: 0 0 6px;
+}
+.sidebar .brand a { color: #fdba74; }
+.sidebar .hint {
+  color: var(--sidebar-muted);
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.sidebar h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-muted);
+  margin: 18px 0 8px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.sidebar li { margin: 0; }
+.sidebar li a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.sidebar li a.active {
+  background: #292524;
+  color: #fdba74;
+}
+.sidebar .sub {
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.sidebar .sub a {
+  font-size: 12.5px;
+  color: var(--sidebar-muted);
+  padding: 4px 10px;
+}
+.main {
+  padding: 28px 28px 72px;
+}
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumb a { color: var(--link); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; }
+article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 34px 36px;
+  box-shadow: 0 10px 30px rgba(28,25,23,.04);
+  max-width: 920px;
+}
+article h1 { margin-top: 0; font-size: 1.85rem; }
+article h2 {
+  margin-top: 2em;
+  padding-bottom: .35em;
+  border-bottom: 1px solid var(--border);
+}
+article a { color: var(--link); }
+article a:hover { color: var(--link-hover); }
+code {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  background: var(--code-bg);
+  padding: .12em .38em;
+  border-radius: 6px;
+  font-size: .9em;
+}
+pre {
+  background: #1c1917;
+  color: #f5f5f4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+  max-height: 42rem;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: .95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+blockquote {
+  margin: 1em 0;
+  padding: .3em 1em;
+  border-left: 4px solid var(--accent);
+  background: #fff7ed;
+  color: var(--muted);
+}
+.refs {
+  max-width: 920px;
+  margin-top: 18px;
+  background: var(--ref-bg);
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.refs h3 { margin: 0 0 8px; font-size: 14px; color: #065f46; }
+.refs ul { margin: 0; padding-left: 1.2em; }
+.refs li { margin: 4px 0; font-size: 14px; }
+.footer {
+  max-width: 920px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    
+<aside class="sidebar">
+  <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
+  <div class="hint">Javartisan</div>
+  <h3>入口</h3>
+  <ul><li><a class="" href="../index.html">首页</a></li>
+<li><a class="" href="../学习大纲.html">学习大纲</a></li>
+<li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../README.html">README</a></li></ul>
+  <h3>材料</h3>
+  <ul><li><a class="" href="README.html">材料索引</a></li>
+<li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+<li><a class="" href="微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="第1周代码学习.html">第 1 周 代码学习</a></li></ul>
+<li><a class="active" href="第2周-BaseAutoModelClass与Auto家族.html">第2周 Auto 工厂</a></li>
+<li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
+<li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
+<li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
+</aside>
+
+    <div class="main">
+      <div class="crumb"><a href="../index.html">首页</a> / 材料/第2周-BaseAutoModelClass与Auto家族.html</div>
+      <article>
+<h1 id="_baseautomodelclass-automodel-2"><code>_BaseAutoModelClass</code> 与 AutoModel 家族（第 2 周）</h1>
+<blockquote>
+<p>初学者向说明。对应你项目里常见的：<br>
+<code>AutoTokenizer</code> / <code>AutoModelForCausalLM.from_pretrained(...)</code><br>
+本文只讲 <strong>模型 Auto 类</strong>；Tokenizer 的 Auto 是另一套工厂，不要混为一谈。</p>
+</blockquote>
+<p><a id="auto-1"></a></p>
+<h2 id="1-_baseautomodelclass">1. <code>_BaseAutoModelClass</code> 是什么？</h2>
+<p>路径：<code>transformers.models.auto.auto_factory._BaseAutoModelClass</code></p>
+<p>可以把它理解成：</p>
+<blockquote>
+<p><strong>「按任务自动选具体模型类」的工厂基类。</strong></p>
+</blockquote>
+<p>它本身：</p>
+<ul>
+<li><strong>不能</strong>直接 <code>_BaseAutoModelClass()</code> 实例化（会报错）</li>
+<li><strong>不包含</strong>某一家模型（Llama / BERT / ViT，见 <a href="#auto-1-1">§1.1</a>）的具体网络结构</li>
+<li>提供统一入口：<code>from_pretrained</code> / <code>from_config</code></li>
+<li>真正干活时：读 <code>config.json</code> 的 <code>model_type</code> → 查自己的 <code>_model_mapping</code> → 返回对应具体类实例（如 <code>LlamaForCausalLM</code>）</li>
+</ul>
+<p>和你项目的关系：</p>
+<pre><code class="language-python">from transformers import AutoModelForCausalLM
+
+# 你写的是 Auto*
+model = AutoModelForCausalLM.from_pretrained(&quot;.../SmolLM2-135M-Instruct&quot;)
+
+# 实际拿到的往往是具体类，例如：
+# LlamaForCausalLM（SmolLM2 走 Llama 架构）
+</code></pre>
+<p>所以：</p>
+<table>
+<thead>
+<tr>
+<th>你看到的名字</th>
+<th>实际角色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_BaseAutoModelClass</code></td>
+<td>Auto 模型家族的<strong>公共基类 / 工厂模板</strong></td>
+</tr>
+<tr>
+<td><code>AutoModelForCausalLM</code></td>
+<td>面向「因果语言模型」任务的 Auto 入口</td>
+</tr>
+<tr>
+<td><code>LlamaForCausalLM</code></td>
+<td>真正的网络类（权重结构在这里）</td>
+</tr>
+</tbody>
+</table>
+<p><a id="auto-1-1"></a></p>
+<h3 id="11-llama-bert-vit">1.1 Llama / BERT / ViT：是不同网络结构类型吗？</h3>
+<p><strong>是。</strong> 它们属于不同的<strong>模型架构家族</strong>（<code>config.json</code> 里的 <code>model_type</code>），不是同一套网络换个名字。</p>
+<p>可以记成两层：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>例子</th>
+<th>回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>架构家族</strong>（网络骨架怎么搭）</td>
+<td>Llama、BERT、ViT</td>
+<td>有几块、注意力怎么看上下文、输入是文本还是图像</td>
+</tr>
+<tr>
+<td><strong>任务头 / Auto 入口</strong>（输出干什么）</td>
+<td><code>ForCausalLM</code>、<code>ForSequenceClassification</code></td>
+<td>生成下一个词？分类？检测？</td>
+</tr>
+</tbody>
+</table>
+<p>同一架构可以挂不同任务头；同一任务头也可以映射到不同架构。例如：</p>
+<ul>
+<li><code>Llama</code> + <code>ForCausalLM</code> → 聊天生成（本项目）  </li>
+<li><code>BERT</code> + <code>ForSequenceClassification</code> → 情感分类  </li>
+<li><code>ViT</code> + <code>ForImageClassification</code> → 图像分类  </li>
+</ul>
+<h4 id="_1">三者含义与作用</h4>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>全称 / 来源</th>
+<th>结构类型</th>
+<th>输入</th>
+<th>主要作用</th>
+<th>典型 Auto 入口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Llama</strong></td>
+<td>Large Language Model Meta AI（Meta 开源 LLM 家族）</td>
+<td><strong>Decoder-only</strong>（从左到右因果注意力）</td>
+<td>文本 token</td>
+<td>续写、聊天、指令跟随、SFT</td>
+<td><code>AutoModelForCausalLM</code></td>
+</tr>
+<tr>
+<td><strong>BERT</strong></td>
+<td>Bidirectional Encoder Representations from Transformers</td>
+<td><strong>Encoder-only</strong>（双向看全文）</td>
+<td>文本 token</td>
+<td>理解与表示：分类、NER、抽取式 QA</td>
+<td><code>AutoModelForMaskedLM</code> / <code>ForSequenceClassification</code> 等</td>
+</tr>
+<tr>
+<td><strong>ViT</strong></td>
+<td>Vision Transformer</td>
+<td><strong>Encoder-only</strong>（把图像切成 patch 当“词”）</td>
+<td>图像 patch</td>
+<td>图像分类、视觉特征；常作多模态视觉塔</td>
+<td><code>AutoModelForImageClassification</code> 等</td>
+</tr>
+</tbody>
+</table>
+<p>一句话对比：</p>
+<pre><code class="language-text">Llama：擅长「往后写」——下一个 token 是什么
+BERT ：擅长「读懂」——这句话/这段落是什么意思
+ViT  ：擅长「看图」——这张图属于哪一类 / 图像特征是什么
+</code></pre>
+<p>和本仓库的对应：</p>
+<ul>
+<li>你本地 <code>models/SmolLM2-135M/config.json</code> 里是 <code>"model_type": "llama"</code>、<code>"architectures": ["LlamaForCausalLM"]</code>  </li>
+<li>所以 SmolLM2 <strong>不是 BERT，也不是 ViT</strong>；它走 <strong>Llama 系 Decoder-only</strong> 骨架，再配因果语言模型头做生成。</li>
+</ul>
+<p>更细的 Encoder / Decoder 对比，可回看：<a href="./Encoder-Decoder与LLM问答流程.html">Encoder-Decoder与LLM问答流程.md</a>（尤其 BERT / BART / SmolLM）。</p>
+<p><a id="auto-2"></a></p>
+<h2 id="2">2. 它解决什么问题？</h2>
+<p>没有 Auto 时，你必须自己写：</p>
+<pre><code class="language-python">from transformers import LlamaForCausalLM
+model = LlamaForCausalLM.from_pretrained(path)
+</code></pre>
+<p>换一个 BERT 分类模型又要改 import。<br>
+有了 Auto：</p>
+<pre><code class="language-python">from transformers import AutoModelForCausalLM, AutoModelForSequenceClassification
+
+lm = AutoModelForCausalLM.from_pretrained(llm_path)          # 聊天/续写
+clf = AutoModelForSequenceClassification.from_pretrained(bert_path)  # 分类
+</code></pre>
+<p><strong>同一个调用习惯，不同任务换不同 Auto 子类。</strong></p>
+<p>加载大致流程：</p>
+<pre><code class="language-text">from_pretrained(路径或模型名)
+    → 读取 config.json（model_type / architectures）
+    → 在本 Auto 类的 _model_mapping 里查找
+    → 选出具体模型类（如 LlamaForCausalLM）
+    → 创建该类并加载权重
+    → 返回「具体模型实例」（类型已不是 Auto*）
+</code></pre>
+<p><a id="auto-3"></a></p>
+<h2 id="3">3. 继承结构关系（先看总图）</h2>
+<blockquote>
+<p>读图要点：左右是「谁继承谁」；叶子之间<strong>没有</strong>父子关系。<br>
+本机 <code>transformers</code> 里，这些 Auto 模型类约 45 个，几乎全部是 <code>_BaseAutoModelClass</code> 的<strong>直接子类</strong>。</p>
+</blockquote>
+<h3 id="31">3.1 类继承结构树形图（完整）</h3>
+<p>下面这棵树就是「类的继承结构」。缩进表示父子；同级并列表示互不继承。</p>
+<pre><code class="language-text">object
+└── _BaseAutoModelClass                    ← 工厂基类（不能直接 new）
+    │
+    ├── 【骨干 / 表征】
+    │   ├── AutoModel
+    │   └── AutoModelForTextEncoding
+    │
+    ├── 【文本生成 / 语言建模】              ← 本项目主线在这一支
+    │   ├── AutoModelForCausalLM           ★ 聊天 / 续写 / SFT
+    │   ├── AutoModelForSeq2SeqLM
+    │   ├── AutoModelForMaskedLM
+    │   ├── AutoModelWithLMHead            （旧接口，兼容）
+    │   └── _AutoModelWithLMHead           （内部）
+    │
+    ├── 【文本理解 / 分类标注】
+    │   ├── AutoModelForSequenceClassification
+    │   ├── AutoModelForTokenClassification
+    │   ├── AutoModelForQuestionAnswering
+    │   ├── AutoModelForMultipleChoice
+    │   ├── AutoModelForNextSentencePrediction
+    │   ├── AutoModelForTableQuestionAnswering
+    │   ├── AutoModelForDocumentQuestionAnswering
+    │   └── AutoModelForPreTraining
+    │
+    ├── 【语音 / 音频】
+    │   ├── AutoModelForAudioClassification
+    │   ├── AutoModelForAudioFrameClassification
+    │   ├── AutoModelForAudioXVector
+    │   ├── AutoModelForAudioTokenization
+    │   ├── AutoModelForCTC
+    │   ├── AutoModelForSpeechSeq2Seq
+    │   ├── AutoModelForTextToSpectrogram
+    │   └── AutoModelForTextToWaveform
+    │
+    ├── 【视觉】
+    │   ├── AutoModelForImageClassification
+    │   ├── AutoModelForZeroShotImageClassification
+    │   ├── AutoModelForImageSegmentation
+    │   ├── AutoModelForSemanticSegmentation
+    │   ├── AutoModelForInstanceSegmentation
+    │   ├── AutoModelForUniversalSegmentation
+    │   ├── AutoModelForObjectDetection
+    │   ├── AutoModelForZeroShotObjectDetection
+    │   ├── AutoModelForDepthEstimation
+    │   ├── AutoModelForMaskedImageModeling
+    │   ├── AutoModelForImageToImage
+    │   ├── AutoModelForKeypointDetection
+    │   ├── AutoModelForKeypointMatching
+    │   ├── AutoModelForMaskGeneration
+    │   └── AutoModelForVideoClassification
+    │
+    ├── 【多模态 / 视觉-语言】
+    │   ├── AutoModelForImageTextToText
+    │   ├── AutoModelForVision2Seq
+    │   ├── _AutoModelForVision2Seq        （内部）
+    │   └── AutoModelForVisualQuestionAnswering
+    │
+    ├── 【其它】
+    │   └── AutoModelForTimeSeriesPrediction
+    │
+    └── 【Backbone 支线】（多一层基类）
+        └── _BaseAutoBackboneClass
+            └── AutoBackbone
+</code></pre>
+<h3 id="32">3.2 精简版（只记主干）</h3>
+<pre><code class="language-text">object
+ └── _BaseAutoModelClass
+      ├── AutoModel
+      ├── AutoModelForCausalLM     ← 本项目最常用
+      ├── AutoModelForSeq2SeqLM
+      ├── AutoModelForMaskedLM
+      ├── AutoModelForSequenceClassification
+      ├── AutoModelForTokenClassification
+      ├── AutoModelForQuestionAnswering
+      ├── AutoModelFor*（图像 / 音频 / 多模态等，见上树）
+      └── _BaseAutoBackboneClass
+           └── AutoBackbone
+</code></pre>
+<h3 id="33-mermaid-html">3.3 Mermaid 类图（与上树等价，便于 HTML 渲染）</h3>
+<pre><code class="language-mermaid">classDiagram
+    direction TB
+
+    class object
+    class _BaseAutoModelClass {
+      +from_pretrained()
+      +from_config()
+      +_model_mapping
+    }
+    class _BaseAutoBackboneClass
+    class AutoModel
+    class AutoModelForCausalLM
+    class AutoModelForSeq2SeqLM
+    class AutoModelForSequenceClassification
+    class AutoModelForTokenClassification
+    class AutoModelForQuestionAnswering
+    class AutoModelForMaskedLM
+    class AutoModelForImageClassification
+    class AutoBackbone
+    class OtherAutoTaskClasses[&quot;…其余 AutoModelFor*（见 3.1 树）&quot;]
+
+    object &lt;|-- _BaseAutoModelClass
+    _BaseAutoModelClass &lt;|-- _BaseAutoBackboneClass
+    _BaseAutoBackboneClass &lt;|-- AutoBackbone
+    _BaseAutoModelClass &lt;|-- AutoModel
+    _BaseAutoModelClass &lt;|-- AutoModelForCausalLM
+    _BaseAutoModelClass &lt;|-- AutoModelForSeq2SeqLM
+    _BaseAutoModelClass &lt;|-- AutoModelForSequenceClassification
+    _BaseAutoModelClass &lt;|-- AutoModelForTokenClassification
+    _BaseAutoModelClass &lt;|-- AutoModelForQuestionAnswering
+    _BaseAutoModelClass &lt;|-- AutoModelForMaskedLM
+    _BaseAutoModelClass &lt;|-- AutoModelForImageClassification
+    _BaseAutoModelClass &lt;|-- OtherAutoTaskClasses
+</code></pre>
+<p>注意：</p>
+<ol>
+<li><strong>继承很“平”</strong>：绝大多数 <code>AutoModelFor*</code> 都<strong>直接</strong>继承 <code>_BaseAutoModelClass</code>，彼此不是父子。树里的「【分组】」只是阅读分组，不是类。  </li>
+<li>区别主要在各自的 <strong><code>_model_mapping</code>（任务映射表）</strong>，不是深层继承树。  </li>
+<li><code>AutoTokenizer</code> / <code>AutoConfig</code> / <code>AutoProcessor</code> <strong>不是</strong> <code>_BaseAutoModelClass</code> 的子类（不在这棵树上）。</li>
+</ol>
+<h3 id="34">3.4 运行时「二次分派」示意（工厂 → 具体网络）</h3>
+<p>这不是继承树，而是一次 <code>from_pretrained</code> 的调用链：</p>
+<pre><code class="language-text">AutoModelForCausalLM.from_pretrained(path)
+        │
+        ▼
+ _BaseAutoModelClass.from_pretrained（基类逻辑）
+        │
+        ▼
+ 查 MODEL_FOR_CAUSAL_LM_MAPPING
+        │
+        ▼
+ 得到 LlamaForCausalLM（举例）
+        │
+        ▼
+ LlamaForCausalLM.from_pretrained / 加载权重
+</code></pre>
+<p><a id="auto-4"></a></p>
+<h2 id="4">4. 子类怎么理解？（按任务分组）</h2>
+<p>你环境中 PyTorch Auto 模型类大约 40+ 个。不必背全，先按<strong>任务</strong>记。</p>
+<h3 id="41">4.1 文本生成 / 语言建模（和本项目最相关）</h3>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>含义（干什么）</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoModel</code></td>
+<td>骨干网络（常只有 Transformer 主体，不一定带任务头）</td>
+<td>取隐状态、做特征</td>
+</tr>
+<tr>
+<td><code>AutoModelForCausalLM</code></td>
+<td><strong>因果语言模型</strong>（从左到右预测下一个 token）</td>
+<td>聊天、续写、SFT（本项目）</td>
+</tr>
+<tr>
+<td><code>AutoModelForSeq2SeqLM</code></td>
+<td>编码器-解码器生成</td>
+<td>翻译、摘要（T5/BART）</td>
+</tr>
+<tr>
+<td><code>AutoModelForMaskedLM</code></td>
+<td>掩码语言模型</td>
+<td>BERT 填空式预训练/补全</td>
+</tr>
+<tr>
+<td><code>AutoModelWithLMHead</code></td>
+<td>旧接口，带 LM 头的通用生成（已不推荐，兼容用）</td>
+<td>历史代码</td>
+</tr>
+<tr>
+<td><code>_AutoModelWithLMHead</code></td>
+<td>内部/兼容实现</td>
+<td>一般别直接用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42">4.2 文本理解 / 分类标注</h3>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>含义</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoModelForSequenceClassification</code></td>
+<td>整句/整段分类</td>
+<td>情感分析、意图分类</td>
+</tr>
+<tr>
+<td><code>AutoModelForTokenClassification</code></td>
+<td>每个 token 分类</td>
+<td>NER、词性</td>
+</tr>
+<tr>
+<td><code>AutoModelForQuestionAnswering</code></td>
+<td>抽取式问答（答案是原文跨度）</td>
+<td>SQuAD 类</td>
+</tr>
+<tr>
+<td><code>AutoModelForMultipleChoice</code></td>
+<td>多选</td>
+<td>阅读理解选择题</td>
+</tr>
+<tr>
+<td><code>AutoModelForNextSentencePrediction</code></td>
+<td>下一句预测</td>
+<td>BERT NSP</td>
+</tr>
+<tr>
+<td><code>AutoModelForTableQuestionAnswering</code></td>
+<td>表格问答</td>
+<td>Tapas 等</td>
+</tr>
+<tr>
+<td><code>AutoModelForDocumentQuestionAnswering</code></td>
+<td>文档问答（常含版面/图像）</td>
+<td>DocVQA</td>
+</tr>
+<tr>
+<td><code>AutoModelForTextEncoding</code></td>
+<td>文本编码表示</td>
+<td>取句向量/表征</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43">4.3 语音 / 音频</h3>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoModelForAudioClassification</code></td>
+<td>音频分类</td>
+</tr>
+<tr>
+<td><code>AutoModelForAudioFrameClassification</code></td>
+<td>音频帧级分类</td>
+</tr>
+<tr>
+<td><code>AutoModelForAudioXVector</code></td>
+<td>说话人/声纹类表示</td>
+</tr>
+<tr>
+<td><code>AutoModelForAudioTokenization</code></td>
+<td>音频离散化/tokenization 相关</td>
+</tr>
+<tr>
+<td><code>AutoModelForCTC</code></td>
+<td>CTC 语音识别</td>
+</tr>
+<tr>
+<td><code>AutoModelForSpeechSeq2Seq</code></td>
+<td>语音序列到序列（如 Whisper）</td>
+</tr>
+<tr>
+<td><code>AutoModelForTextToSpectrogram</code></td>
+<td>文本 → 频谱</td>
+</tr>
+<tr>
+<td><code>AutoModelForTextToWaveform</code></td>
+<td>文本 → 波形</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44">4.4 视觉</h3>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoModelForImageClassification</code></td>
+<td>图像分类</td>
+</tr>
+<tr>
+<td><code>AutoModelForZeroShotImageClassification</code></td>
+<td>零样本图像分类</td>
+</tr>
+<tr>
+<td><code>AutoModelForImageSegmentation</code></td>
+<td>图像分割</td>
+</tr>
+<tr>
+<td><code>AutoModelForSemanticSegmentation</code></td>
+<td>语义分割</td>
+</tr>
+<tr>
+<td><code>AutoModelForInstanceSegmentation</code></td>
+<td>实例分割</td>
+</tr>
+<tr>
+<td><code>AutoModelForUniversalSegmentation</code></td>
+<td>更统一的分割接口</td>
+</tr>
+<tr>
+<td><code>AutoModelForObjectDetection</code></td>
+<td>目标检测</td>
+</tr>
+<tr>
+<td><code>AutoModelForZeroShotObjectDetection</code></td>
+<td>零样本检测</td>
+</tr>
+<tr>
+<td><code>AutoModelForDepthEstimation</code></td>
+<td>深度估计</td>
+</tr>
+<tr>
+<td><code>AutoModelForMaskedImageModeling</code></td>
+<td>掩码图像建模</td>
+</tr>
+<tr>
+<td><code>AutoModelForImageToImage</code></td>
+<td>图像到图像</td>
+</tr>
+<tr>
+<td><code>AutoModelForKeypointDetection</code></td>
+<td>关键点检测</td>
+</tr>
+<tr>
+<td><code>AutoModelForKeypointMatching</code></td>
+<td>关键点匹配</td>
+</tr>
+<tr>
+<td><code>AutoModelForMaskGeneration</code></td>
+<td>掩码生成（如 SAM 相关）</td>
+</tr>
+<tr>
+<td><code>AutoModelForVideoClassification</code></td>
+<td>视频分类</td>
+</tr>
+</tbody>
+</table>
+<h3 id="45-">4.5 多模态 / 视觉-语言</h3>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoModelForImageTextToText</code></td>
+<td>图文输入 → 文本输出</td>
+</tr>
+<tr>
+<td><code>AutoModelForVision2Seq</code></td>
+<td>视觉到文本序列</td>
+</tr>
+<tr>
+<td><code>_AutoModelForVision2Seq</code></td>
+<td>内部/兼容版本</td>
+</tr>
+<tr>
+<td><code>AutoModelForVisualQuestionAnswering</code></td>
+<td>视觉问答</td>
+</tr>
+</tbody>
+</table>
+<h3 id="46">4.6 其它</h3>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoModelForPreTraining</code></td>
+<td>对应模型的预训练头组合</td>
+</tr>
+<tr>
+<td><code>AutoModelForTimeSeriesPrediction</code></td>
+<td>时间序列预测</td>
+</tr>
+<tr>
+<td><code>_BaseAutoBackboneClass</code></td>
+<td>Backbone 专用基类（也继承自 <code>_BaseAutoModelClass</code>）</td>
+</tr>
+<tr>
+<td><code>AutoBackbone</code></td>
+<td>视觉骨干网络 Auto 入口</td>
+</tr>
+</tbody>
+</table>
+<p><a id="auto-5"></a></p>
+<h2 id="5">5. 和你当前项目怎么对上号？</h2>
+<p>本仓库问答 / SFT 主线：</p>
+<pre><code class="language-python">AutoTokenizer.from_pretrained(...)           # 不是 _BaseAutoModelClass 子类
+AutoModelForCausalLM.from_pretrained(...)    # 是 _BaseAutoModelClass 子类
+</code></pre>
+<p>为什么是 <code>ForCausalLM</code> 而不是 <code>AutoModel</code>？</p>
+<ul>
+<li><code>AutoModel</code>：多拿 backbone 隐状态  </li>
+<li><code>AutoModelForCausalLM</code>：带 <strong>语言模型头（lm_head）</strong>，能算 next-token logits，才能 <code>generate</code> / 算生成 loss  </li>
+</ul>
+<p>第 2 周脚本里加载 135M/360M，本质上都是：</p>
+<blockquote>
+<p>用 Auto 入口按 <code>config.json</code> 自动选到具体 Causal LM 类，再 <code>.to(device)</code>。</p>
+</blockquote>
+<p><a id="auto-6"></a></p>
+<h2 id="6">6. 初学者易混点</h2>
+<ol>
+<li>
+<p><strong><code>AutoModelForCausalLM</code> 不是最终网络类型</strong><br>
+<code>type(model)</code> 打印出来通常是 <code>LlamaForCausalLM</code> 等具体类。</p>
+</li>
+<li>
+<p><strong>Auto 子类之间几乎不互相继承</strong><br>
+<code>ForCausalLM</code> 不是 <code>AutoModel</code> 的子类；它们是「同级工厂」，各管一张映射表。</p>
+</li>
+<li>
+<p><strong>选错 Auto 类会加载失败或头不对</strong><br>
+   把生成模型当成 <code>ForSequenceClassification</code> 去加载，往往会报映射/结构不匹配。</p>
+</li>
+<li>
+<p><strong>名字里的 ForXxx = 任务头</strong><br>
+   记住：Auto 负责“自动选哪家模型”，<code>ForXxx</code> 负责“要哪种任务输出头”。</p>
+</li>
+<li>
+<p><strong>下划线开头的类</strong><br>
+<code>_BaseAutoModelClass</code>、<code>_AutoModelWithLMHead</code> 偏内部 API；业务代码优先用公开的 <code>AutoModelFor*</code>。</p>
+</li>
+</ol>
+<p><a id="auto-7"></a></p>
+<h2 id="7-2-day-2">7. 最小实验（建议和第 2 周 Day 2 一起做）</h2>
+<p>在已激活的 venv 里：</p>
+<pre><code class="language-python">from transformers import AutoConfig, AutoModelForCausalLM
+
+path = &quot;models/SmolLM2-135M-Instruct&quot;  # 按你本地目录
+cfg = AutoConfig.from_pretrained(path, local_files_only=True)
+model = AutoModelForCausalLM.from_pretrained(path, local_files_only=True)
+
+print(&quot;config.model_type =&quot;, cfg.model_type)
+print(&quot;Auto 入口类     =&quot;, &quot;AutoModelForCausalLM&quot;)
+print(&quot;实际模型类     =&quot;, type(model).__name__)
+print(&quot;是否 CausalLM 子类家族 =&quot;, model.__class__.__name__.endswith(&quot;ForCausalLM&quot;) or &quot;ForCausalLM&quot; in type(model).__name__)
+</code></pre>
+<p>你应看到类似：</p>
+<ul>
+<li><code>model_type</code> 与 SmolLM/Llama 配置一致  </li>
+<li><code>type(model).__name__</code> 是具体类，不是 <code>AutoModelForCausalLM</code></li>
+</ul>
+<p><a id="auto-8"></a></p>
+<h2 id="8">8. 速记卡片</h2>
+<ul>
+<li><code>_BaseAutoModelClass</code> = Auto 模型工厂的基类  </li>
+<li>子类 = 不同任务的 Auto 入口（主要靠 <code>_model_mapping</code> 区分）  </li>
+<li>Llama / BERT / ViT = 不同<strong>架构家族</strong>（骨架）；<code>ForXxx</code> = 不同<strong>任务头</strong>  </li>
+<li>本项目主用：<code>AutoModelForCausalLM</code>（架构是 Llama 系）  </li>
+<li>真正计算的是映射后的具体类（如 <code>LlamaForCausalLM</code>）  </li>
+<li><code>AutoTokenizer</code> 不在这棵继承树上  </li>
+</ul>
+<hr>
+<h2 id="_2">和本周其它材料的关系</h2>
+<ul>
+<li>设备与搬模型：<code>learn/week02/02_move_to_device.py</code>（里面会用到 Causal LM 加载）  </li>
+<li>试更大模型：<code>learn/week02/06_try_360m.py</code>（仍然是同一 Auto 入口）  </li>
+<li>学习计划入口：<a href="../学习计划.html#week2">第 2 周</a></li>
+</ul>
+      </article>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
+      <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
+    </div>
+  </div>
+</body>
+</html>
