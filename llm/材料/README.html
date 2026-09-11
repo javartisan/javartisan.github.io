@@ -282,6 +282,7 @@ blockquote {
       <ul><li><a class="" href="../index.html">首页</a></li>
 <li><a class="" href="../学习大纲.html">学习大纲</a></li>
 <li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../lora_animation.html">LoRA 原理动画</a></li>
 <li><a class="" href="../README.html">README</a></li></ul>
       <h3>材料</h3>
       <ul><li><a class="active" href="README.html">材料索引</a></li>
@@ -322,7 +323,12 @@ blockquote {
 <tr>
 <td><a href="./微调学习笔记.html">微调学习笔记.md</a></td>
 <td>Base vs Instruct、SFT、DPO、LoRA、训练 8 步</td>
-<td><code>09_loss_backward.py</code>、<code>10_sft_messages.py</code>、<code>scripts/sft001.py</code></td>
+<td><code>09_loss_backward.py</code>、<code>10_sft_messages.py</code>、<code>scripts/sft001.py</code>、<code>learn/week03/</code></td>
+</tr>
+<tr>
+<td><a href="../lora_animation.html">LoRA 训练动画</a></td>
+<td>冻底座 + 旁路 A/B 可视化</td>
+<td>第 3 周 <a href="../学习计划.html#week3-day1">Day 1</a>、<code>01_lora_idea.py</code></td>
 </tr>
 <tr>
 <td><a href="./第1周知识体系与答疑.html">第1周知识体系与答疑.md</a></td>
@@ -383,9 +389,20 @@ train/test jsonl     →  06 看样本
 设备 / batch 实验              →  01～07（与 Auto 概念并行，互不替代）
 上下文长度（出厂 vs 运行时）   →  第2周-模型上下文长度涉及的因素.md
 </code></pre>
+<h2 id="3">第 3 周：材料 → 脚本</h2>
+<p>先看：<a href="../lora_animation.html">LoRA 训练动画</a>（<a href="../学习计划.html#week3-day1">学习计划 Day 1</a>）。</p>
+<pre><code class="language-text">LoRA 训练动画 + 微调笔记 §6            →  Day 1 概念（lora_animation.html）
+微调笔记 §6 + sft001.build_lora_config  →  01 低秩公式（不加载大模型）
+注入 get_peft_model、数可训练参数      →  02
+adapter vs merge 体积                   →  03（无 checkpoint 也能看概念）
+每次只改一个旋钮                        →  04 r / 05 dropout / 06 target_modules
+可选 1.7B + LoRA                        →  07（失败记下瓶颈）
+验收口答 + reports/week03_lora.md       →  08
+</code></pre>
 <p>一律在仓库根目录执行，例如：</p>
 <pre><code class="language-bash">python learn/week01/01_load_tokenizer.py
 python learn/week02/01_probe_device.py
+python learn/week03/01_lora_idea.py
 </code></pre>
       </article>
       <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="第2周-模型上下文长度涉及的因素.html">第 2 周：模型上下文长度涉及的因素</a> <code>材料/第2周-模型上下文长度涉及的因素.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>

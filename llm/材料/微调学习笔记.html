@@ -282,6 +282,7 @@ blockquote {
       <ul><li><a class="" href="../index.html">首页</a></li>
 <li><a class="" href="../学习大纲.html">学习大纲</a></li>
 <li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../lora_animation.html">LoRA 原理动画</a></li>
 <li><a class="" href="../README.html">README</a></li></ul>
       <h3>材料</h3>
       <ul><li><a class="" href="README.html">材料索引</a></li>
@@ -581,10 +582,11 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 <p><strong>LoRA = Low-Rank Adaptation（低秩适配）</strong></p>
 <ul>
 <li>不直接大改原模型全部权重  </li>
-<li>在注意力/MLP 等层旁路加很小的「补丁矩阵」，主要训练这些补丁  </li>
+<li>在注意力/MLP（MLP = Multi-Layer Perceptron，多层感知机） 等层旁路加很小的「补丁矩阵」，主要训练这些补丁  </li>
 <li>省内存、少过拟合，适合小数据和本机实验  </li>
 </ul>
 <p>训练结束后可把 LoRA <strong>merge</strong> 回底座，导出一份普通完整模型，方便加载评测。</p>
+<p>动起来看一遍：<a href="../lora_animation.html">LoRA 训练动画</a>（第 3 周 <a href="../学习计划.html#week3-day1">Day 1：LoRA 概念</a>）。</p>
 <hr>
 <p><a id="note-7"></a></p>
 <h2 id="7">7. 和本项目的对应关系</h2>
@@ -617,6 +619,10 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 <td>第 1 周拆开的学习脚本</td>
 </tr>
 <tr>
+<td><code>learn/week03/</code></td>
+<td>第 3 周 LoRA 拆开看：公式、注入、adapter、超参对照</td>
+</tr>
+<tr>
 <td><code>models/SmolLM2-135M-Instruct</code></td>
 <td>Instruct 底座本地缓存</td>
 </tr>
@@ -630,6 +636,7 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 <ol>
 <li>读懂本文 Base / Instruct / SFT  </li>
 <li>对照 <code>scripts/sft001.py</code> 注释跑通训练  </li>
+<li>用 <code>learn/week03/</code> 把 LoRA 公式、注入、adapter/merge 拆开看  </li>
 <li>用 <code>scripts/eval_compare.py</code> 看效果  </li>
 <li>数据够了再学 DPO 偏好对齐  </li>
 </ol>
@@ -660,7 +667,7 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 <li>小模型：先把 SFT 数据质量做上去，再考虑偏好对齐  </li>
 </ul>
       </article>
-      
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>

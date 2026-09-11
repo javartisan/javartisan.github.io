@@ -282,6 +282,7 @@ blockquote {
       <ul><li><a class="" href="index.html">首页</a></li>
 <li><a class="active" href="学习大纲.html">学习大纲</a></li>
 <li><a class="" href="学习计划.html">学习计划</a></li>
+<li><a class="" href="lora_animation.html">LoRA 原理动画</a></li>
 <li><a class="" href="README.html">README</a></li></ul>
       <h3>材料</h3>
       <ul><li><a class="" href="材料/README.html">材料索引</a></li>
@@ -336,7 +337,7 @@ blockquote {
 <tr>
 <td>第 3 周</td>
 <td>为何不必更新全部参数（LoRA）</td>
-<td><code>scripts/sft001.py</code> 的 <code>LoraConfig</code></td>
+<td><strong><code>learn/week03/</code> 01～08</strong> + <code>scripts/sft001.py</code> 的 <code>LoraConfig</code></td>
 </tr>
 <tr>
 <td>第 4 周</td>
@@ -503,6 +504,42 @@ blockquote {
 <td></td>
 <td></td>
 </tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>学什么</th>
+<th>必跑脚本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1</td>
+<td><code>r</code> / <code>lora_alpha</code> / <code>target_modules</code>；全量 vs LoRA</td>
+<td><a href="./lora_animation.html">LoRA 训练动画</a> + <code>learn/week03/01_lora_idea.py</code>、<code>02_inject_and_count.py</code></td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td>adapter（小）vs merge 后完整模型（大）</td>
+<td><code>03_adapter_files.py</code>（没有 checkpoint 也能看概念）</td>
+</tr>
+<tr>
+<td>Day 3～5</td>
+<td>每次只改一个变量</td>
+<td><code>04_compare_r.py</code>、<code>05_compare_dropout.py</code>、<code>06_compare_targets.py</code></td>
+</tr>
+<tr>
+<td>Day 6</td>
+<td>可选 1.7B + LoRA 极少步</td>
+<td><code>07_try_1p7b.py</code>（<code>--download</code> 可选；失败记下瓶颈）</td>
+</tr>
+<tr>
+<td>Day 7</td>
+<td>省参数、小数据、merge 评测</td>
+<td><code>08_week3_report.py</code> → <code>reports/week03_lora.md</code></td>
+</tr>
 <tr>
 <td>- <strong>第 4 周：</strong> QLoRA = 量化底座 + LoRA；Mac 上以原理为主。</td>
 <td></td>
@@ -524,6 +561,12 @@ blockquote {
 <li>区分 tokenizer encode 与 Transformer Encoder  </li>
 <li>说明 <code>model.train()</code> 不是开始训练，<code>backward</code> 写梯度、<code>step</code> 才改权重  </li>
 <li>知道本项目 <code>prompt/completion</code> → messages → chat_template</li>
+</ul>
+<p>第 3 周结束应能：</p>
+<ul>
+<li>画出「冻底座 + LoRA 旁路」，并解释 <code>r</code> / <code>lora_alpha</code> / <code>target_modules</code>  </li>
+<li>区分 adapter（补丁）与 merge 后的完整模型  </li>
+<li>至少完成 1 组超参对照（<code>learn/week03/04</code>～<code>06</code>）</li>
 </ul>
 <p>5 周结束应能把完整知识链讲给另一个初学者，并在全量 / LoRA / QLoRA 之间按内存做选择。</p>
       </article>

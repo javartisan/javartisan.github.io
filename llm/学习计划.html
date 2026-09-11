@@ -282,6 +282,7 @@ blockquote {
       <ul><li><a class="" href="index.html">首页</a></li>
 <li><a class="" href="学习大纲.html">学习大纲</a></li>
 <li><a class="active" href="学习计划.html">学习计划</a></li>
+<li><a class="" href="lora_animation.html">LoRA 原理动画</a></li>
 <li><a class="" href="README.html">README</a></li></ul>
       <h3>材料</h3>
       <ul><li><a class="" href="材料/README.html">材料索引</a></li>
@@ -719,6 +720,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </ul>
 <hr>
 <h2 id="3-lora17b">第 3 周：LoRA（大纲：1.7B 参数高效微调）</h2>
+<p><a id="week3"></a></p>
 <p>大纲目标：理解为什么不需要更新全部参数。</p>
 <h3 id="_10">现实约束</h3>
 <ul>
@@ -728,35 +730,46 @@ Reasoning（更复杂推理能力，后期拓展）
 <h3 id="_11">本周总目标</h3>
 <p>彻底理解 LoRA：“冻住大模型，只训练小补丁”。</p>
 <h3 id="_12">建议日程</h3>
+<p><a id="week3-day1"></a></p>
 <h4 id="day-1lora">Day 1：LoRA 概念</h4>
 <ul>
+<li>看：<a href="./lora_animation.html">LoRA 训练动画</a>（冻底座 + 旁路 A/B，对照 <code>r</code> / <code>lora_alpha</code> / <code>target_modules</code>）  </li>
 <li>读：<a href="./材料/微调学习笔记.html#note-6">材料/微调学习笔记.md 第 6 节：LoRA 简要理解</a> + <code>scripts/sft001.py</code> 中 <code>build_lora_config</code>  </li>
+<li>跑：</li>
+<li><code>python learn/week03/01_lora_idea.py</code>（不加载大模型：<code>ΔW≈BA</code>、<code>r</code> 与参数量）</li>
+<li><code>python learn/week03/02_inject_and_count.py</code>（135M 上注入 LoRA，数可训练参数）</li>
 <li>弄懂：</li>
 <li><code>r</code>、<code>lora_alpha</code>、<code>target_modules</code>  </li>
 <li>全量微调 vs LoRA  </li>
 </ul>
 <h4 id="day-2">Day 2：看适配器文件</h4>
 <ul>
-<li>对照：</li>
+<li>跑：<code>python learn/week03/03_adapter_files.py</code></li>
+<li>对照（有文件就看体积，没有也能把概念跑完）：</li>
 <li><code>checkpoints/.../adapter_final/adapter_config.json</code></li>
 <li><code>adapter_model.safetensors</code>（小）</li>
 <li><code>models/smollm2-135m-java/model.safetensors</code>（大，已 merge）  </li>
 <li>笔记：adapter 和合并后完整模型有何区别  </li>
 </ul>
 <h4 id="day-35-lora-135m">Day 3～5：动手改 LoRA 小实验（建议仍用 135M 先做）</h4>
-<p>每次只改一个变量，观察 train_loss / 速度 / 内存：</p>
+<p>每次只改一个变量，观察可训练参数 / 极少步 loss / 速度 / 是否 OOM：</p>
 <ol>
-<li><code>r=8</code> vs <code>r=16</code>  </li>
-<li><code>lora_dropout=0.0</code> vs <code>0.05</code>  </li>
-<li>减少 <code>target_modules</code>（例如只留注意力投影）  </li>
+<li><code>python learn/week03/04_compare_r.py</code>（<code>r=8</code> vs <code>r=16</code>）  </li>
+<li><code>python learn/week03/05_compare_dropout.py</code>（<code>lora_dropout=0.0</code> vs <code>0.05</code>）  </li>
+<li><code>python learn/week03/06_compare_targets.py</code>（全投影 vs 只注意力）  </li>
 </ol>
+<p>极少步不能当「谁更好」的证据，重点看参数量是否按预期变。</p>
 <h4 id="day-6-17b-lora">Day 6：挑战 1.7B + LoRA（可选）</h4>
 <ul>
+<li>跑：<code>python learn/week03/07_try_1p7b.py</code></li>
+<li>本地没有权重再：<code>python learn/week03/07_try_1p7b.py --download</code>（体积很大，先确认磁盘）</li>
 <li>能加载并跑通极小步数即可  </li>
 <li>跑不通就记录瓶颈，完成“为什么需要 LoRA/QLoRA”的认知目标  </li>
 </ul>
 <h4 id="day-7_2">Day 7：周复盘</h4>
 <ul>
+<li>跑：<code>python learn/week03/08_week3_report.py</code></li>
+<li>打开 <code>reports/week03_lora.md</code>，补画「冻底座 + 旁路」并写三句话</li>
 <li>回答：</li>
 <li>为什么 LoRA 能省参数？  </li>
 <li>为什么小数据更适合 LoRA？  </li>
@@ -973,6 +986,10 @@ Reasoning（更复杂推理能力，后期拓展）
 <td><code>learn/week02/</code>（01～07）；概念见 <a href="./材料/第2周-BaseAutoModelClass与Auto家族.html">第2周-BaseAutoModelClass与Auto家族.md</a></td>
 </tr>
 <tr>
+<td>第 3 周动手</td>
+<td><code>learn/week03/</code>（01～08）；概念见 <a href="./材料/微调学习笔记.html#note-6">第 6 节</a></td>
+</tr>
+<tr>
 <td>Python 星号 / Dropout 小例</td>
 <td><code>learn/py/call.py</code>、<code>learn/py/dropout.py</code></td>
 </tr>
@@ -998,7 +1015,7 @@ Reasoning（更复杂推理能力，后期拓展）
 </tr>
 <tr>
 <td>LoRA</td>
-<td><code>scripts/sft001.py</code> 的 <code>LoraConfig</code>、<code>checkpoints/.../adapter_final</code>；概念见 <a href="./材料/微调学习笔记.html#note-6">第 6 节</a></td>
+<td><a href="./lora_animation.html">LoRA 训练动画</a>、<strong><code>learn/week03/</code> 01～08</strong>、<code>scripts/sft001.py</code> 的 <code>LoraConfig</code>、<code>checkpoints/.../adapter_final</code>；概念见 <a href="./材料/微调学习笔记.html#note-6">第 6 节</a></td>
 </tr>
 <tr>
 <td>评测</td>
