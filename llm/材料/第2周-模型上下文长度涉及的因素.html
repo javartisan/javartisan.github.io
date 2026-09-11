@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第 2 周：模型上下文长度涉及的因素 · 学习路线</title>
+  <style>
+:root {
+  --bg: #f5f5f7;
+  --sidebar: #111113;
+  --sidebar-edge: rgba(255,255,255,.08);
+  --sidebar-text: #f5f5f7;
+  --sidebar-muted: #98989d;
+  --sidebar-hover: rgba(255,255,255,.08);
+  --sidebar-active: rgba(10,132,255,.22);
+  --sidebar-active-text: #64d2ff;
+  --card: #ffffff;
+  --text: #1d1d1f;
+  --muted: #6e6e73;
+  --border: #d2d2d7;
+  --link: #0066cc;
+  --link-hover: #004499;
+  --code-bg: #f2f2f7;
+  --accent: #0071e3;
+  --ref-bg: #f0faf6;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "Microsoft YaHei",
+    sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  --sidebar-w: 288px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.sidebar {
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(10,132,255,.18), transparent 55%),
+    linear-gradient(180deg, #1c1c1e 0%, var(--sidebar) 48%, #0b0b0d 100%);
+  color: var(--sidebar-text);
+  border-right: 1px solid var(--sidebar-edge);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.sidebar-top {
+  flex: 0 0 auto;
+  padding: 28px 22px 18px;
+  border-bottom: 1px solid var(--sidebar-edge);
+}
+.sidebar .brand {
+  font-weight: 650;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+.sidebar .brand a {
+  color: #fff;
+  text-decoration: none;
+}
+.sidebar .brand a:hover { opacity: .92; }
+.sidebar .hint {
+  color: var(--sidebar-muted);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+.sidebar-nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  padding: 20px 14px 28px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.2) transparent;
+}
+.sidebar-nav-inner {
+  width: 100%;
+  margin-block: auto;
+}
+.sidebar a { color: var(--sidebar-text); text-decoration: none; }
+.sidebar a:hover { color: #fff; }
+.sidebar h3 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sidebar-muted);
+  margin: 18px 8px 8px;
+}
+.sidebar h3:first-child { margin-top: 0; }
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+}
+.sidebar li { margin: 0; }
+.sidebar li a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  transition: background .15s ease, color .15s ease;
+}
+.sidebar li a:hover {
+  background: var(--sidebar-hover);
+  color: #fff;
+}
+.sidebar li a.active {
+  background: var(--sidebar-active);
+  color: var(--sidebar-active-text);
+  box-shadow: inset 0 0 0 1px rgba(100,210,255,.28);
+}
+.sidebar .sub {
+  padding-left: 10px;
+  margin: 2px 0 10px;
+  border-left: 1px solid var(--sidebar-edge);
+  margin-left: 14px;
+}
+.sidebar .sub a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sidebar-muted);
+  padding: 6px 10px;
+}
+.sidebar .sub a:hover,
+.sidebar .sub a.active {
+  color: #fff;
+}
+.main {
+  padding: 36px 28px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+.main > .crumb,
+.main > article,
+.main > .refs,
+.main > .footer {
+  width: 100%;
+  max-width: 920px;
+}
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.crumb a { color: var(--link); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; }
+article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 36px 40px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 40px rgba(0,0,0,.04);
+}
+article h1 {
+  margin-top: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+article h2 {
+  margin-top: 2em;
+  padding-bottom: .4em;
+  border-bottom: 1px solid var(--border);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+article a { color: var(--link); }
+article a:hover { color: var(--link-hover); }
+code {
+  font-family: var(--font-mono);
+  background: var(--code-bg);
+  padding: .12em .38em;
+  border-radius: 6px;
+  font-size: .9em;
+}
+pre {
+  background: #1c1c1e;
+  color: #f5f5f7;
+  border-radius: 12px;
+  padding: 14px 16px;
+  overflow: auto;
+  max-height: 42rem;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: .95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+blockquote {
+  margin: 1em 0;
+  padding: .35em 1em;
+  border-left: 3px solid var(--accent);
+  background: #f2f7ff;
+  color: var(--muted);
+  border-radius: 0 10px 10px 0;
+}
+.refs {
+  margin-top: 18px;
+  background: var(--ref-bg);
+  border: 1px solid #b7e4d0;
+  border-radius: 14px;
+  padding: 14px 18px;
+}
+.refs h3 { margin: 0 0 8px; font-size: 14px; color: #0d7a55; }
+.refs ul { margin: 0; padding-left: 1.2em; }
+.refs li { margin: 4px 0; font-size: 14px; }
+.footer {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .sidebar-nav {
+    justify-content: flex-start;
+    overflow: visible;
+    padding-bottom: 20px;
+  }
+  .sidebar-nav-inner { margin-block: 0; }
+  .main { padding: 20px 16px 56px; align-items: stretch; }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
+    <p class="hint">Javartisan · 学习站点</p>
+  </div>
+  <nav class="sidebar-nav" aria-label="站点导航">
+    <div class="sidebar-nav-inner">
+      <h3>入口</h3>
+      <ul><li><a class="" href="../index.html">首页</a></li>
+<li><a class="" href="../学习大纲.html">学习大纲</a></li>
+<li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../README.html">README</a></li></ul>
+      <h3>材料</h3>
+      <ul><li><a class="" href="README.html">材料索引</a></li>
+<li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+<li><a class="" href="微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="第1周代码学习.html">第 1 周 代码学习</a></li></ul>
+<li><a class="" href="第2周-BaseAutoModelClass与Auto家族.html">第2周 Auto 工厂</a></li>
+<li><a class="active" href="第2周-模型上下文长度涉及的因素.html">第2周 上下文长度</a></li>
+<li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
+<li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
+<li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
+    </div>
+  </nav>
+</aside>
+
+    <div class="main">
+      <div class="crumb"><a href="../index.html">首页</a> / 材料/第2周-模型上下文长度涉及的因素.html</div>
+      <article>
+<h1 id="2">第 2 周：模型上下文长度涉及的因素</h1>
+<blockquote>
+<p>对应日常问题：Ollama 为何能设上下文？出厂 256K 运行时能不能小于等于 256K？厂商为何不直接标 512K / 1M？底层难点是什么？<br>
+本仓库对照：<code>models/SmolLM2-135M/config.json</code> 里 <code>max_position_embeddings = 8192</code>。</p>
+</blockquote>
+<p>入口：<a href="./README.html">材料索引</a> · <a href="../学习计划.html">学习计划</a> · <a href="./第2周-BaseAutoModelClass与Auto家族.html">第2周 Auto 工厂</a></p>
+<hr>
+<p><a id="ctx-1"></a></p>
+<h2 id="1">1. 两套「长度」不要混</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>训练 / 出厂上限</th>
+<th>运行时上下文（如 Ollama <code>num_ctx</code>）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是什么</td>
+<td>位置编码按多长设计、长文续训保证到多长</td>
+<td>这次推理 KV 缓存开多大</td>
+</tr>
+<tr>
+<td>写在哪</td>
+<td><code>config.json</code> 的 <code>max_position_embeddings</code> 等</td>
+<td>启动参数、Modelfile</td>
+</tr>
+<tr>
+<td>能不能改</td>
+<td>改它不等于重新训出更长能力</td>
+<td>每次运行可改，主要影响内存</td>
+</tr>
+<tr>
+<td>SmolLM2</td>
+<td><strong>8192</strong></td>
+<td>应 <strong>≤ 8192</strong> 才是原汁原味</td>
+</tr>
+</tbody>
+</table>
+<p>训练时定下来的是「最长能看多远」的<strong>质量上限</strong>，不是每次必须用满的长度。注意力只对<strong>当前这段</strong> <code>input_ids</code> 计算。你只塞 512 个 token，模型就只看这 512 个。</p>
+<pre><code class="language-text">出厂窗口（如 256K 或本仓库 8192）
+    = 厂家保证「在这个长度内按设计工作」
+
+Ollama / 部署 num_ctx
+    = 这次对话准备多大的序列缓冲（越长越吃 KV cache）
+</code></pre>
+<hr>
+<p><a id="ctx-2"></a></p>
+<h2 id="2_1">2. 训练时谁决定上下文上限</h2>
+<p>核心：模型在训练里 <strong>真的按多长的序列算过注意力、位置编码按多长设计</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>因素</th>
+<th>起什么作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>训练序列长度</td>
+<td>数据 pack 成 4K / 32K / 256K，模型才有机会学这个距离上的关系</td>
+</tr>
+<tr>
+<td>位置编码</td>
+<td>学习式位置表：表有多长，上限就多硬。RoPE：按某个长度训，<code>rope_theta</code> 配合长文；再长是外推</td>
+</tr>
+<tr>
+<td><code>max_position_embeddings</code></td>
+<td>结构门牌上的设计上限</td>
+</tr>
+<tr>
+<td>注意力实现</td>
+<td>全量注意力大约随长度平方涨；长窗要 Flash Attention、分组 KV、滑动窗口等才能训得动</td>
+</tr>
+<tr>
+<td>续训 / 加长</td>
+<td>很多「256K 出厂」是先短窗预训练，再在长文本上继续训或做 YaRN 等</td>
+</tr>
+</tbody>
+</table>
+<p>出厂 256K ≈ <strong>保证规格</strong>，不是物理定律。</p>
+<hr>
+<p><a id="ctx-3"></a></p>
+<h2 id="3-256k">3. 运行时怎么设（256K 出厂为例）</h2>
+<p><strong>可以、也应该：运行上下文 ≤ 出厂窗口。</strong> 设小一点只是少占 KV 缓存，模型还能跑。</p>
+<pre><code class="language-text">实际能用的上下文 ≈ min(
+    出厂窗口（如 256K）,
+    你设置的 num_ctx / max_seq,
+    显存装得下的 KV cache
+)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>是否推荐</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小于 256K</td>
+<td>对</td>
+<td>正常部署，省内存</td>
+</tr>
+<tr>
+<td>等于 256K</td>
+<td>对</td>
+<td>用满出厂规格（硬件要扛得住）</td>
+</tr>
+<tr>
+<td>大于 256K</td>
+<td>不按规格保证</td>
+<td>有的框架报错；有的 RoPE 缩放硬拉。那是外推，长距离易糊、丢前面、乱编</td>
+</tr>
+</tbody>
+</table>
+<p>消费级卡就算标了 256K，也可能只能开 32K/64K，因为显存先爆。</p>
+<p>记一句：<strong>出厂长度是质量上限；运行时只能往下减来省内存，不要当可以随便往上加的旋钮。</strong></p>
+<hr>
+<p><a id="ctx-4"></a></p>
+<h2 id="4-512k-1m">4. 厂商为什么不直接标 512K / 1M</h2>
+<p>不是不想印卖点，而是 <strong>按 1M 认真训、认真保证质量</strong> 代价按长度猛涨，而且常出现「塞得进、用不好」。</p>
+<table>
+<thead>
+<tr>
+<th>难点</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平方级算力</td>
+<td>标准注意力两两配对，长度 ×32，这一项大约 ×1000 量级</td>
+</tr>
+<tr>
+<td>显存</td>
+<td>训练要激活；推理要 KV cache，长度线性涨但系数很大</td>
+</tr>
+<tr>
+<td>长程数据</td>
+<td>缺的是「远距离真相关」的语料，不是磁盘上很长的字符串</td>
+</tr>
+<tr>
+<td>「真的能用」</td>
+<td>softmax 稀释、Lost in the Middle、梯度传不远；捞针 ≠ 跨章节推理</td>
+</tr>
+</tbody>
+</table>
+<p>产品上多数请求只要几千到几万 token。为顶部 1% 超长文档把所有人成本和延迟拉高，不划算。常见做法：标一个够用的窗口 + RAG 处理整本书。</p>
+<p>加长的技术（滑动窗口、GQA/MLA、SSM、线性注意力）是在 <strong>用近似换长度</strong>，长距离精度会打折。把 config 改成 1M 只改了门牌。</p>
+<hr>
+<p><a id="ctx-5"></a></p>
+<h2 id="5">5. 底层原因：四件事其实是一条因果链</h2>
+<p>根因：<strong>Transformer 用「每个位置看所有前面的位置」建模长距离关系。</strong> 长度一拉，计算、内存、数据和学习信号一起变差。</p>
+<pre><code class="language-text">「每个位置看所有历史」
+    → 配对次数 ~ n²            （算力）
+    → 要存所有历史的 K/V       （推理显存）
+    → 反传还要激活             （训练显存）
+    → 需要「远距离真相关」的数据（数据没有那么多）
+    → softmax 稀释 + 梯度太远   （即便训了也不稳）
+</code></pre>
+<h3 id="51-n2">5.1 平方级算力：为什么是 n²</h3>
+<p>注意力要决定「该看谁」，就要和序列里<strong>每一个</strong>位置比相关性。长度 (n) 时大约 (n \times n) 对。Causal LM 是下三角，仍是 (\frac{n(n+1)}{2})，数量级还是 (n^2)。</p>
+<p>(n) 从 8K 到 256K（32 倍），这一项大约 <strong>1000 倍</strong>，再乘层数、头数、batch。<br>
+底层：<strong>关系被定义成两两配对</strong>。要降复杂度只能少配对（局部/稀疏/线性注意力）。</p>
+<h3 id="52-kv">5.2 显存：推理 KV + 训练激活</h3>
+<p><strong>推理（Ollama 等）——KV cache</strong></p>
+<p>生成时不能每步把前文重算一遍，于是存每个已出现 token 的 Key、Value。每多一个 token 就多一行。</p>
+<pre><code class="language-text">KV ≈ 层数 × 长度 × KV头数 × 头维度 × 2(K和V) × 字节数
+</code></pre>
+<p>长度 ×2，缓存 ×2。对长度是 <strong>线性</strong>，但层多、FP16 时 256K 就能撑满一张卡。<br>
+底层：<strong>用空间换时间</strong>——记住过去所有向量，才能续写。</p>
+<p><strong>训练——激活</strong></p>
+<p>反传要知道中间层当时的样子。大约 <code>层数 × batch × n × hidden_size</code>，有的实现还涉及 (n \times n) 分数（或重算以省显存）。<br>
+底层：<strong>链式法则沿整条计算图往回走</strong>，图随 (n) 变长。</p>
+<h3 id="53">5.3 长程数据：缺的不是很长的字符串</h3>
+<p>训练要的是：在距离很远时，<strong>后面的词真的依赖前面的信息</strong>（第 2 页的约束到第 400 页还管用）。</p>
+<ul>
+<li>网页、对话、多数书，有用依赖多在几千 token 内；</li>
+<li>把短文拼成 1M，模型看见的是互不相干的片段，学的是局部续写；</li>
+<li>真·长程标注极贵、极少。</li>
+</ul>
+<p>底层：<strong>自然语言统计以短程为主</strong>；超长、可检验的依赖是稀有事件。只预测下一个 token，不会自动逼模型去用 20 万字之前的一个数字。</p>
+<h3 id="54">5.4 「真的能用」：长距离查找不稳定</h3>
+<ul>
+<li><strong>注意力被稀释：</strong> softmax 在 (n) 个分数上分配权重，(n) 越大，真正相关的位置分到的质量越小。  </li>
+<li><strong>Lost in the Middle：</strong> 更吃开头和结尾，中间段落像没看见。  </li>
+<li><strong>信用分配太远：</strong> 很早的 token 要经过上万步生成才体现对错，梯度又小又噪。  </li>
+<li><strong>评测 ≠ 产品：</strong> 大海捞针能过，不等于跨章节推理、法律、代码库级别「真的能用」。</li>
+</ul>
+<hr>
+<p><a id="ctx-6"></a></p>
+<h2 id="6">6. 速记</h2>
+<ol>
+<li>出厂窗口 = 训练保证的上限；运行 <code>num_ctx</code> = 这次 KV 开多大，应 <strong>≤</strong> 上限。  </li>
+<li>本仓库 SmolLM2：<code>max_position_embeddings = 8192</code>。  </li>
+<li>加长的难点：(n^2) 算力、KV/激活显存、没有足够的长程数据、softmax 稀释与远距离梯度。  </li>
+<li>正路：改配对方式、压缩 KV、RAG；不要指望只改 config。</li>
+</ol>
+<p>相关：第 1 周 <code>input_ids</code> 长度 = 这次实际序列；<a href="./Encoder-Decoder与LLM问答流程.html">问答流程</a>；设备与 batch 见 <code>learn/week02/</code>。</p>
+      </article>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="README.html">学习材料索引</a> <code>材料/README.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li><li><a href="第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li></ul></section>
+      <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
+    </div>
+  </div>
+</body>
+</html>

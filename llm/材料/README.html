@@ -290,6 +290,7 @@ blockquote {
 <li><a class="" href="第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
 <ul class="sub"><li><a class="" href="第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="" href="第2周-BaseAutoModelClass与Auto家族.html">第2周 Auto 工厂</a></li>
+<li><a class="" href="第2周-模型上下文长度涉及的因素.html">第2周 上下文长度</a></li>
 <li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
 <li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -353,6 +354,11 @@ blockquote {
 <td><code>_BaseAutoModelClass</code>、继承图、各 <code>AutoModelFor*</code></td>
 <td><code>week02/02</code>、<code>06</code>；对照 <code>sft001.py</code></td>
 </tr>
+<tr>
+<td><a href="./第2周-模型上下文长度涉及的因素.html">第2周-模型上下文长度涉及的因素.md</a></td>
+<td>出厂窗口 vs <code>num_ctx</code>、为何难到 1M</td>
+<td>Ollama / <code>config.json</code> 的 <code>max_position_embeddings</code></td>
+</tr>
 </tbody>
 </table>
 <p>入口：</p>
@@ -375,13 +381,14 @@ train/test jsonl     →  06 看样本
 打印 type(model)               →  对照 §7 最小实验
 子类任务分组表                 →  Day 6：360M 仍是 CausalLM 入口
 设备 / batch 实验              →  01～07（与 Auto 概念并行，互不替代）
+上下文长度（出厂 vs 运行时）   →  第2周-模型上下文长度涉及的因素.md
 </code></pre>
 <p>一律在仓库根目录执行，例如：</p>
 <pre><code class="language-bash">python learn/week01/01_load_tokenizer.py
 python learn/week02/01_probe_device.py
 </code></pre>
       </article>
-      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="第2周-BaseAutoModelClass与Auto家族.html">`_BaseAutoModelClass` 与 AutoModel 家族（第 2 周）</a> <code>材料/第2周-BaseAutoModelClass与Auto家族.html</code></li><li><a href="第2周-模型上下文长度涉及的因素.html">第 2 周：模型上下文长度涉及的因素</a> <code>材料/第2周-模型上下文长度涉及的因素.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>
