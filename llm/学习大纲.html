@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>学习大纲 · 学习路线</title>
+  <title>SmolLM 微调学习大纲 · 学习路线</title>
   <style>
 :root {
   --bg: #f4f1ea;
@@ -130,6 +130,7 @@ pre {
   border-radius: 10px;
   padding: 14px 16px;
   overflow: auto;
+  max-height: 42rem;
 }
 pre code { background: transparent; color: inherit; padding: 0; }
 table {
@@ -184,15 +185,18 @@ blockquote {
     
 <aside class="sidebar">
   <div class="brand"><a href="index.html">SmolLM 学习路线</a></div>
-  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <div class="hint">Javartisan</div>
   <h3>入口</h3>
   <ul><li><a class="" href="index.html">首页</a></li>
 <li><a class="active" href="学习大纲.html">学习大纲</a></li>
 <li><a class="" href="学习计划.html">学习计划</a></li>
 <li><a class="" href="README.html">README</a></li></ul>
   <h3>材料</h3>
-  <ul><li><a class="" href="材料/Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+  <ul><li><a class="" href="材料/README.html">材料索引</a></li>
+<li><a class="" href="材料/Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
 <li><a class="" href="材料/微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="材料/第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="材料/第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="" href="材料/模型文件说明/README.html">模型文件说明索引</a></li>
 <li><a class="" href="材料/模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="材料/模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -201,48 +205,223 @@ blockquote {
     <div class="main">
       <div class="crumb"><a href="index.html">首页</a> / 学习大纲.html</div>
       <article>
-<h2 id="_1">学习路线</h2>
-<ul>
-<li>
-<p>第 1 周</p>
-<ul>
-<li>SmolLM2-135M: 理解 Transformer、Tokenizer、Dataset、Forward、Loss、Backward。</li>
-</ul>
-</li>
-<li>
-<p>第 2 周</p>
-<ul>
-<li>切换 MPS + 360M: 对比 CPU 与 MPS 的训练速度、内存使用以及 batch size。</li>
-</ul>
-</li>
-<li>
-<p>第 3 周</p>
-<ul>
-<li>LoRA:使用 1.7B 模型进行参数高效微调，理解为什么不需要更新全部参数。</li>
-</ul>
-</li>
-<li>
-<p>第 4 周</p>
-<ul>
-<li>QLoRA:学习量化 + LoRA，理解如何降低大模型微调的显存 / 内存需求。</li>
-</ul>
-</li>
-<li>
-<p>第 5 周</p>
-<ul>
-<li>DPO: 理解 Preference Alignment，以及为什么需要偏好数据。</li>
-</ul>
-</li>
-</ul>
-<h2 id="_2">最终掌握的完整知识链</h2>
-<pre><code>- Pretraining → Base Model → SFT → LoRA → QLoRA → DPO → Reasoning
+<h1 id="smollm">SmolLM 微调学习大纲</h1>
+<p>5 周把这条链跑通，并在本仓库里找到对应代码与阅读材料：</p>
+<pre><code class="language-text">Pretraining → Base → SFT → LoRA → QLoRA → DPO → Reasoning
 </code></pre>
+<p>详细每日任务见 <a href="./学习计划.html">学习计划.md</a>。材料索引见 <a href="./材料/README.html">材料/README.md</a>。</p>
+<p>设备：Intel Mac + PyTorch 2.2.2 时，第 1 周用 CPU 即可；更大模型按计划降配。</p>
 <hr>
-<h2 id="_3">详细执行版</h2>
-<p>已根据本大纲生成可执行学习计划（含第 0 阶段打基础、每日任务、验收标准、本机限制说明）：</p>
-<p>→ <a href="./学习计划.html"><code>学习计划.md</code></a></p>
+<h2 id="_1">每周目标</h2>
+<table>
+<thead>
+<tr>
+<th>周</th>
+<th>大纲目标</th>
+<th>本仓库怎么落地</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 0 阶段</td>
+<td>分清 Encoder / Decoder / tokenizer encode</td>
+<td>精读问答流程文档 + <code>scripts/print_tokens.py</code></td>
+</tr>
+<tr>
+<td><strong>第 1 周</strong></td>
+<td>Transformer、Tokenizer、Dataset、Forward、Loss、Backward</td>
+<td><strong><code>learn/week01/</code> 12 个脚本</strong> + <code>scripts/sft001.py</code></td>
+</tr>
+<tr>
+<td>第 2 周</td>
+<td>CPU vs MPS、内存、batch size</td>
+<td><strong><code>learn/week02/</code> 01～07</strong>（MPS 不可用则 CPU 不同 batch）</td>
+</tr>
+<tr>
+<td>第 3 周</td>
+<td>为何不必更新全部参数（LoRA）</td>
+<td><code>scripts/sft001.py</code> 的 <code>LoraConfig</code></td>
+</tr>
+<tr>
+<td>第 4 周</td>
+<td>量化 + LoRA 如何省显存（QLoRA）</td>
+<td>原理为主，本机工具链可能不完整</td>
+</tr>
+<tr>
+<td>第 5 周</td>
+<td>偏好对齐与偏好数据（DPO）</td>
+<td>手写 chosen/rejected，对照 SFT</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1">第 1 周：材料 × 代码对照（本周重点）</h2>
+<p>一条训练链：</p>
+<pre><code class="language-text">文本 → Tokenizer → input_ids → Embedding+Decoder → logits
+     → Loss → Backward → 参数更新
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>学什么</th>
+<th>阅读材料</th>
+<th>必跑脚本（仓库根目录）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1</td>
+<td>token、id、BPE、特殊符号</td>
+<td><a href="./材料/模型文件说明/02-tokenizer.json结构说明.html">tokenizer 结构</a>、<a href="./材料/第1周知识体系与答疑.html">知识体系 §1</a></td>
+<td><code>learn/week01/01</code>～<code>05</code></td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td>prompt / completion、训练/测试分离</td>
+<td><code>data/train.jsonl</code>、<code>data/test.jsonl</code></td>
+<td><code>06_read_dataset.py</code></td>
+</tr>
+<tr>
+<td>Day 3</td>
+<td><code>__call__</code>、mask、Embedding 查表、logits</td>
+<td><a href="./材料/Encoder-Decoder与LLM问答流程.html">问答流程 §1/8/9</a>、<a href="./材料/第1周知识体系与答疑.html">知识体系 §2</a></td>
+<td><code>07</code>、<code>08</code>；可选 <code>learn/py/call.py</code></td>
+</tr>
+<tr>
+<td>Day 4</td>
+<td><code>train()</code>、Dropout、backward、step</td>
+<td><a href="./材料/微调学习笔记.html#note-5">微调笔记 §5</a>、<a href="./材料/第1周知识体系与答疑.html">知识体系 §3</a></td>
+<td><code>09</code>；可选 <code>learn/py/dropout.py</code></td>
+</tr>
+<tr>
+<td>Day 5</td>
+<td>messages、chat_template、Instruct</td>
+<td><a href="./材料/微调学习笔记.html">微调笔记 §1–2</a></td>
+<td><code>10_sft_messages.py</code> + 通读 <code>scripts/sft001.py</code></td>
+</tr>
+<tr>
+<td>Day 6</td>
+<td>Reference、NLL、字面重合</td>
+<td><a href="./材料/第1周知识体系与答疑.html">知识体系 §5</a></td>
+<td><code>11_eval_metrics.py</code>、<code>scripts/eval_compare.py</code></td>
+</tr>
+<tr>
+<td>Day 7</td>
+<td>把 8 个框串起来</td>
+<td><a href="./材料/第1周知识体系与答疑.html">知识体系速记 + 代码导读</a></td>
+<td><code>12_week1_chain.py</code></td>
+</tr>
+</tbody>
+</table>
+<p>正式训练/评测入口仍在 <code>scripts/</code>（<code>sft001.py</code>、<code>eval_compare.py</code>），<code>learn/week01/</code> 是把概念拆开看的练习。</p>
+<hr>
+<h2 id="_2">材料总览（学习路线内全部阅读包）</h2>
+<table>
+<thead>
+<tr>
+<th>材料</th>
+<th>解决什么困惑</th>
+<th>何时读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="./材料/Encoder-Decoder与LLM问答流程.html">Encoder-Decoder与LLM问答流程.md</a></td>
+<td>有没有 Encoder、Decoder 为何产出向量</td>
+<td>第 0 阶段、第 1 周 Day 3</td>
+</tr>
+<tr>
+<td><a href="./材料/微调学习笔记.html">微调学习笔记.md</a></td>
+<td>Base/Instruct、SFT、DPO、训练 8 步、LoRA</td>
+<td>第 1 周 Day 4～5、第 3/5 周</td>
+</tr>
+<tr>
+<td><a href="./材料/第1周知识体系与答疑.html">第1周知识体系与答疑.md</a></td>
+<td>BPE、四个 tokenizer API、Embedding 层、<code>train</code>/Dropout/<code>backward</code>/<code>step</code>、和大厂差别</td>
+<td>第 1 周全程对照脚本</td>
+</tr>
+<tr>
+<td><a href="./材料/模型文件说明/README.html">模型文件说明/</a></td>
+<td><code>config.json</code> / 权重 / <code>tokenizer.json</code> 门牌</td>
+<td>第 0 阶段 Day 0-3、第 1 周 Day 1</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="25">第 2～5 周（大纲级）</h2>
+<ul>
+<li><strong>第 2 周：</strong> 测设备、对比 batch 与内存；MPS 不可用就做 CPU 不同 batch。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>学什么</th>
+<th>必跑脚本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1</td>
+<td>torch 版本、MPS 是否可用</td>
+<td><code>learn/week02/01_probe_device.py</code></td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td><code>model.to(device)</code>，张量与权重同设备</td>
+<td><code>02_move_to_device.py</code></td>
+</tr>
+<tr>
+<td>Day 2～3</td>
+<td>135M、batch=1，CPU vs MPS</td>
+<td><code>03_cpu_vs_mps.py</code></td>
+</tr>
+<tr>
+<td>Day 4～5</td>
+<td>batch 1→2→4；梯度累积</td>
+<td><code>04_batch_size.py</code>、<code>05_grad_accum.py</code></td>
+</tr>
+<tr>
+<td>Day 6</td>
+<td>尝试 360M（可选）</td>
+<td><code>06_try_360m.py</code>（<code>--download</code> 可选）</td>
+</tr>
+<tr>
+<td>Day 7</td>
+<td>填自己的速度/内存表</td>
+<td><code>07_week2_report.py</code> → <code>reports/week02_device.md</code></td>
+</tr>
+<tr>
+<td>- <strong>第 3 周：</strong> 冻底座、只训 LoRA 补丁；对照 <code>sft001.py</code> 的 <code>r</code> / <code>target_modules</code>。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <strong>第 4 周：</strong> QLoRA = 量化底座 + LoRA；Mac 上以原理为主。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <strong>第 5 周：</strong> SFT 学怎么答，DPO 学哪种更好；先手写偏好数据。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>每日命令与验收清单见 <a href="./学习计划.html">学习计划.md</a>。</p>
+<hr>
+<h2 id="_3">验收（对照大纲）</h2>
+<p>第 1 周结束应能：</p>
+<ul>
+<li>讲清训练一步的 8 个框，并指出对应 <code>learn/week01</code> 脚本  </li>
+<li>区分 tokenizer encode 与 Transformer Encoder  </li>
+<li>说明 <code>model.train()</code> 不是开始训练，<code>backward</code> 写梯度、<code>step</code> 才改权重  </li>
+<li>知道本项目 <code>prompt/completion</code> → messages → chat_template</li>
+</ul>
+<p>5 周结束应能把完整知识链讲给另一个初学者，并在全量 / LoRA / QLoRA 之间按内存做选择。</p>
       </article>
-      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li><li><a href="材料/README.html">学习材料索引</a> <code>材料/README.html</code></li><li><a href="材料/模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="材料/第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="材料/Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="材料/微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="材料/模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>

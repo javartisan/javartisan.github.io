@@ -130,6 +130,7 @@ pre {
   border-radius: 10px;
   padding: 14px 16px;
   overflow: auto;
+  max-height: 42rem;
 }
 pre code { background: transparent; color: inherit; padding: 0; }
 table {
@@ -184,15 +185,18 @@ blockquote {
     
 <aside class="sidebar">
   <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
-  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <div class="hint">Javartisan</div>
   <h3>入口</h3>
   <ul><li><a class="" href="../index.html">首页</a></li>
 <li><a class="" href="../学习大纲.html">学习大纲</a></li>
 <li><a class="" href="../学习计划.html">学习计划</a></li>
 <li><a class="" href="../README.html">README</a></li></ul>
   <h3>材料</h3>
-  <ul><li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+  <ul><li><a class="" href="README.html">材料索引</a></li>
+<li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
 <li><a class="active" href="微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
 <li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -497,7 +501,7 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 </thead>
 <tbody>
 <tr>
-<td><code>sft001.py</code></td>
+<td><code>scripts/sft001.py</code></td>
 <td>Instruct + LoRA 的 SFT 训练脚本（含初学者注释）</td>
 </tr>
 <tr>
@@ -509,8 +513,12 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 <td>独立测试集（不要拿来训练）</td>
 </tr>
 <tr>
-<td><code>eval_compare.py</code></td>
+<td><code>scripts/eval_compare.py</code></td>
 <td>Instruct 底座 vs 微调模型对比，并生成报告</td>
+</tr>
+<tr>
+<td><code>learn/week01/</code></td>
+<td>第 1 周拆开的学习脚本</td>
 </tr>
 <tr>
 <td><code>models/SmolLM2-135M-Instruct</code></td>
@@ -525,13 +533,14 @@ SFT 教「怎么答」；DPO 教「哪种答更好」。</p>
 <p>建议学习顺序：</p>
 <ol>
 <li>读懂本文 Base / Instruct / SFT  </li>
-<li>对照 <code>sft001.py</code> 注释跑通训练  </li>
-<li>用 <code>eval_compare.py</code> 看效果  </li>
+<li>对照 <code>scripts/sft001.py</code> 注释跑通训练  </li>
+<li>用 <code>scripts/eval_compare.py</code> 看效果  </li>
 <li>数据够了再学 DPO 偏好对齐  </li>
 </ol>
 <p>相关文档：</p>
 <ul>
 <li><code>Encoder-Decoder与LLM问答流程.md</code>（同目录）</li>
+<li><code>第1周知识体系与答疑.md</code>（同目录，脚本 API / 训练一步 / 大厂评测）</li>
 <li><code>模型文件说明/</code>（同目录）</li>
 <li>学习计划入口：<code>../学习计划.md</code></li>
 </ul>

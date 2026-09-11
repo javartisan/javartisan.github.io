@@ -130,6 +130,7 @@ pre {
   border-radius: 10px;
   padding: 14px 16px;
   overflow: auto;
+  max-height: 42rem;
 }
 pre code { background: transparent; color: inherit; padding: 0; }
 table {
@@ -184,15 +185,18 @@ blockquote {
     
 <aside class="sidebar">
   <div class="brand"><a href="../../index.html">SmolLM 学习路线</a></div>
-  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <div class="hint">Javartisan</div>
   <h3>入口</h3>
   <ul><li><a class="" href="../../index.html">首页</a></li>
 <li><a class="" href="../../学习大纲.html">学习大纲</a></li>
 <li><a class="" href="../../学习计划.html">学习计划</a></li>
 <li><a class="" href="../../README.html">README</a></li></ul>
   <h3>材料</h3>
-  <ul><li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+  <ul><li><a class="" href="../README.html">材料索引</a></li>
+<li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
 <li><a class="" href="../微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="../第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="../第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="active" href="README.html">模型文件说明索引</a></li>
 <li><a class="" href="01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -229,17 +233,19 @@ blockquote {
 <ol>
 <li>先看 <strong>01</strong>：建立「目录里每个文件」的整体地图  </li>
 <li>再看 <strong>02</strong>：深入 <code>tokenizer.json</code>（你正在打开的大文件）  </li>
-<li>配合运行：<code>python print_tokens.py</code> 观察 token 与 input_ids  </li>
+<li>配合运行：<code>python scripts/print_tokens.py</code> 或 <code>python learn/week01/02_token_and_id.py</code> 观察 token 与 input_ids  </li>
 </ol>
 <hr>
 <h2 id="_4">相关其它笔记</h2>
 <ul>
-<li>同级材料：<code>../微调学习笔记.md</code>（SFT / DPO / Instruct / 训练流程）</li>
-<li>同级材料：<code>../Encoder-Decoder与LLM问答流程.md</code></li>
-<li>学习计划：<code>../../学习计划.md</code></li>
+<li>材料总索引：<a href="../README.html">../README.md</a></li>
+<li>同级材料：<a href="../微调学习笔记.html">微调学习笔记.md</a>（SFT / DPO / Instruct / 训练流程）</li>
+<li>同级材料：<a href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder与LLM问答流程.md</a></li>
+<li>第 1 周答疑：<a href="../第1周知识体系与答疑.html">第1周知识体系与答疑.md</a></li>
+<li>学习计划：<a href="../../学习计划.html">../../学习计划.md</a></li>
 </ul>
       </article>
-      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li></ul></section>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="../README.html">学习材料索引</a> <code>材料/README.html</code></li><li><a href="../微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="../Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="../第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="../../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>

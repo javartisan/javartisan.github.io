@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第 1 周知识体系与答疑 · 学习路线</title>
+  <style>
+:root {
+  --bg: #f4f1ea;
+  --sidebar: #1c1917;
+  --sidebar-text: #e7e5e4;
+  --sidebar-muted: #a8a29e;
+  --card: #fffdf8;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --link: #0f766e;
+  --link-hover: #115e59;
+  --code-bg: #f5f5f4;
+  --accent: #c2410c;
+  --ref-bg: #ecfdf5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: var(--sidebar);
+  color: var(--sidebar-text);
+  padding: 20px 16px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+.sidebar a { color: var(--sidebar-text); text-decoration: none; }
+.sidebar a:hover { color: #fff; }
+.sidebar .brand {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  margin: 0 0 6px;
+}
+.sidebar .brand a { color: #fdba74; }
+.sidebar .hint {
+  color: var(--sidebar-muted);
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.sidebar h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-muted);
+  margin: 18px 0 8px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.sidebar li { margin: 0; }
+.sidebar li a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.sidebar li a.active {
+  background: #292524;
+  color: #fdba74;
+}
+.sidebar .sub {
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.sidebar .sub a {
+  font-size: 12.5px;
+  color: var(--sidebar-muted);
+  padding: 4px 10px;
+}
+.main {
+  padding: 28px 28px 72px;
+}
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumb a { color: var(--link); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; }
+article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 34px 36px;
+  box-shadow: 0 10px 30px rgba(28,25,23,.04);
+  max-width: 920px;
+}
+article h1 { margin-top: 0; font-size: 1.85rem; }
+article h2 {
+  margin-top: 2em;
+  padding-bottom: .35em;
+  border-bottom: 1px solid var(--border);
+}
+article a { color: var(--link); }
+article a:hover { color: var(--link-hover); }
+code {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  background: var(--code-bg);
+  padding: .12em .38em;
+  border-radius: 6px;
+  font-size: .9em;
+}
+pre {
+  background: #1c1917;
+  color: #f5f5f4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+  max-height: 42rem;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: .95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+blockquote {
+  margin: 1em 0;
+  padding: .3em 1em;
+  border-left: 4px solid var(--accent);
+  background: #fff7ed;
+  color: var(--muted);
+}
+.refs {
+  max-width: 920px;
+  margin-top: 18px;
+  background: var(--ref-bg);
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.refs h3 { margin: 0 0 8px; font-size: 14px; color: #065f46; }
+.refs ul { margin: 0; padding-left: 1.2em; }
+.refs li { margin: 4px 0; font-size: 14px; }
+.footer {
+  max-width: 920px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    
+<aside class="sidebar">
+  <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
+  <div class="hint">Javartisan</div>
+  <h3>入口</h3>
+  <ul><li><a class="" href="../index.html">首页</a></li>
+<li><a class="" href="../学习大纲.html">学习大纲</a></li>
+<li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../README.html">README</a></li></ul>
+  <h3>材料</h3>
+  <ul><li><a class="" href="README.html">材料索引</a></li>
+<li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+<li><a class="" href="微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="active" href="第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="第1周代码学习.html">第 1 周 代码学习</a></li></ul>
+<li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
+<li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
+<li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
+</aside>
+
+    <div class="main">
+      <div class="crumb"><a href="../index.html">首页</a> / 材料/第1周知识体系与答疑.html</div>
+      <article>
+<h1 id="1">第 1 周知识体系与答疑</h1>
+<p>整理学习过程中的真实困惑：Tokenizer、前向输入、Embedding、训练一步，以及和「大厂训练 / 评测」的差别。</p>
+<p>入口：<a href="./README.html">材料索引</a> · <a href="./第1周代码学习.html">第 1 周代码学习</a> · <a href="../学习大纲.html">学习大纲</a> · <a href="../学习计划.html">学习计划</a></p>
+<p>运行约定：仓库根目录、<code>source venv/bin/activate</code>。共用加载在 <code>learn/week01/_common.py</code>。</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>干什么</th>
+<th>带走一句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_common.py</code></td>
+<td>找本地模型、加载 tokenizer / 模型到 CPU</td>
+<td>练习脚本短，路径判断集中在这里</td>
+</tr>
+<tr>
+<td><code>01_load_tokenizer.py</code></td>
+<td>加载分词器，看词表大小和 bos/eos/pad</td>
+<td>Tokenizer 是翻译官，不是模型本身</td>
+</tr>
+<tr>
+<td><code>02_token_and_id.py</code></td>
+<td><code>tokenize</code> + <code>convert_tokens_to_ids</code></td>
+<td>token 是片段，input_id 是数字</td>
+</tr>
+<tr>
+<td><code>03_encode_decode.py</code></td>
+<td>encode ↔ decode；encode ≠ Encoder</td>
+<td>往返应能还原原文</td>
+</tr>
+<tr>
+<td><code>04_chinese_vs_english.py</code></td>
+<td>中英对照切词，看 BPE 拆中文</td>
+<td>通用 BPE，不是汉字字典</td>
+</tr>
+<tr>
+<td><code>05_special_tokens.py</code></td>
+<td>对话特殊符与词表查询</td>
+<td>特殊符标对话结构；整词不在表里就拆</td>
+</tr>
+<tr>
+<td><code>06_read_dataset.py</code></td>
+<td>读 <code>train.jsonl</code> / <code>test.jsonl</code></td>
+<td>prompt/completion；测试集不能拿去训</td>
+</tr>
+<tr>
+<td><code>07_forward_logits.py</code></td>
+<td><code>__call__</code> → 前向 → logits / generate</td>
+<td>一次前向只预测下一个 token</td>
+</tr>
+<tr>
+<td><code>08_embedding.py</code></td>
+<td><code>get_input_embeddings()</code> 按行查表</td>
+<td>没有独立 Encoder 也会变成向量</td>
+</tr>
+<tr>
+<td><code>09_loss_backward.py</code></td>
+<td>train / Loss / backward / step</td>
+<td><code>train()</code> 换挡，<code>step()</code> 才改权重</td>
+</tr>
+<tr>
+<td><code>10_sft_messages.py</code></td>
+<td>messages + <code>apply_chat_template</code></td>
+<td>Instruct 对齐问答格式</td>
+</tr>
+<tr>
+<td><code>11_eval_metrics.py</code></td>
+<td>Reference、简化 F1、NLL</td>
+<td>字面重合 ≠ 一定懂了</td>
+</tr>
+<tr>
+<td><code>12_week1_chain.py</code></td>
+<td>把 8 个框串一遍</td>
+<td>第 1 周验收脚本</td>
+</tr>
+<tr>
+<td><code>learn/py/call.py</code></td>
+<td><code>*</code> / <code>**</code> 与 <code>__call__</code></td>
+<td><code>model(**inputs)</code> 按名字拆字典</td>
+</tr>
+<tr>
+<td><code>learn/py/dropout.py</code></td>
+<td>Dropout train vs eval（不加载大模型）</td>
+<td>训练随机蒙，推理全开</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_1">知识体系总图</h2>
+<pre><code class="language-text">文字
+  → Tokenizer（tokenize / encode / __call__）
+  → input_ids + attention_mask
+  → Embedding 层（查表成向量）
+  → Decoder（层间仍是向量）
+  → logits
+        ├─ 推理：选 token → 循环 → decode 成字
+        └─ 训练：Loss → backward（写梯度）→ optimizer.step（改权重）
+</code></pre>
+<p>四层不要混：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>解决什么</th>
+<th>不是什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokenizer</td>
+<td>文字 ↔ 编号</td>
+<td>不是 Transformer Encoder</td>
+</tr>
+<tr>
+<td>Embedding</td>
+<td>编号 → 向量（模型内部一层）</td>
+<td>不是 BGE 那种检索模型</td>
+</tr>
+<tr>
+<td>训练一步</td>
+<td>让预测靠近标签</td>
+<td><code>model.train()</code> 本身不是开始训练</td>
+</tr>
+<tr>
+<td>大厂工程 / 评测</td>
+<td>规模、容错、门禁</td>
+<td>不是另一套反向传播公式</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-tokenizer">1. Tokenizer：切分与编号</h2>
+<h3 id="11-api">1.1 四个 API</h3>
+<pre><code class="language-text">原文
+  ├─ tokenize                  → 文字碎片
+  │       └─ convert_tokens_to_ids → id 列表（只查表，不会切句）
+  ├─ encode                    → id 列表（切 + 查，可加特殊符）
+  └─ tokenizer(...) 即 __call__ → 字典：input_ids + attention_mask（可变成张量）
+</code></pre>
+<p>不加特殊符号时，本仓库 SmolLM2 上通常：</p>
+<pre><code class="language-text">tokenize + convert_tokens_to_ids
+    ≈ encode(..., add_special_tokens=False)
+    ≈ tokenizer(text)[&quot;input_ids&quot;] 里的数字
+</code></pre>
+<p><code>tokenizer</code> 是对象不是函数；<code>tokenizer(...)</code> 调用的是 <code>__call__</code>。<br>
+<code>model(**inputs)</code> 的 <code>**</code> 表示按名字把字典拆成关键字参数（见 <code>learn/py/call.py</code>）。</p>
+<h3 id="12-input_ids-attention_mask">1.2 <code>input_ids</code> 与 <code>attention_mask</code></h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_ids</code></td>
+<td>每个位置的词表编号，拿去 Embedding 查向量</td>
+</tr>
+<tr>
+<td><code>attention_mask</code></td>
+<td>与 ids 等长；<code>1</code>=真实 token，<code>0</code>=padding，注意力应忽略</td>
+</tr>
+</tbody>
+</table>
+<p>单句无补齐时 mask 全是 1。短句和长句一起 padding 时才关键。本模型 pad 常与 eos 同为 id=2。</p>
+<h3 id="13-bpe-id">1.3 通用 BPE，不是「一个汉字一个 id」</h3>
+<ul>
+<li>词表约 49152，预训练定死；不是汉字字典，也不是 Java 字典。</li>
+<li><strong>BPE</strong>：从很小的片（本模型是 UTF-8 字节）起，合并高频相邻对。</li>
+<li>英文常见词常 1 个 token；中文常被拆成多片，显示可能像乱码，<code>decode</code> 后仍是正确中文。</li>
+<li><code>Ġ</code> 多表示前面有空格。</li>
+</ul>
+<p>其它切法（光谱）：整词 → 子词（BPE / WordPiece / Unigram）→ 单字 → 纯字节。<br>
+SentencePiece 是实现，不是第四种算法。</p>
+<h3 id="14">1.4 字不在整词表里怎么办</h3>
+<p>Byte-level BPE 会拆成字节/子词再编码，一般<strong>不会</strong>变成 UNK。<br>
+「不在表里」≠ 模型看不见；看不见的是整词 id，看得见的是组成它的小片。<br>
+理解上：常见组合见得多就稳，生僻字能编码但可能弱一些。微调通常不为此改词表。</p>
+<hr>
+<h2 id="2-embedding">2. Embedding：数字如何变成向量</h2>
+<p>路径：</p>
+<pre><code class="language-text">Tokenizer（模型外）→ input_ids
+  → Embedding 层（模型最前，get_input_embeddings()）→ 向量
+  → Decoder 各层 → 向量
+  → lm_head → logits
+</code></pre>
+<ul>
+<li><code>get_input_embeddings()</code> 拿到的是 <code>nn.Embedding</code> 查表，本仓库即 <code>model.model.embed_tokens</code>，权重约 <code>[49152, 576]</code>。</li>
+<li><code>vectors = embedding(ids)</code>：用 id 当行号取 <code>weight[id]</code>，形状从 <code>[batch, seq]</code> 变成 <code>[batch, seq, 576]</code>。</li>
+<li>验证：<code>vectors[0,0]</code> 应与 <code>weight[token_id]</code> 几乎相等（<code>torch.allclose</code>）。</li>
+<li>这与独立句向量模型（BGE / E5）不是一回事。</li>
+<li>SmolLM2 常 <code>tie_word_embeddings=True</code>：输入表与 <code>lm_head</code> 共用权重。</li>
+</ul>
+<p>三种输出：层间向量 ≠ logits ≠ <code>tokenizer.decode</code> 得到的汉字。</p>
+<hr>
+<h2 id="3-dropout">3. 训练一步：开关、Dropout、反传、更新</h2>
+<h3 id="31">3.1 谁才是「开始训练」</h3>
+<pre><code class="language-text">model.train()          只切换模式（换挡），不改权重
+optimizer.zero_grad()  清旧梯度
+model(...)             Forward，得到 loss
+loss.backward()        写 param.grad（阅卷）
+optimizer.step()       按梯度改权重（改作业）
+</code></pre>
+<p><code>model.eval()</code> 切推理行为。<code>07</code>/<code>08</code> 用 eval；<code>09</code> 用 train。<br>
+<code>scripts/sft001.py</code> 的 <code>trainer.train()</code> 才是多步循环；每一步仍是上面这条油门。</p>
+<p><code>train()</code> <strong>不会</strong>改变：权重数值、<code>requires_grad</code>、有没有 <code>no_grad</code>。<br>
+能反传看图和 <code>requires_grad</code>；能改权重看 <code>step()</code>。</p>
+<h3 id="32-train">3.2 <code>train()</code> 具体改哪些行为</h3>
+<p>给子模块打上 <code>training=True</code>，各层 <code>forward</code> 自己换算法：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>train()</th>
+<th>eval()</th>
+<th>本仓库 SmolLM2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dropout</td>
+<td>随机置 0，留下的放大</td>
+<td>原样输出</td>
+<td><code>attention_dropout=0</code>，几乎无差别</td>
+</tr>
+<tr>
+<td>BatchNorm</td>
+<td>用当前 batch 统计并更新 running 均值</td>
+<td>用记住的均值</td>
+<td>本模型是 RMSNorm，一般不看该标志</td>
+</tr>
+<tr>
+<td>注意力 dropout</td>
+<td>随机打掉部分注意力</td>
+<td>完整注意力</td>
+<td>概率为 0</td>
+</tr>
+</tbody>
+</table>
+<p>习惯上仍成对使用 train/eval，换到带 Dropout 的模型才看出差别。</p>
+<h3 id="33-dropout">3.3 Dropout 小例子与常见误解</h3>
+<p>训练随机蒙一部分神经元（下标，不是「句子第 2、3 个字」），每次蒙的位置可不同。<br>
+推理 <strong>eval 关闭 Dropout</strong>，用全部神经元，不沿用某一次训练的蒙眼位置。</p>
+<p>inverted dropout：训练时留下的乘 <code>1/(1-p)</code>，使期望接近推理全开。<br>
+若推理还 <code>train()</code>，每次随机蒙眼，预测会乱跳。数字示例：<code>python learn/py/dropout.py</code>。</p>
+<h3 id="34-backward-step">3.4 <code>backward</code> 与 <code>step</code></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>loss.backward()</code></th>
+<th><code>optimizer.step()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>做什么</td>
+<td>链式法则算梯度，写入 <code>.grad</code>（会累加）</td>
+<td>SGD：<code>weight ← weight - lr × grad</code></td>
+</tr>
+<tr>
+<td>不做什么</td>
+<td>不改权重、不生成文本</td>
+<td>不算新梯度，默认不清 <code>.grad</code></td>
+</tr>
+</tbody>
+</table>
+<p>只有 backward：权重不动。只有 step：<code>.grad</code> 为空或是旧的。<br>
+两次 backward 不 <code>zero_grad</code>：梯度累加。<br>
+<code>no_grad</code> 下没有计算图，不能 backward。</p>
+<hr>
+<h2 id="4">4. 和互联网大厂训练：公式相同，外壳不同</h2>
+<p><strong>本质相同：</strong> 预测下一个 token + 交叉熵 + 反传 + 优化器。不是另一套物理学。</p>
+<p><strong>差在知识链位置与量级：</strong></p>
+<pre><code class="language-text">大厂：万亿 token 预训练 → Base → SFT → 偏好对齐 → 安全/产品
+你们：现成 SmolLM2-135M → 小数据 Java SFT（09 甚至只 1 步、只动 Embedding）
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>当前脚本</th>
+<th>大厂日常多出来的壳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时间</td>
+<td>一步或数 epoch</td>
+<td>连续数天 + 断点续训</td>
+</tr>
+<tr>
+<td>数据</td>
+<td>干净短 jsonl</td>
+<td>数据工厂 + 跳坏 batch</td>
+</tr>
+<tr>
+<td>算力</td>
+<td>CPU、bs=1、LoRA</td>
+<td>千卡并行、混合精度</td>
+</tr>
+<tr>
+<td>监控</td>
+<td>看 loss 变小</td>
+<td>尖刺、裁剪、NaN 回退</td>
+</tr>
+<tr>
+<td>评测</td>
+<td>十几条 test + NLL/F1</td>
+<td>多基准 + 人工 + 安全 + A/B</td>
+</tr>
+</tbody>
+</table>
+<p>大厂如何处理常见问题（思路，不是某一家内部机密）：</p>
+<ul>
+<li><strong>不断点：</strong> checkpoint（权重+优化器+数据位置）、弹性补卡、超时踢故障节点。  </li>
+<li><strong>脏数据 / loss 尖刺：</strong> 预训练前清洗配比；训练中跳过 NaN/极大 loss；梯度裁剪；warmup。  </li>
+<li><strong>卡死：</strong> 多为分布式通信等死，超时重启。  </li>
+<li><strong>数值：</strong> 多用 BF16；FP16 配 loss scaling；Inf 则跳过或回退 checkpoint。  </li>
+<li><strong>分布式：</strong> DDP / ZeRO-FSDP / 张量并行 / 流水线；逻辑上仍是一次 backward + 一次 step。  </li>
+<li><strong>吞吐：</strong> Flash Attention、packing、梯度累积、数据加载别让 GPU 空等。</li>
+</ul>
+<p>入职「应用微调」吃当前这条路；万卡预训练还要分布式、容错、数据工程。地基是同一套公式，缺的是规模和项目，不是魔法。</p>
+<hr>
+<h2 id="5">5. 训完如何评质量：没有一张统考卷</h2>
+<p><strong>没有</strong>「MMLU 达到 xx 即可上线」的国际强制标准。行业习惯是 <strong>可复现的多层评测</strong>，不是一个万能分数。</p>
+<pre><code class="language-text">1. 训练健康     loss 是否正常（没训崩 ≠ 质量好）
+2. 能力基准     公开题 + 内部私有集（防污染、防刷榜）
+3. 人工         绝对分或 A vs B 成对比较
+4. 安全         拒答、越狱、违法；过不了不能发版
+5. 产品         延迟、成本、好评、A/B
+</code></pre>
+<p>公开基准只是事实标准（MMLU、GSM8K、HumanEval、IFEval、C-Eval、MT-Bench 等），必须固定解码参数。<br>
+NLL/PPL 适合监控和同系列对比；字面 F1 适合小数据领域 SFT，开放聊天很弱。<br>
+选择题高 ≠ 对话好用；数据污染会让公开分虚高。</p>
+<p>你们已有最小闭环：独立 <code>test.jsonl</code> + 参考答案 + NLL/字面重合。往厂里习惯靠：评测脚本固定、题不与训练重复、开放生成加少量人工。</p>
+<h3 id="51">5.1 本仓库三个数字：行业地位 + 手算</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>是不是行业常用</th>
+<th>本仓库怎么算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference</td>
+<td>不是分数，是标准答案（gold）</td>
+<td><code>test.jsonl</code> 的 <code>completion</code></td>
+</tr>
+<tr>
+<td>Token F1</td>
+<td><strong>F1 公式常用</strong>；本实现是简化「字符集合」</td>
+<td><code>set(pred)</code> 与 <code>set(ref)</code> 的 P/R 调和平均</td>
+</tr>
+<tr>
+<td>Keyword Hit</td>
+<td><strong>不是标准名称</strong></td>
+<td>英文词 + 中文二字片，看预测覆盖率</td>
+</tr>
+<tr>
+<td>NLL</td>
+<td><strong>是</strong>，常同时报 PPL=<code>exp(NLL)</code></td>
+<td>参考答案的平均 <code>-ln P</code>；正式脚本只对 assistant 计</td>
+</tr>
+</tbody>
+</table>
+<p>行业亲戚：Exact Match、BLEU、ROUGE-L、BERTScore、Pass@k、人工 A/B、延迟（<code>eval_compare.py</code> 已记 Latency）。</p>
+<p><strong>Token F1 手算</strong>（<code>11_eval_metrics.py</code> 会打印）：</p>
+<pre><code class="language-text">ref  = 不能实例化      → {不,能,实,例,化}     大小 5
+pred = 不能直接实例化  → {不,能,直,接,实,例,化} 大小 7
+交集 = {不,能,实,例,化} 大小 5
+P=5/7≈0.714  R=5/5=1  F1=2PR/(P+R)≈0.833
+</code></pre>
+<p>顺序和字频都丢掉了：「实例化不能」分数相同。SQuAD 的 token F1 会按词计数，比这更严。</p>
+<p><strong>Keyword Hit 手算</strong>：</p>
+<pre><code class="language-text">ref  = interface 不能实例化
+关键词 = interface, 不能, 能实, 实例, 例化
+pred = 接口不能被实例化
+命中 不能 / 实例 / 例化，未命中 interface / 能实
+Hit = 3/5 = 0.600
+</code></pre>
+<p><strong>NLL 手算</strong>（3 个 token 概率 0.50 / 0.40 / 0.20）：</p>
+<pre><code class="language-text">-ln P = 0.693, 0.916, 1.609
+平均 NLL ≈ 1.073    PPL = exp(NLL) ≈ 2.92
+</code></pre>
+<p>数字越小越「不意外」。<code>11</code> 脚本整段算 loss 是演示；<code>eval_compare.completion_nll</code> 套 chat 且只对答案计。</p>
+<p>跑：<code>python learn/week01/11_eval_metrics.py</code></p>
+<hr>
+<h2 id="6">6. 速记卡片</h2>
+<ol>
+<li><code>tokenize</code> 切片，<code>convert_tokens_to_ids</code> 查号，<code>encode</code> 两步合一，<code>__call__</code> 再打包 mask/张量。  </li>
+<li>中文被 BPE 拆碎是正常的；整字不在词表会拆字节，一般不是 UNK。  </li>
+<li>Embedding 是内部查表层；<code>embedding(ids)</code> 按行取向量。  </li>
+<li><code>train()</code> 换挡；<code>backward</code> 阅卷；<code>step</code> 改作业。  </li>
+<li>Dropout 训练随机蒙、推理全开；推理继续 <code>train()</code> 才会乱跳。  </li>
+<li>大厂与脚本同一公式；多的是数据、并行、容错和评测门禁。  </li>
+<li>质量评估是多维度流程，没有一张行业统考卷。</li>
+</ol>
+<hr>
+<h2 id="code-guide">7. 代码导读（week01 与 learn/py）</h2>
+<p>下面按文件总结：<strong>这段代码在干什么、关键写法、跑完应留下什么</strong>。概念细节见上文第 1～5 节。</p>
+<h3 id="71-_commonpy">7.1 <code>_common.py</code>：共用找文件 / 加载</h3>
+<ul>
+<li><code>ROOT</code> = <code>learn/week01/</code> 再上两级，即仓库根。</li>
+<li>数据：<code>data/train.jsonl</code>、<code>data/test.jsonl</code>。</li>
+<li>模型候选顺序：Instruct → Base → 已微调目录；以目录里有 <code>config.json</code> 为准。</li>
+<li><code>load_tokenizer()</code>：只读分词器（Day 1～2、Day 5 够用）。</li>
+<li><code>load_model()</code>：分词器 + <code>AutoModelForCausalLM</code>，<code>local_files_only=True</code>，<code>model.to("cpu")</code>；若没有 <code>pad_token</code> 则用 <code>eos_token</code> 兼任。</li>
+</ul>
+<h3 id="72-day-10105-tokenizer">7.2 Day 1：<code>01</code>～<code>05</code> Tokenizer</h3>
+<p><strong><code>01_load_tokenizer.py</code></strong></p>
+<pre><code class="language-text">tokenizer, model_dir = load_tokenizer()
+len(tokenizer) / tokenizer.vocab_size     # 约 49152
+bos / eos / pad / unk 的符号和 id
+</code></pre>
+<p>从 <code>tokenizer.json</code> 等文件加载。结论：模型只认识 <code>0 ~ vocab_size-1</code>；词表预训练定死，本项目微调一般不改。</p>
+<p><strong><code>02_token_and_id.py</code></strong></p>
+<pre><code class="language-text">tokens = tokenizer.tokenize(text)
+ids    = tokenizer.convert_tokens_to_ids(tokens)
+tokenizer.decode([tid])   # 单个 id 还原成可读碎片
+</code></pre>
+<p>可命令行换句子。<code>Ġ</code> 打印时换成 <code>▁</code>，表示前面常有空格。结论：计算用的是数字，同一词表下同一片段 id 固定。</p>
+<p><strong><code>03_encode_decode.py</code></strong></p>
+<pre><code class="language-text">ids_plain   = tokenizer.encode(text, add_special_tokens=False)
+ids_special = tokenizer.encode(text, add_special_tokens=True)
+tokenizer.decode(ids, skip_special_tokens=True)
+</code></pre>
+<p>本 tokenizer 对普通句子常常不加 bos/eos；对话符号主要靠 <code>chat_template</code>（见 <code>10</code>）。结论：<code>tokenizer.encode</code> ≠ Transformer Encoder。</p>
+<p><strong><code>04_chinese_vs_english.py</code></strong></p>
+<p>三句英文、三句中文对照：<code>tokenize</code> 看碎片，<code>convert_tokens_to_ids</code> 看数字，<code>decode</code> 拼回去。英文高频词常 1 个 token；中文常多片、显示像乱码。结论：Byte-level BPE，不是「一个汉字一个 id」，也不是 Java 字典。</p>
+<p><strong><code>05_special_tokens.py</code></strong></p>
+<pre><code class="language-text">tokenizer.convert_tokens_to_ids(&quot;&lt;|im_start|&gt;&quot;)  # 等
+vocab = tokenizer.get_vocab()                    # 字符串 → id
+&quot;Java&quot; in vocab    vs   tokenizer.tokenize(&quot;什么&quot;)
+</code></pre>
+<p>Instruct 靠 <code>&lt;|im_start|&gt;</code> / <code>&lt;|im_end|&gt;</code> 标角色。词表没有整词就拆，不会直接报错。</p>
+<h3 id="73-day-206_read_datasetpy">7.3 Day 2：<code>06_read_dataset.py</code></h3>
+<pre><code class="language-text">json.loads(每行) → list[dict]
+字段：prompt（问题）、completion（标准答案）
+</code></pre>
+<p>打印训练集/测试集条数与前 3 条。作业：自己在 <code>train.jsonl</code> 末尾加 2 条短 Java 问答，<strong>不要写进</strong> <code>test.jsonl</code>。结论：测试集混进训练 = 提前看答案，分数虚高。</p>
+<h3 id="74-day-307-08-embeddingcallpy">7.4 Day 3：<code>07</code> 前向、<code>08</code> Embedding、<code>call.py</code></h3>
+<p><strong><code>learn/py/call.py</code></strong>（不加载模型，先搞懂星号）</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定义 <code>*args</code> / <code>**kwargs</code></td>
+<td>打包：多出来的位置参数进元组，关键字进字典</td>
+</tr>
+<tr>
+<td>调用 <code>*列表</code> / <code>**字典</code></td>
+<td>拆包：<code>f(*[1,2])</code> = <code>f(1,2)</code>；<code>f(**{"x":1})</code> = <code>f(x=1)</code></td>
+</tr>
+<tr>
+<td>对象 <code>obj(...)</code></td>
+<td>走 <code>__call__</code></td>
+</tr>
+</tbody>
+</table>
+<p>对照 <code>07</code>：<code>tokenizer(text)</code> 是 <code>__call__</code>；<code>model(**inputs)</code> 把 <code>input_ids</code>、<code>attention_mask</code> 按名字传入。</p>
+<p><strong><code>07_forward_logits.py</code></strong></p>
+<pre><code class="language-text">model.eval()
+inputs = tokenizer(text, return_tensors=&quot;pt&quot;)   # BatchEncoding：ids + mask
+with torch.no_grad():
+    logits = model(**inputs).logits             # [1, seq, vocab]
+next_id = argmax(logits[0, -1])                 # 只预测下一个碎片
+model.generate(..., max_new_tokens=12)          # 循环前向才得到一段话
+apply_chat_template(...)                        # 套对话格式再生成
+</code></pre>
+<p>裸问题容易乱续写；套 chat 后才像答题。结论：logits 是分数；一次前向 ≠ 完整答案。</p>
+<p><strong><code>08_embedding.py</code></strong></p>
+<pre><code class="language-text">ids = tokenizer.encode(&quot;Java&quot;, add_special_tokens=False, return_tensors=&quot;pt&quot;)
+embedding = model.get_input_embeddings()        # nn.Embedding = embed_tokens
+vectors = embedding(ids)                        # [1, seq, 576]
+allclose(vectors[0,0], embedding.weight[token_id])  # 查表层 = 按行取表
+lm_head 与 embedding 常 tie_word_embeddings（共用权重）
+</code></pre>
+<p>结论：没有独立 Encoder，也会 Embedding 成向量；这不是 BGE 那种句向量模型。</p>
+<h3 id="75-day-409-dropoutpy">7.5 Day 4：<code>09</code> 训练一步、<code>dropout.py</code></h3>
+<p><strong><code>learn/py/dropout.py</code></strong></p>
+<pre><code class="language-text">x = [1, 2, 3, 4, 5]
+drop = nn.Dropout(p=0.5)
+drop.train() → 每次随机置 0，留下的 × 2（inverted dropout）
+drop.eval()  → 原样输出，两次相同
+</code></pre>
+<p>蒙的是向量<strong>下标</strong>，不是「句子第 2、3 个字」。推理继续 <code>train()</code> 会乱跳。SmolLM2 的 <code>attention_dropout=0</code>，大模型上几乎看不出差别，所以用这个小例子。</p>
+<p><strong><code>09_loss_backward.py</code></strong></p>
+<pre><code class="language-text">冻住全部参数，只解冻 Embedding
+labels = input_ids.clone()          # 因果 LM：用位置 i 预测 i+1
+model.train()
+optimizer.zero_grad()
+loss = model(input_ids=..., labels=...).loss
+loss.backward()                     # 只写 .grad
+optimizer.step()                    # SGD：weight ← weight - lr × grad
+打印某个权重 before / after
+</code></pre>
+<p><code>scripts/sft001.py</code> 的 <code>trainer.train()</code> 才是多步循环；每一步仍是这条油门。正式训练多用 AdamW + LoRA，公式同类。</p>
+<h3 id="76-day-510_sft_messagespy">7.6 Day 5：<code>10_sft_messages.py</code></h3>
+<pre><code class="language-text">{prompt, completion}
+  → [{system}, {user: prompt}, {assistant: completion}]   # 与 sft001.to_messages 一致
+apply_chat_template(..., add_generation_prompt=False)     # 训练：含答案
+apply_chat_template(system+user, add_generation_prompt=True)  # 推理：末尾 assistant 开口
+</code></pre>
+<p>观察 <code>&lt;|im_start|&gt;role</code> … <code>&lt;|im_end|&gt;</code>。结论：Base 会续写；问答 SFT 用 Instruct + 对话模板。</p>
+<h3 id="77-day-611_eval_metricspy">7.7 Day 6：<code>11_eval_metrics.py</code></h3>
+<pre><code class="language-text">Reference = test.jsonl 的 completion
+token_f1：按字符集合算简化 F1（与 eval_compare 相同思路）
+NLL：本脚本把「问题+答案」整段算 loss（演示）；正式脚本只对答案计 loss 且套 chat
+</code></pre>
+<p>完全相同 F1≈1，跑题≈0。完整对比：<code>python scripts/eval_compare.py</code> 与 <code>reports/compare_report_latest.md</code>。</p>
+<h3 id="78-day-712_week1_chainpy">7.8 Day 7：<code>12_week1_chain.py</code></h3>
+<p>用训练集第一条问题，口头+代码走完 8 框：</p>
+<pre><code class="language-text">① 文本 → ② tokenize → ③ encode 得 ids
+→ ④ embedding(ids) 得 [1, seq, 576]
+→ ⑤ model(...).logits
+→ ⑥⑦⑧ 只训 Embedding：loss → backward → step
+</code></pre>
+<p>验收口答写在脚本末尾：有没有 Encoder、Decoder 为何产出向量、SFT 数据格式。</p>
+<h3 id="79">7.9 和正式脚本的边界</h3>
+<table>
+<thead>
+<tr>
+<th>练习（拆开看）</th>
+<th>正式入口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>learn/week01/01</code>～<code>12</code>、<code>learn/py/*</code></td>
+<td><code>scripts/print_tokens.py</code>、<code>main.py</code>、<code>sft001.py</code>、<code>eval_compare.py</code></td>
+</tr>
+</tbody>
+</table>
+<p>第 1 周先把练习跑通；改超参、真训练、出报告再进 <code>scripts/</code>。</p>
+<hr>
+<h2 id="_2">相关精读</h2>
+<ul>
+<li><a href="./README.html">材料索引</a>  </li>
+<li><a href="./Encoder-Decoder与LLM问答流程.html">Encoder-Decoder与LLM问答流程.md</a>  </li>
+<li><a href="./微调学习笔记.html">微调学习笔记.md</a>  </li>
+<li><a href="./模型文件说明/02-tokenizer.json结构说明.html">02-tokenizer.json结构说明.md</a>  </li>
+</ul>
+      </article>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="README.html">学习材料索引</a> <code>材料/README.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li></ul></section>
+      <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
+    </div>
+  </div>
+</body>
+</html>

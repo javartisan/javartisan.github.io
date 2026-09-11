@@ -130,6 +130,7 @@ pre {
   border-radius: 10px;
   padding: 14px 16px;
   overflow: auto;
+  max-height: 42rem;
 }
 pre code { background: transparent; color: inherit; padding: 0; }
 table {
@@ -184,15 +185,18 @@ blockquote {
     
 <aside class="sidebar">
   <div class="brand"><a href="../../index.html">SmolLM 学习路线</a></div>
-  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <div class="hint">Javartisan</div>
   <h3>入口</h3>
   <ul><li><a class="" href="../../index.html">首页</a></li>
 <li><a class="" href="../../学习大纲.html">学习大纲</a></li>
 <li><a class="" href="../../学习计划.html">学习计划</a></li>
 <li><a class="" href="../../README.html">README</a></li></ul>
   <h3>材料</h3>
-  <ul><li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+  <ul><li><a class="" href="../README.html">材料索引</a></li>
+<li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
 <li><a class="" href="../微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="../第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="../第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="" href="README.html">模型文件说明索引</a></li>
 <li><a class="" href="01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="active" href="02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -311,7 +315,7 @@ SmolLM 常见为 <code>ByteLevel</code>，负责处理前导空格等细节（�
 <li><strong><code>vocab</code></strong>：允许出现哪些 token、对应哪个数字  </li>
 <li><strong><code>merges</code></strong>：按什么优先级把小片合成更大 token  </li>
 </ul>
-<p><code>print_tokens.py</code> 打印的 token / input_id，主要来自这里。</p>
+<p><code>scripts/print_tokens.py</code> 打印的 token / input_id，主要来自这里。</p>
 <hr>
 <p><a id="tok-3"></a></p>
 <h2 id="3">3. 编码 / 解码流水线</h2>

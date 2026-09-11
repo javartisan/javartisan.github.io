@@ -130,6 +130,7 @@ pre {
   border-radius: 10px;
   padding: 14px 16px;
   overflow: auto;
+  max-height: 42rem;
 }
 pre code { background: transparent; color: inherit; padding: 0; }
 table {
@@ -184,15 +185,18 @@ blockquote {
     
 <aside class="sidebar">
   <div class="brand"><a href="../../index.html">SmolLM 学习路线</a></div>
-  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <div class="hint">Javartisan</div>
   <h3>入口</h3>
   <ul><li><a class="" href="../../index.html">首页</a></li>
 <li><a class="" href="../../学习大纲.html">学习大纲</a></li>
 <li><a class="" href="../../学习计划.html">学习计划</a></li>
 <li><a class="" href="../../README.html">README</a></li></ul>
   <h3>材料</h3>
-  <ul><li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+  <ul><li><a class="" href="../README.html">材料索引</a></li>
+<li><a class="" href="../Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
 <li><a class="" href="../微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="../第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="../第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="" href="README.html">模型文件说明索引</a></li>
 <li><a class="active" href="01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -221,17 +225,17 @@ blockquote {
 <tr>
 <td><code>models/SmolLM2-135M/</code></td>
 <td>Base 底座（续写模型）</td>
-<td>早期 <code>main.py</code> 下载保存</td>
+<td>早期 <code>scripts/main.py</code> 下载保存</td>
 </tr>
 <tr>
 <td><code>models/SmolLM2-135M-Instruct/</code></td>
 <td>Instruct 底座（更会答题）</td>
-<td><code>sft001.py</code> 下载保存</td>
+<td><code>scripts/sft001.py</code> 下载保存</td>
 </tr>
 <tr>
 <td><code>models/smollm2-135m-java/</code></td>
 <td>Java 问答微调后的<strong>完整模型</strong>（LoRA 已合并）</td>
-<td><code>sft001.py</code> 训练结束 <code>merge</code> 导出</td>
+<td><code>scripts/sft001.py</code> 训练结束 <code>merge</code> 导出</td>
 </tr>
 <tr>
 <td><code>models/smollm2-135m-java-sft/</code></td>
@@ -610,7 +614,7 @@ blockquote {
 <h2 id="8">8. 学习建议</h2>
 <ol>
 <li>先打开较小的 <code>config.json</code>、<code>generation_config.json</code>、<code>special_tokens_map.json</code> 看字段  </li>
-<li>用 <code>python print_tokens.py</code> 理解 tokenizer 输出  </li>
+<li>用 <code>python scripts/print_tokens.py</code> 理解 tokenizer 输出  </li>
 <li>对比 Base 与 Instruct：重点看有没有 <code>chat_template.jinja</code>、特殊 token 是否更多  </li>
 <li>理解微调产物：完整模型目录 vs <code>adapter_final</code> 的体积差异  </li>
 </ol>

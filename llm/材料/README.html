@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学习材料索引 · 学习路线</title>
+  <style>
+:root {
+  --bg: #f4f1ea;
+  --sidebar: #1c1917;
+  --sidebar-text: #e7e5e4;
+  --sidebar-muted: #a8a29e;
+  --card: #fffdf8;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --link: #0f766e;
+  --link-hover: #115e59;
+  --code-bg: #f5f5f4;
+  --accent: #c2410c;
+  --ref-bg: #ecfdf5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: var(--sidebar);
+  color: var(--sidebar-text);
+  padding: 20px 16px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+.sidebar a { color: var(--sidebar-text); text-decoration: none; }
+.sidebar a:hover { color: #fff; }
+.sidebar .brand {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  margin: 0 0 6px;
+}
+.sidebar .brand a { color: #fdba74; }
+.sidebar .hint {
+  color: var(--sidebar-muted);
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.sidebar h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-muted);
+  margin: 18px 0 8px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.sidebar li { margin: 0; }
+.sidebar li a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.sidebar li a.active {
+  background: #292524;
+  color: #fdba74;
+}
+.sidebar .sub {
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.sidebar .sub a {
+  font-size: 12.5px;
+  color: var(--sidebar-muted);
+  padding: 4px 10px;
+}
+.main {
+  padding: 28px 28px 72px;
+}
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumb a { color: var(--link); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; }
+article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 34px 36px;
+  box-shadow: 0 10px 30px rgba(28,25,23,.04);
+  max-width: 920px;
+}
+article h1 { margin-top: 0; font-size: 1.85rem; }
+article h2 {
+  margin-top: 2em;
+  padding-bottom: .35em;
+  border-bottom: 1px solid var(--border);
+}
+article a { color: var(--link); }
+article a:hover { color: var(--link-hover); }
+code {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  background: var(--code-bg);
+  padding: .12em .38em;
+  border-radius: 6px;
+  font-size: .9em;
+}
+pre {
+  background: #1c1917;
+  color: #f5f5f4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+  max-height: 42rem;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: .95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+blockquote {
+  margin: 1em 0;
+  padding: .3em 1em;
+  border-left: 4px solid var(--accent);
+  background: #fff7ed;
+  color: var(--muted);
+}
+.refs {
+  max-width: 920px;
+  margin-top: 18px;
+  background: var(--ref-bg);
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.refs h3 { margin: 0 0 8px; font-size: 14px; color: #065f46; }
+.refs ul { margin: 0; padding-left: 1.2em; }
+.refs li { margin: 4px 0; font-size: 14px; }
+.footer {
+  max-width: 920px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    
+<aside class="sidebar">
+  <div class="brand"><a href="../index.html">SmolLM 学习路线</a></div>
+  <div class="hint">Javartisan</div>
+  <h3>入口</h3>
+  <ul><li><a class="" href="../index.html">首页</a></li>
+<li><a class="" href="../学习大纲.html">学习大纲</a></li>
+<li><a class="" href="../学习计划.html">学习计划</a></li>
+<li><a class="" href="../README.html">README</a></li></ul>
+  <h3>材料</h3>
+  <ul><li><a class="active" href="README.html">材料索引</a></li>
+<li><a class="" href="Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+<li><a class="" href="微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="第1周代码学习.html">第 1 周 代码学习</a></li></ul>
+<li><a class="" href="模型文件说明/README.html">模型文件说明索引</a></li>
+<li><a class="" href="模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
+<li><a class="" href="模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
+</aside>
+
+    <div class="main">
+      <div class="crumb"><a href="../index.html">首页</a> / 材料/README.html</div>
+      <article>
+<h1 id="_1">学习材料索引</h1>
+<p>本目录是学习计划引用的<strong>全部概念材料</strong>（无需再到仓库其它 docs）。代码仍在仓库根目录的 <code>learn/</code>、<code>scripts/</code>。</p>
+<hr>
+<h2 id="_2">文档列表</h2>
+<table>
+<thead>
+<tr>
+<th>文档</th>
+<th>一句话</th>
+<th>配合代码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="./Encoder-Decoder与LLM问答流程.html">Encoder-Decoder与LLM问答流程.md</a></td>
+<td>问答有没有 Encoder、向量从哪来</td>
+<td><code>07_forward_logits.py</code>、<code>08_embedding.py</code>、<code>12_week1_chain.py</code></td>
+</tr>
+<tr>
+<td><a href="./微调学习笔记.html">微调学习笔记.md</a></td>
+<td>Base vs Instruct、SFT、DPO、LoRA、训练 8 步</td>
+<td><code>09_loss_backward.py</code>、<code>10_sft_messages.py</code>、<code>scripts/sft001.py</code></td>
+</tr>
+<tr>
+<td><a href="./第1周知识体系与答疑.html">第1周知识体系与答疑.md</a></td>
+<td>概念答疑 + 第 7 节逐脚本代码导读（01～12、<code>call.py</code>、<code>dropout.py</code>）</td>
+<td><code>learn/week01/</code> 全套、<code>learn/py/</code></td>
+</tr>
+<tr>
+<td><a href="./第1周代码学习.html">第1周代码学习.md</a></td>
+<td>week01 <strong>源码 + 运行结果</strong>（侧栏在答疑下面）</td>
+<td><code>learn/week01/</code> 01～12、<code>_common.py</code></td>
+</tr>
+<tr>
+<td><a href="./模型文件说明/README.html">模型文件说明/README.md</a></td>
+<td>模型目录里每个文件干什么</td>
+<td><code>01_load_tokenizer.py</code>、<code>scripts/print_tokens.py</code></td>
+</tr>
+<tr>
+<td><a href="./模型文件说明/01-目录与各文件总览.html">01-目录与各文件总览.md</a></td>
+<td>Base / Instruct / 微调后目录</td>
+<td>打开 <code>models/</code></td>
+</tr>
+<tr>
+<td><a href="./模型文件说明/02-tokenizer.json结构说明.html">02-tokenizer.json结构说明.md</a></td>
+<td>词表、BPE、encode ≠ Encoder</td>
+<td><code>02</code>～<code>05</code></td>
+</tr>
+</tbody>
+</table>
+<p>入口：</p>
+<ul>
+<li><a href="../学习大纲.html">学习大纲.md</a>  </li>
+<li><a href="../学习计划.html">学习计划.md</a>  </li>
+</ul>
+<hr>
+<h2 id="1">第 1 周：材料 → 脚本</h2>
+<pre><code class="language-text">tokenizer.json 说明  →  01～05 加载、切词、BPE、特殊符号
+train/test jsonl     →  06 看样本
+问答流程 §8/§9      →  07 前向 logits、08 Embedding 查表
+微调笔记 §5          →  09 Loss / backward / step（+ dropout.py）
+微调笔记 §1/§2       →  10 messages + sft001.py
+评测直觉             →  11、eval_compare.py
+知识体系第 7 节代码导读  →  12 把 8 个框跑一遍（对照 01～11）
+</code></pre>
+<p>一律在仓库根目录执行，例如：</p>
+<pre><code class="language-bash">python learn/week01/01_load_tokenizer.py
+</code></pre>
+      </article>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="Encoder-Decoder与LLM问答流程.html">Encoder / Decoder 与大模型问答流程（完整笔记）</a> <code>材料/Encoder-Decoder与LLM问答流程.html</code></li><li><a href="微调学习笔记.html">小模型微调学习笔记（SmolLM2-135M）</a> <code>材料/微调学习笔记.html</code></li><li><a href="第1周知识体系与答疑.html">第 1 周知识体系与答疑</a> <code>材料/第1周知识体系与答疑.html</code></li><li><a href="第1周代码学习.html">第 1 周 代码学习</a> <code>材料/第1周代码学习.html</code></li><li><a href="模型文件说明/README.html">模型文件说明（索引）</a> <code>材料/模型文件说明/README.html</code></li><li><a href="模型文件说明/01-目录与各文件总览.html">模型目录与各文件总览</a> <code>材料/模型文件说明/01-目录与各文件总览.html</code></li><li><a href="模型文件说明/02-tokenizer.json结构说明.html">tokenizer.json 结构说明</a> <code>材料/模型文件说明/02-tokenizer.json结构说明.html</code></li><li><a href="../学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="../学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
+      <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
+    </div>
+  </div>
+</body>
+</html>

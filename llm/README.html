@@ -130,6 +130,7 @@ pre {
   border-radius: 10px;
   padding: 14px 16px;
   overflow: auto;
+  max-height: 42rem;
 }
 pre code { background: transparent; color: inherit; padding: 0; }
 table {
@@ -184,15 +185,18 @@ blockquote {
     
 <aside class="sidebar">
   <div class="brand"><a href="index.html">SmolLM 学习路线</a></div>
-  <div class="hint">静态站点 · 可 nginx 部署</div>
+  <div class="hint">Javartisan</div>
   <h3>入口</h3>
   <ul><li><a class="" href="index.html">首页</a></li>
 <li><a class="" href="学习大纲.html">学习大纲</a></li>
 <li><a class="" href="学习计划.html">学习计划</a></li>
 <li><a class="active" href="README.html">README</a></li></ul>
   <h3>材料</h3>
-  <ul><li><a class="" href="材料/Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
+  <ul><li><a class="" href="材料/README.html">材料索引</a></li>
+<li><a class="" href="材料/Encoder-Decoder与LLM问答流程.html">Encoder-Decoder 与问答流程</a></li>
 <li><a class="" href="材料/微调学习笔记.html">微调学习笔记</a></li>
+<li><a class="" href="材料/第1周知识体系与答疑.html">第1周知识体系与答疑</a></li>
+<ul class="sub"><li><a class="" href="材料/第1周代码学习.html">第 1 周 代码学习</a></li></ul>
 <li><a class="" href="材料/模型文件说明/README.html">模型文件说明索引</a></li>
 <li><a class="" href="材料/模型文件说明/01-目录与各文件总览.html">01 目录与各文件总览</a></li>
 <li><a class="" href="材料/模型文件说明/02-tokenizer.json结构说明.html">02 tokenizer.json 结构</a></li></ul>
@@ -206,15 +210,15 @@ blockquote {
 <h2 id="_2">目录结构</h2>
 <pre><code class="language-text">docs/学习路线/
 ├── README.md                 # 本说明
-├── 学习大纲.md               # 5 周目标总览
-├── 学习计划.md               # 可执行详细计划
-└── 材料/                     # 计划中引用的阅读材料（已内置，无需再到外部 docs）
-    ├── Encoder-Decoder与LLM问答流程.md
-    ├── 微调学习笔记.md
-    └── 模型文件说明/
-        ├── README.md
-        ├── 01-目录与各文件总览.md
-        └── 02-tokenizer.json结构说明.md
+├── 学习大纲.md               # 5 周目标 + 第 1 周材料×代码对照
+├── 学习计划.md               # 可执行详细计划（每日命令）
+├── md2html.py                # Markdown → html/ 静态站点
+├── gen_week01_page.py        # 汇总 week01 源码 + 运行结果
+├── html/                     # 生成物，nginx 站点根（gitignore）
+└── 材料/
+    ├── 第1周知识体系与答疑.md
+    ├── 第1周代码学习.md      # 由 gen_week01_page.py 生成
+    └── 第1周代码运行结果/    # 各脚本 stdout 缓存
 </code></pre>
 <h2 id="_3">建议阅读顺序</h2>
 <ol>
@@ -222,21 +226,40 @@ blockquote {
 <li><a href="./学习计划.html">学习计划.md</a>（按第 0 阶段 → 第 1～5 周执行）  </li>
 <li>计划里写的阅读路径均相对本目录，例如：<code>材料/Encoder-Decoder与LLM问答流程.md</code></li>
 </ol>
-<h2 id="html">转为 HTML</h2>
-<p>在仓库根目录执行：</p>
-<pre><code class="language-bash">python docs/学习路线/md2html.py
-# 或转换后自动打开首页
+<h2 id="html-nginx">转为 HTML 站点（可 nginx 部署）</h2>
+<pre><code class="language-bash"># 在仓库根目录执行
+python docs/学习路线/md2html.py
 python docs/学习路线/md2html.py --open
+# 重新跑 learn/week01 并把输出写进「第 1 周代码学习」页
+python docs/学习路线/md2html.py --run-week01
 </code></pre>
-<p>生成结果在 <code>docs/学习路线/html/</code>，可用浏览器打开 <code>html/index.html</code>。<br>
-脚本会把 <code>.md</code> / <code>.md#锚点</code> 链接改写成 <code>.html</code> / <code>.html#锚点</code>，便于离线跳转。</p>
+<p>生成目录：<code>docs/学习路线/html/</code></p>
+<p>站点能力：<br>
+- 全部 Markdown 转 HTML，目录结构镜像<br>
+- <code>.md</code> / <code>.md#锚点</code> / 目录链接 → <code>.html</code> / <code>.html#锚点</code> / <code>README.html</code><br>
+- 左侧导航（入口 + 材料）<br>
+- 文末「本页引用的文档」（按 Markdown 引用关系解析）<br>
+- 首页展示推荐路径与引用关系图<br>
+- 附带 <code>nginx.example.conf</code></p>
+<p>本地预览：</p>
+<pre><code class="language-bash">cd docs/学习路线/html
+python -m http.server 8080
+# 浏览器打开 http://127.0.0.1:8080/
+</code></pre>
+<p>nginx 部署：把 <code>html/</code> 设为 <code>root</code>，可参考生成的 <code>html/nginx.example.conf</code>。</p>
+<h2 id="github-pages">发布到 GitHub Pages</h2>
+<p>把 <code>html/</code> 同步到 <code>javartisan.github.io</code> 的 <code>llm/</code>（先清空再复制，然后 commit / push）：</p>
+<pre><code class="language-bash"># 在本仓库根目录
+bash docs/学习路线/deploy_github_pages.sh
+</code></pre>
+<p>发布后页面：https://javartisan.github.io/llm/</p>
 <h2 id="_4">说明</h2>
 <ul>
-<li>代码与数据仍在仓库根目录（如 <code>sft001.py</code>、<code>data/</code>、<code>models/</code>），计划中会继续引用。  </li>
+<li>代码在 <code>learn/</code>（按周练习）与 <code>scripts/</code>（训练/评测），数据在 <code>data/</code>，模型在 <code>models/</code>。  </li>
 <li>概念类 Markdown 材料已全部收拢到本目录 <code>材料/</code>，避免学习时跳到外部 docs。</li>
 </ul>
       </article>
-      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="学习大纲.html">学习大纲</a> <code>学习大纲.html</code></li><li><a href="学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
+      <section class="refs"><h3>本页引用的文档</h3><ul><li><a href="学习大纲.html">SmolLM 微调学习大纲</a> <code>学习大纲.html</code></li><li><a href="学习计划.html">SmolLM 微调学习计划（基础加强版）</a> <code>学习计划.html</code></li></ul></section>
       <div class="footer">由 md2html.py 生成 · 支持 nginx 静态部署 · 站内链接已转换为 HTML</div>
     </div>
   </div>
