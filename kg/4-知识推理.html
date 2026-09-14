@@ -188,17 +188,39 @@ MERGE (a)-[:CONTROLS {inferred:true, depth:2}]-&gt;(c)
 </tr>
 </tbody></table>
 <p>二者可重叠（SWRL 等把规则挂到 OWL 上），入门先分开记。</p>
+<h3>先对齐词汇：TBox 公理 × ABox 事实</h3>
+<p>（详见 <a href="1-%E7%9F%A5%E8%AF%86%E8%A1%A8%E7%A4%BA.html">知识表示 · TBox/ABox</a>；初学者<strong>需要会认</strong>这两个词。）</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>本体推理里扮演的角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>TBox</strong></td>
+<td>提供「规矩」：子类、互斥、传递……推理器主要靠它推导</td>
+</tr>
+<tr>
+<td><strong>ABox</strong></td>
+<td>提供「已知事实」：谁属于哪类、谁连着谁；也被补全或拿去验伤</td>
+</tr>
+</tbody></table>
+<pre><code class="language-text">TBox（公理） + ABox（显式事实）  --推理器-->  隐含事实 或  不一致告警
+</code></pre>
 <h3>你已经见过的最小例子</h3>
-<p>见 <code>md/examples/securities-mini.ttl</code>：</p>
-<pre><code class="language-turtle">:ListedCompany rdfs:subClassOf :Company .
+<p>见 <a href="examples/securities-mini.ttl"><code>docs/examples/securities-mini.ttl</code></a>：</p>
+<pre><code class="language-turtle"># TBox
+:ListedCompany rdfs:subClassOf :Company .
 :Person owl:disjointWith :Company .
+# ABox
 :Moutai a :ListedCompany .
 </code></pre>
-<p><strong>显式断言</strong>：茅台是 <code>ListedCompany</code><br><strong>本体推理推出</strong>：茅台也是 <code>Company</code>（子类继承）<br><strong>若再断言</strong>茅台是 <code>Person</code> → <strong>不一致</strong>（与 Company 互斥）</p>
+<p><strong>ABox 显式断言</strong>：茅台是 <code>ListedCompany</code><br><strong>结合 TBox 推出</strong>：茅台也是 <code>Company</code>（子类继承）——这是<strong>往 ABox 补类型</strong><br><strong>若再向 ABox 断言</strong>茅台是 <code>Person</code> → <strong>不一致</strong>（与 TBox 的互斥公理冲突）</p>
 <p>这就是本体推理在工程上的两大用途：</p>
 <ol>
-<li><strong>补全</strong>：少写、多得（类型、等价属性等）  </li>
-<li><strong>验伤</strong>：发现互相打架的数据</li>
+<li><strong>补全 ABox</strong>：少写、多得（类型、等价属性等）  </li>
+<li><strong>用 TBox 验伤</strong>：发现互相打架的数据</li>
 </ol>
 <h3>常见公理 → 推理直觉</h3>
 <table>
@@ -271,6 +293,7 @@ MERGE (a)-[:CONTROLS {inferred:true, depth:2}]-&gt;(c)
 <ul>
 <li>本体推理回答：<strong>「按公理，机器帮你归类、补全、找矛盾」</strong></li>
 <li>关键词：<strong>分类 + 一致性</strong>（classification + consistency）</li>
+<li>口诀：<strong>TBox 定规矩，ABox 填事实，推理器两边一起看</strong></li>
 </ul>
 <hr>
 <h2>3. Embedding 推理（表示学习 / 链接预测）</h2>
@@ -469,11 +492,11 @@ RETURN DISTINCT c.name AS indirect
 <ol>
 <li>知识推理与知识获取的差别？  </li>
 <li>规则推理一条证券例子；物化传递闭包有何风险？  </li>
-<li>本体推理两大用途？<code>ListedCompany ⊑ Company</code> 能推出什么？  </li>
+<li>本体推理中 TBox / ABox 各扮演什么角色？两大用途？<code>ListedCompany ⊑ Company</code> 能推出什么？  </li>
 <li>Embedding「推理」为何不是逻辑证明？TransE 直觉？  </li>
 <li>生产上三者如何分工最稳妥？</li>
 </ol>
-<p><strong>参考答案要点</strong>：<br>①获取从文本抽事实；推理从已有事实推新知/找矛盾<br>②如控股传递；边可能爆炸<br>③补全类型 + 一致性；茅台也是 Company<br>④统计相似；h+r≈t<br>⑤向量召回 → 规则解释/过滤 → 本体或约束校验 → 再入库</p>
+<p><strong>参考答案要点</strong>：<br>①获取从文本抽事实；推理从已有事实推新知/找矛盾<br>②如控股传递；边可能爆炸<br>③TBox=公理规矩，ABox=实例事实；补全 ABox + 用 TBox 验一致性；茅台也是 Company<br>④统计相似；h+r≈t<br>⑤向量召回 → 规则解释/过滤 → 本体或约束校验 → 再入库</p>
 <hr>
 <h2>建议学习顺序</h2>
 <ol>
