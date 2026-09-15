@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 架构设计核心知识体系</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0b1020;
+            --bg-light: #11182d;
+            --card: #151e35;
+            --card-hover: #1b2745;
+            --border: rgba(255,255,255,.08);
+            --text: #e8edf7;
+            --text-light: #9ba9c5;
+            --primary: #6c8cff;
+            --primary-light: #91a8ff;
+            --green: #38d9a9;
+            --orange: #ffb86b;
+            --red: #ff6b81;
+            --purple: #b197fc;
+            --shadow: 0 10px 40px rgba(0,0,0,.25);
+        }
+
+        body {
+            font-family:
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    "PingFang SC",
+                    "Microsoft YaHei",
+                    sans-serif;
+            background:
+                    radial-gradient(circle at top left, rgba(108,140,255,.12), transparent 30%),
+                    radial-gradient(circle at top right, rgba(177,151,252,.08), transparent 30%),
+                    var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= Sidebar ================= */
+
+        .sidebar {
+            width: 280px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            padding: 28px 18px;
+            background: rgba(10,15,30,.88);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            padding: 12px 14px 28px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .logo h2 {
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .logo p {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 6px;
+        }
+
+        .nav-title {
+            color: #65718f;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin: 18px 14px 8px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-light);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            transition: .2s;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover {
+            color: white;
+            background: rgba(108,140,255,.12);
+        }
+
+        /* ================= Main ================= */
+
+        .main {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            padding: 80px 8%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-content {
+            max-width: 1000px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(108,140,255,.15);
+            border: 1px solid rgba(108,140,255,.35);
+            color: var(--primary-light);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.25;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, #91a8ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 850px;
+        }
+
+        .hero p strong {
+            color: var(--green);
+        }
+
+        .content {
+            max-width: 1300px;
+            margin: auto;
+            padding: 60px 7% 100px;
+        }
+
+        /* ================= Section ================= */
+
+        section {
+            margin-bottom: 90px;
+            scroll-margin-top: 30px;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-number {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin-top: 6px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin: 25px 0 12px;
+        }
+
+        .desc {
+            color: var(--text-light);
+            max-width: 900px;
+        }
+
+        /* ================= Card ================= */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: linear-gradient(
+                    145deg,
+                    rgba(28,39,70,.9),
+                    rgba(18,26,48,.9)
+            );
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            transition: .25s;
+            box-shadow: var(--shadow);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(108,140,255,.45);
+            background: var(--card-hover);
+        }
+
+        .card-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+        }
+
+        .card p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* ================= Flow ================= */
+
+        .flow {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 35px;
+            overflow-x: auto;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 850px;
+            flex-wrap: nowrap;
+        }
+
+        .flow-box {
+            min-width: 130px;
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(108,140,255,.12);
+            border: 1px solid rgba(108,140,255,.25);
+        }
+
+        .flow-box.green {
+            background: rgba(56,217,169,.1);
+            border-color: rgba(56,217,169,.25);
+        }
+
+        .flow-box.orange {
+            background: rgba(255,184,107,.1);
+            border-color: rgba(255,184,107,.25);
+        }
+
+        .arrow {
+            color: var(--primary-light);
+            font-size: 22px;
+        }
+
+        /* ================= Architecture ================= */
+
+        .architecture {
+            background:
+                    radial-gradient(circle at center, rgba(108,140,255,.08), transparent 60%),
+                    var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 35px;
+        }
+
+        .layer {
+            display: flex;
+            align-items: stretch;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .layer-label {
+            width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .layer-content {
+            flex: 1;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .node {
+            flex: 1;
+            min-width: 150px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            background: rgba(255,255,255,.04);
+            border: 1px solid var(--border);
+        }
+
+        .node.primary {
+            border-color: rgba(108,140,255,.45);
+            background: rgba(108,140,255,.12);
+        }
+
+        .node.green {
+            border-color: rgba(56,217,169,.4);
+            background: rgba(56,217,169,.08);
+        }
+
+        .node.orange {
+            border-color: rgba(255,184,107,.4);
+            background: rgba(255,184,107,.08);
+        }
+
+        /* ================= Code ================= */
+
+        pre {
+            margin-top: 20px;
+            padding: 24px;
+            background: #080d1a;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow-x: auto;
+            color: #c9d5f0;
+            font-family: "JetBrains Mono", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .keyword {
+            color: #b197fc;
+        }
+
+        .string {
+            color: #38d9a9;
+        }
+
+        /* ================= Table ================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+            background: var(--card);
+        }
+
+        th {
+            text-align: left;
+            background: rgba(108,140,255,.12);
+            color: var(--primary-light);
+        }
+
+        th, td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            color: var(--text-light);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ================= Tags ================= */
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(108,140,255,.1);
+            color: var(--primary-light);
+            border: 1px solid rgba(108,140,255,.2);
+            font-size: 13px;
+        }
+
+        .tag.green {
+            background: rgba(56,217,169,.1);
+            color: var(--green);
+            border-color: rgba(56,217,169,.2);
+        }
+
+        .tag.orange {
+            background: rgba(255,184,107,.1);
+            color: var(--orange);
+            border-color: rgba(255,184,107,.2);
+        }
+
+        .highlight {
+            border-left: 4px solid var(--primary);
+            padding: 18px 22px;
+            background: rgba(108,140,255,.08);
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+
+        .highlight strong {
+            color: white;
+        }
+
+        /* ================= Comparison ================= */
+
+        .compare {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .compare-card {
+            padding: 28px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: var(--card);
+        }
+
+        .compare-card h3 {
+            margin-top: 0;
+        }
+
+        .pros {
+            margin-top: 15px;
+        }
+
+        .pros div {
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        /* ================= Interview ================= */
+
+        .question {
+            padding: 20px;
+            margin-bottom: 12px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+        }
+
+        .question strong {
+            color: var(--orange);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ================= Responsive ================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .hero {
+                padding: 60px 8%;
+                min-height: 350px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .content {
+                padding: 45px 6%;
+            }
+
+            .compare {
+                grid-template-columns: 1fr;
+            }
+
+            .architecture {
+                padding: 20px;
+            }
+
+            .layer {
+                flex-direction: column;
+            }
+
+            .layer-label {
+                width: auto;
+                justify-content: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= Sidebar ================= -->
+
+    <aside class="sidebar">
+
+        ```
+        <div class="logo">
+            <h2>AI Agent</h2>
+            <p>Architecture Knowledge Map</p>
+        </div>
+
+        <div class="nav-title">知识体系</div>
+
+        <a href="#overview">整体架构</a>
+        <a href="#access">01 接入层</a>
+        <a href="#agent">02 Agent 核心</a>
+        <a href="#planner">Planner</a>
+        <a href="#memory">Memory</a>
+        <a href="#skill">Skill 编排</a>
+        <a href="#tool">03 Tool 工具层</a>
+        <a href="#rag">04 RAG 知识层</a>
+        <a href="#security">05 安全权限</a>
+        <a href="#reliability">06 稳定性与 HITL</a>
+        <a href="#observe">07 可观测与评估</a>
+        <a href="#performance">08 性能与成本</a>
+        <a href="#tradeoff">09 架构权衡</a>
+        <a href="#pitfalls">10 常见问题</a>
+        ```
+
+    </aside>
+
+    <!-- ================= Main ================= -->
+
+    <main class="main">
+
+        <!-- ================= Hero ================= -->
+
+        <section class="hero">
+
+            ```
+            <div class="hero-content">
+
+    <span class="badge">
+        AI AGENT ARCHITECTURE
+    </span>
+
+                <h1>
+                    AI Agent 架构设计<br>
+                    核心知识体系
+                </h1>
+
+                <p>
+                    Agent 本质：
+                    <strong>
+                        大模型作为规划思考中枢 + 记忆系统 + 工具调用能力 + 执行与反馈闭环
+                    </strong>
+                </p>
+
+                <p style="margin-top:15px;">
+                    架构设计不只是 Prompt Engineering，
+                    而是同时考虑：
+                    <strong>能力、可控、稳定、安全、成本、可运维</strong>。
+                </p>
+
+            </div>
+            ```
+
+        </section>
+
+        <div class="content">
+
+            <!-- ================= Overview ================= -->
+
+            <section id="overview">
+
+                ```
+                <div class="section-header">
+                    <div class="section-number">
+                        Architecture Overview
+                    </div>
+
+                    <h2>一、整体分层架构</h2>
+
+                    <p class="desc">
+                        AI Agent 可以理解为一个以 LLM 为决策中心，
+                        通过 Skill 和 Tool 调用外部能力，
+                        最终形成执行与反馈闭环的智能运行时系统。
+                    </p>
+                </div>
+
+
+                <div class="architecture">
+
+                    <div class="layer">
+
+                        <div class="layer-label">
+                            用户层
+                        </div>
+
+                        <div class="layer-content">
+
+                            <div class="node primary">
+                                用户 / 应用
+                            </div>
+
+                            <div class="node primary">
+                                API / WebSocket
+                            </div>
+
+                            <div class="node primary">
+                                多模态输入
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="layer">
+
+                        <div class="layer-label">
+                            路由层
+                        </div>
+
+                        <div class="layer-content">
+
+                            <div class="node">
+                                Intent Router
+                            </div>
+
+                            <div class="node">
+                                Skill Router
+                            </div>
+
+                            <div class="node">
+                                Model Router
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="layer">
+
+                        <div class="layer-label">
+                            Agent 核心
+                        </div>
+
+                        <div class="layer-content">
+
+                            <div class="node primary">
+                                Planner
+                            </div>
+
+                            <div class="node primary">
+                                Memory
+                            </div>
+
+                            <div class="node primary">
+                                Reasoning Loop
+                            </div>
+
+                            <div class="node primary">
+                                State
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="layer">
+
+                        <div class="layer-label">
+                            编排层
+                        </div>
+
+                        <div class="layer-content">
+
+                            <div class="node green">
+                                Skill
+                            </div>
+
+                            <div class="node green">
+                                Workflow
+                            </div>
+
+                            <div class="node green">
+                                State Machine
+                            </div>
+
+                            <div class="node green">
+                                Multi-Agent
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="layer">
+
+                        <div class="layer-label">
+                            执行层
+                        </div>
+
+                        <div class="layer-content">
+
+                            <div class="node orange">
+                                Tool Gateway
+                            </div>
+
+                            <div class="node orange">
+                                MCP
+                            </div>
+
+                            <div class="node orange">
+                                Function Calling
+                            </div>
+
+                            <div class="node orange">
+                                Tool Executor
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="layer">
+
+                        <div class="layer-label">
+                            外部系统
+                        </div>
+
+                        <div class="layer-content">
+
+                            <div class="node">
+                                Database
+                            </div>
+
+                            <div class="node">
+                                HTTP API
+                            </div>
+
+                            <div class="node">
+                                File System
+                            </div>
+
+                            <div class="node">
+                                Search
+                            </div>
+
+                            <div class="node">
+                                Business System
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Access ================= -->
+
+            <section id="access">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        01 / Access Layer
+                    </div>
+
+                    <h2>接入层</h2>
+
+                    <p class="desc">
+                        接入层负责接收用户请求，并完成协议适配、
+                        鉴权、限流、会话管理和输入预处理。
+                    </p>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="card">
+
+                        <div class="card-icon">🌐</div>
+
+                        <h3>协议适配</h3>
+
+                        <p>
+                            HTTP、WebSocket、SSE 流式输出，
+                            支持同步与异步任务。
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">🔐</div>
+
+                        <h3>身份鉴权</h3>
+
+                        <p>
+                            用户身份、Session ID、
+                            Tenant ID 等上下文透传。
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">🚦</div>
+
+                        <h3>流量控制</h3>
+
+                        <p>
+                            限流、熔断、负载均衡，
+                            防止 Agent 或 Tool 被突发流量击穿。
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">📁</div>
+
+                        <h3>多模态输入</h3>
+
+                        <p>
+                            文本、图片、PDF、
+                            Word、Excel 等输入统一处理。
+                        </p>
+
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Agent Core ================= -->
+
+            <section id="agent">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        02 / Agent Core
+                    </div>
+
+                    <h2>Agent 核心层</h2>
+
+                    <p class="desc">
+                        Agent 的核心职责是：
+                        理解目标 → 规划任务 → 调用能力 → 获取反馈 → 再次决策。
+                    </p>
+
+                </div>
+
+
+                <div class="flow">
+
+                    <div class="flow-row">
+
+                        <div class="flow-box">
+                            User Goal
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Planner
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            Skill
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Tool
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Result
+                        </div>
+
+                        <div class="arrow">↻</div>
+
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Planner ================= -->
+
+            <section id="planner">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        02.1 / Planner
+                    </div>
+
+                    <h2>Planner 规划器</h2>
+
+                    <p class="desc">
+                        Planner 是 Agent 的任务规划模块，
+                        决定做什么、分几步、调用什么 Skill 和 Tool。
+                    </p>
+
+                </div>
+
+
+                <div class="compare">
+
+                    <div class="compare-card">
+
+                        <h3>🔄 ReAct</h3>
+
+                        <div class="pros">
+
+                            <div>✓ 边执行边思考</div>
+                            <div>✓ 根据 Tool Result 动态调整</div>
+                            <div>✓ 灵活，适合探索型任务</div>
+                            <div>✗ 调用轮次不可预测</div>
+                            <div>✗ 容易循环或跑偏</div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="compare-card">
+
+                        <h3>📋 预规划 / Workflow</h3>
+
+                        <div class="pros">
+
+                            <div>✓ 一次生成完整步骤</div>
+                            <div>✓ 可控、可审计</div>
+                            <div>✓ 适合固定业务流程</div>
+                            <div>✗ 灵活性较低</div>
+                            <div>✗ 对异常分支适应能力弱</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="highlight">
+
+                    <strong>工程推荐：</strong>
+
+                    主流程使用状态机 / Workflow 固定，
+                    分支和复杂决策交给 LLM。
+
+                </div>
+
+
+                <div class="tags">
+
+                    <span class="tag">Task Planning</span>
+                    <span class="tag">ReAct</span>
+                    <span class="tag">Reflection</span>
+                    <span class="tag">Task Decomposition</span>
+                    <span class="tag green">State Machine</span>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Memory ================= -->
+
+            <section id="memory">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        02.2 / Memory
+                    </div>
+
+                    <h2>Memory 记忆系统</h2>
+
+                    <p class="desc">
+                        记忆不能简单理解为“把所有历史消息塞进 Prompt”。
+                        Agent Memory 需要解决召回、压缩、隔离和生命周期问题。
+                    </p>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="card">
+
+                        <div class="card-icon">🧠</div>
+
+                        <h3>短时记忆</h3>
+
+                        <p>
+                            当前会话历史、
+                            中间变量、
+                            Tool Result。
+                        </p>
+
+                        <div class="tags">
+                            <span class="tag">Session</span>
+                            <span class="tag">Redis</span>
+                            <span class="tag">Context</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">📚</div>
+
+                        <h3>长时记忆</h3>
+
+                        <p>
+                            跨会话知识、
+                            用户历史、
+                            任务经验。
+                        </p>
+
+                        <div class="tags">
+                            <span class="tag green">Vector DB</span>
+                            <span class="tag green">RAG</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">🗂</div>
+
+                        <h3>结构化记忆</h3>
+
+                        <p>
+                            Tool 返回结果、
+                            任务状态、
+                            Workflow Variables。
+                        </p>
+
+                        <div class="tags">
+                            <span class="tag orange">State</span>
+                            <span class="tag orange">Checkpoint</span>
+                        </div>
+
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Skill ================= -->
+
+            <section id="skill">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        02.3 / Skill
+                    </div>
+
+                    <h2>Skill 编排层</h2>
+
+                    <p class="desc">
+                        Skill 可以理解为：
+                        业务 SOP + Prompt + Tool 组合 + 执行规则。
+                    </p>
+
+                </div>
+
+
+                <div class="flow">
+
+                    <div class="flow-row">
+
+                        <div class="flow-box">
+                            用户请求
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            Skill Discovery
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            Skill Loading
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Tool Calling
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Result
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <pre>
+```
+
+Skill: Code Review
+
+Step 1:
+读取项目结构
+
+Step 2:
+定位核心代码
+
+Step 3:
+分析依赖关系
+
+Step 4:
+检查异常处理
+
+Step 5:
+检查单元测试
+
+Step 6:
+生成 Review Report </pre>
+
+                ```
+                <div class="tags">
+
+                    <span class="tag">Sequential</span>
+                    <span class="tag">Branch</span>
+                    <span class="tag">Loop</span>
+                    <span class="tag">Parallel</span>
+                    <span class="tag green">Sub Skill</span>
+                    <span class="tag green">Retry</span>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Tool ================= -->
+
+            <section id="tool">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        03 / Tool Layer
+                    </div>
+
+                    <h2>Tool 工具层</h2>
+
+                    <p class="desc">
+                        Tool 是 Agent 的原子执行能力。
+                        LLM 负责决策，Runtime 负责真正执行。
+                    </p>
+
+                </div>
+
+
+                <pre>
+```
+
+{ <span class="string">"name"</span>: <span class="string">"query_stock"</span>,
+
+```
+<span class="string">"description"</span>:
+    <span class="string">"查询股票实时行情"</span>,
+
+<span class="string">"input_schema"</span>: {
+
+    <span class="string">"symbol"</span>: <span class="string">"string"</span>
+
+}
+```
+
+} </pre>
+
+                ```
+                <div class="flow">
+
+                    <div class="flow-row">
+
+                        <div class="flow-box">
+                            LLM
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Tool Call
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Schema Validate
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Permission Check
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            Execute
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Result
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid" style="margin-top:25px;">
+
+                    <div class="card">
+                        <h3>📖 Read Tool</h3>
+                        <p>
+                            查询、搜索、读取文件。
+                            风险较低。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>✏️ Write Tool</h3>
+                        <p>
+                            修改数据库、删除文件、
+                            提交代码等。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>⏳ Async Tool</h3>
+                        <p>
+                            长耗时任务：
+                            文件解析、代码扫描、批量处理。
+                        </p>
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= RAG ================= -->
+
+            <section id="rag">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        04 / Knowledge
+                    </div>
+
+                    <h2>RAG / 知识层</h2>
+
+                    <p class="desc">
+                        企业 Agent 通常需要访问私有知识，
+                        RAG 负责把正确、相关、最新的信息提供给 Agent。
+                    </p>
+
+                </div>
+
+
+                <div class="flow">
+
+                    <div class="flow-row">
+
+                        <div class="flow-box">
+                            Document
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Chunking
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Embedding
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            Vector DB
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Retrieve + Rerank
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            LLM
+                        </div>
+
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Security ================= -->
+
+            <section id="security">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        05 / Security
+                    </div>
+
+                    <h2>安全与权限</h2>
+
+                    <p class="desc">
+                        企业 Agent 的权限模型不能只做“用户有没有权限”，
+                        还需要控制 Agent 能调用哪些 Tool、访问哪些数据。
+                    </p>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="card">
+
+                        <div class="card-icon">🔐</div>
+
+                        <h3>权限控制</h3>
+
+                        <p>
+                            User → Agent → Skill → Tool → Resource
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">🛡</div>
+
+                        <h3>Prompt Injection</h3>
+
+                        <p>
+                            防止用户输入或 Tool Result
+                            劫持 Agent 行为。
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">🧪</div>
+
+                        <h3>参数安全</h3>
+
+                        <p>
+                            Schema Validation +
+                            SQL / Command / Path 白名单。
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">📜</div>
+
+                        <h3>审计</h3>
+
+                        <p>
+                            每次 Tool Call、
+                            权限判断、
+                            高危操作全部留痕。
+                        </p>
+
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Reliability ================= -->
+
+            <section id="reliability">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        06 / Reliability
+                    </div>
+
+                    <h2>异常、容错与 HITL</h2>
+
+                </div>
+
+
+                <div class="flow">
+
+                    <div class="flow-row">
+
+                        <div class="flow-box">
+                            Tool Error
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Error Classifier
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Retry
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Fallback
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            HITL
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid" style="margin-top:25px;">
+
+                    <div class="card">
+                        <h3>🔄 Retry</h3>
+                        <p>
+                            超时、网络错误等可重试异常，
+                            使用指数退避。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>🛟 Fallback</h3>
+                        <p>
+                            主工具失败，
+                            切换备用工具或降级回答。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>⏸ HITL</h3>
+                        <p>
+                            高危操作暂停，
+                            等待人工审批后继续。
+                        </p>
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Observe ================= -->
+
+            <section id="observe">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        07 / Observability
+                    </div>
+
+                    <h2>可观测性与评估体系</h2>
+
+                    <p class="desc">
+                        Agent 的问题不能只看最终回答，
+                        必须能够追踪整个执行链路。
+                    </p>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>核心指标</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr>
+                            <td>任务效果</td>
+                            <td>任务完成率、准确率、幻觉率</td>
+                        </tr>
+
+                        <tr>
+                            <td>Agent 行为</td>
+                            <td>平均 Tool 调用次数、循环次数</td>
+                        </tr>
+
+                        <tr>
+                            <td>性能</td>
+                            <td>LLM 耗时、Tool 耗时、端到端耗时</td>
+                        </tr>
+
+                        <tr>
+                            <td>稳定性</td>
+                            <td>失败率、超时率、重试次数</td>
+                        </tr>
+
+                        <tr>
+                            <td>成本</td>
+                            <td>Token、模型调用次数、工具调用成本</td>
+                        </tr>
+
+                        <tr>
+                            <td>人工介入</td>
+                            <td>HITL 触发率、人工修正率</td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Performance ================= -->
+
+            <section id="performance">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        08 / Performance
+                    </div>
+
+                    <h2>性能与成本优化</h2>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="card">
+                        <h3>Token 优化</h3>
+                        <p>
+                            Context Compression、
+                            Sliding Window、
+                            Summary。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Model Routing</h3>
+                        <p>
+                            简单任务小模型，
+                            复杂规划使用大模型。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Tool Cache</h3>
+                        <p>
+                            查询结果缓存，
+                            减少重复 Tool 调用。
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Parallel Execution</h3>
+                        <p>
+                            无依赖任务并行执行，
+                            减少整体耗时。
+                        </p>
+                    </div>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Tradeoff ================= -->
+
+            <section id="tradeoff">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        09 / Tradeoff
+                    </div>
+
+                    <h2>架构设计核心权衡</h2>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>问题</th>
+                            <th>方案 A</th>
+                            <th>方案 B</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr>
+                            <td>编排</td>
+                            <td>ReAct：灵活</td>
+                            <td>DSL / Workflow：可控</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tool 粒度</td>
+                            <td>细粒度：灵活</td>
+                            <td>粗粒度：调用少</td>
+                        </tr>
+
+                        <tr>
+                            <td>Agent</td>
+                            <td>单 Agent：简单</td>
+                            <td>多 Agent：专业分工</td>
+                        </tr>
+
+                        <tr>
+                            <td>上下文</td>
+                            <td>全部 Prompt：简单</td>
+                            <td>外部 Memory：可扩展</td>
+                        </tr>
+
+                        <tr>
+                            <td>工具协议</td>
+                            <td>MCP：标准化</td>
+                            <td>Function Calling：直接</td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Pitfalls ================= -->
+
+            <section id="pitfalls">
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        10 / Pitfalls
+                    </div>
+
+                    <h2>常见落地问题</h2>
+
+                </div>
+
+
+                <div class="question">
+
+                    <strong>01 Agent 无限循环</strong>
+
+                    缺少最大执行轮次、重复 Tool 检测和明确终止条件。
+
+                </div>
+
+
+                <div class="question">
+
+                    <strong>02 LLM 参数幻觉</strong>
+
+                    不能直接执行 LLM 输出，
+                    必须经过 JSON Schema 校验。
+
+                </div>
+
+
+                <div class="question">
+
+                    <strong>03 Context 无限膨胀</strong>
+
+                    需要 Summary、
+                    Sliding Window、
+                    Memory Retrieval。
+
+                </div>
+
+
+                <div class="question">
+
+                    <strong>04 Tool Result 不可信</strong>
+
+                    Tool 返回内容可能包含错误信息甚至 Prompt Injection，
+                    不能直接拼接到 System Prompt。
+
+                </div>
+
+
+                <div class="question">
+
+                    <strong>05 Session 状态丢失</strong>
+
+                    复杂 Agent 需要 State Persistence +
+                    Checkpoint，支持断点恢复。
+
+                </div>
+
+
+                <div class="question">
+
+                    <strong>06 Agent 权限过大</strong>
+
+                    高危 Tool 必须最小权限、
+                    参数限制、HITL 审批。
+
+                </div>
+                ```
+
+            </section>
+
+            <!-- ================= Final Summary ================= -->
+
+            <section>
+
+                ```
+                <div class="section-header">
+
+                    <div class="section-number">
+                        Summary
+                    </div>
+
+                    <h2>最终知识体系</h2>
+
+                </div>
+
+
+                <div class="flow">
+
+                    <div class="flow-row">
+
+                        <div class="flow-box">
+                            User
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Router
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            Agent
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box green">
+                            Skill
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box orange">
+                            Tool
+                        </div>
+
+                        <div class="arrow">→</div>
+
+                        <div class="flow-box">
+                            External System
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="highlight">
+
+                    <strong>一句话总结：</strong>
+
+                    AI Agent 架构设计，本质是在构建一套
+                    <strong>
+                        LLM 决策层 + Agent Runtime 执行层 + Skill 编排层 +
+                        Tool 能力层 + Memory / State 层 +
+                        安全、稳定性与可观测体系
+                    </strong>
+                    的智能软件系统。
+
+                </div>
+                ```
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

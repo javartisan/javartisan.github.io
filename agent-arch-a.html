@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 架构设计 - 核心知识体系</title>
+
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f6f8fb;
+            --card: #ffffff;
+            --text: #182230;
+            --sub-text: #667085;
+            --border: #e4e7ec;
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+            --orange: #ea580c;
+            --orange-light: #fff7ed;
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --red: #dc2626;
+            --red-light: #fef2f2;
+            --shadow: 0 8px 30px rgba(16, 24, 40, 0.06);
+            --radius: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    "Microsoft YaHei",
+                    "PingFang SC",
+                    sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ================================
+           顶部导航
+        ================================= */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 0 28px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--sub-text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* ================================
+           Hero
+        ================================= */
+        .hero {
+            background:
+                    radial-gradient(circle at 15% 30%, rgba(37, 99, 235, .15), transparent 35%),
+                    radial-gradient(circle at 85% 20%, rgba(124, 58, 237, .12), transparent 30%),
+                    linear-gradient(135deg, #ffffff, #f3f6ff);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 70px 28px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 58px);
+            line-height: 1.2;
+            margin-bottom: 18px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-desc {
+            max-width: 900px;
+            color: var(--sub-text);
+            font-size: 17px;
+        }
+
+        .core-definition {
+            margin-top: 28px;
+            padding: 22px;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, .8);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .core-definition strong {
+            color: var(--primary);
+        }
+
+        /* ================================
+           容器
+        ================================= */
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 50px 28px 90px;
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 85px;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-number {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 30px;
+            margin-top: 5px;
+        }
+
+        .section-desc {
+            color: var(--sub-text);
+            margin-top: 8px;
+        }
+
+        /* ================================
+           总览统计
+        ================================= */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--sub-text);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* ================================
+           架构骨架
+        ================================= */
+        .architecture-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .flow-node {
+            flex: 1;
+            min-width: 140px;
+            padding: 18px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            text-align: center;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .flow-node.highlight {
+            color: white;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border: none;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* ================================
+           卡片
+        ================================= */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(16, 24, 40, .1);
+        }
+
+        .module-header {
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .module-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            background: var(--primary-light);
+        }
+
+        .module-header h3 {
+            font-size: 18px;
+        }
+
+        .module-header p {
+            font-size: 13px;
+            color: var(--sub-text);
+        }
+
+        .module-body {
+            padding: 22px 24px;
+        }
+
+        .module-body ul {
+            padding-left: 20px;
+        }
+
+        .module-body li {
+            margin: 8px 0;
+            color: #475467;
+        }
+
+        .module-body li strong {
+            color: var(--text);
+        }
+
+        /* ================================
+           Agent Core
+        ================================= */
+        .agent-core {
+            padding: 30px;
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+            border: 1px solid #dbeafe;
+            border-radius: 20px;
+        }
+
+        .agent-core-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .inner-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .inner-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        /* ================================
+           标签
+        ================================= */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .tag {
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: #f2f4f7;
+            color: #475467;
+        }
+
+        .tag.blue {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .tag.green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .tag.orange {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .tag.purple {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+
+        /* ================================
+           三栏
+        ================================= */
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* ================================
+           Tool调用链
+        ================================= */
+        .call-chain {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .chain-item {
+            display: grid;
+            grid-template-columns: 54px 1fr;
+            gap: 18px;
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .chain-item:not(:last-child)::before {
+            content: "";
+            position: absolute;
+            left: 26px;
+            top: 54px;
+            bottom: 0;
+            width: 2px;
+            background: #d0d5dd;
+        }
+
+        .chain-index {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--primary);
+            color: white;
+            font-weight: 800;
+            z-index: 1;
+        }
+
+        .chain-content {
+            padding: 14px 18px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .chain-content h4 {
+            margin-bottom: 4px;
+        }
+
+        .chain-content p {
+            font-size: 14px;
+            color: var(--sub-text);
+        }
+
+        /* ================================
+           表格
+        ================================= */
+        .table-wrap {
+            overflow-x: auto;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f9fafb;
+            text-align: left;
+            padding: 15px 18px;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: #475467;
+        }
+
+        td:first-child {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        /* ================================
+           坑
+        ================================= */
+        .pit-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .pit {
+            display: flex;
+            gap: 14px;
+            padding: 18px;
+            border: 1px solid #fecaca;
+            background: var(--red-light);
+            border-radius: 14px;
+        }
+
+        .pit-icon {
+            font-size: 22px;
+        }
+
+        .pit h4 {
+            color: #991b1b;
+            margin-bottom: 4px;
+        }
+
+        .pit p {
+            font-size: 13px;
+            color: #7f1d1d;
+        }
+
+        /* ================================
+           面试总结
+        ================================= */
+        .interview-box {
+            padding: 32px;
+            border-radius: 20px;
+            background:
+                    radial-gradient(circle at 90% 10%, rgba(255,255,255,.15), transparent 30%),
+                    linear-gradient(135deg, #1e3a8a, #312e81);
+            color: white;
+        }
+
+        .interview-box h2 {
+            margin-bottom: 15px;
+        }
+
+        .interview-box p {
+            color: #dbeafe;
+        }
+
+        .interview-answer {
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.15);
+            font-size: 16px;
+            line-height: 2;
+        }
+
+        /* ================================
+           折叠
+        ================================= */
+        details {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        details p,
+        details ul {
+            margin-top: 14px;
+            color: var(--sub-text);
+        }
+
+        details ul {
+            padding-left: 20px;
+        }
+
+        /* ================================
+           Footer
+        ================================= */
+        footer {
+            text-align: center;
+            padding: 35px;
+            color: var(--sub-text);
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        /* ================================
+           Mermaid
+        ================================= */
+        .mermaid-wrap {
+            padding: 25px;
+            overflow-x: auto;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        /* ================================
+           响应式
+        ================================= */
+        @media (max-width: 1000px) {
+            .stats,
+            .three-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .hero-container,
+            .container {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .stats,
+            .card-grid,
+            .three-grid,
+            .agent-core-grid,
+            .pit-list {
+                grid-template-columns: 1fr;
+            }
+
+            .architecture-flow {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .section-title {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= 顶部导航 ================= -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <div class="logo-icon">AI</div>
+            Agent Architecture
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#overview">整体架构</a></li>
+            <li><a href="#core">Agent核心</a></li>
+            <li><a href="#tool">Tool/Skill</a></li>
+            <li><a href="#security">安全稳定</a></li>
+            <li><a href="#ops">可观测</a></li>
+            <li><a href="#interview">面试总结</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<!-- ================= Hero ================= -->
+<header class="hero">
+    <div class="hero-container">
+        <div class="badge">🤖 AI AGENT · ARCHITECTURE DESIGN</div>
+
+        <h1>
+            AI Agent 架构设计<br>
+            <span>核心知识体系</span>
+        </h1>
+
+        <p class="hero-desc">
+            Agent 架构设计不是简单地写 Prompt，而是围绕
+            <strong>能力、可控、稳定、安全、成本、可运维</strong>
+            构建完整的智能执行系统。
+        </p>
+
+        <div class="core-definition">
+            <strong>Agent 本质：</strong>
+            大模型作为规划思考中枢
+            + 记忆系统
+            + 工具调用能力
+            + 执行与反馈闭环
+        </div>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- ================= 总览 ================= -->
+    <section>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">核心架构关注模块</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">核心系统目标</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Agent编排模式</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Tool / Skill 扩展能力</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= 一、整体架构 ================= -->
+    <section id="overview">
+
+        <div class="section-header">
+            <div class="section-number">01 / Architecture</div>
+            <h2 class="section-title">整体分层架构</h2>
+            <p class="section-desc">
+                先搭骨架，再理解每一层的职责边界。
+            </p>
+        </div>
+
+        <div class="architecture-flow">
+            <div class="flow-node">👤 用户输入</div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">🚪 接入层</div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">🧭 意图 / 路由</div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node highlight">🧠 Agent 核心</div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">⚙️ Skill 编排</div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">🔧 Tool 网关</div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">🌐 外部系统</div>
+        </div>
+
+        <div style="margin-top: 28px;" class="module-card">
+            <div class="module-header">
+                <div class="module-icon">🚪</div>
+                <div>
+                    <h3>接入层</h3>
+                    <p>负责请求接收、协议适配、身份与流量控制</p>
+                </div>
+            </div>
+
+            <div class="module-body">
+                <div class="tags">
+                    <span class="tag blue">HTTP</span>
+                    <span class="tag blue">WebSocket</span>
+                    <span class="tag blue">SSE</span>
+                    <span class="tag">鉴权</span>
+                    <span class="tag">限流</span>
+                    <span class="tag">熔断</span>
+                    <span class="tag">负载均衡</span>
+                    <span class="tag">Session</span>
+                    <span class="tag">多模态输入</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= 二、Agent核心 ================= -->
+    <section id="core">
+
+        <div class="section-header">
+            <div class="section-number">02 / Agent Core</div>
+            <h2 class="section-title">Agent 核心层</h2>
+            <p class="section-desc">
+                规划、记忆、状态管理是 Agent 的真正核心。
+            </p>
+        </div>
+
+        <div class="agent-core">
+
+            <div class="agent-core-grid">
+
+                <!-- Planner -->
+                <div class="inner-card">
+                    <h3>🧠 2.1 Planner 规划器</h3>
+
+                    <p>
+                        Agent 的大脑，负责决定：
+                        <strong>做什么 → 分几步 → 调用什么工具 → 如何根据结果调整计划</strong>
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag purple">ReAct</span>
+                        <span class="tag purple">预规划</span>
+                        <span class="tag purple">状态机</span>
+                        <span class="tag purple">Planning</span>
+                        <span class="tag purple">Reflection</span>
+                    </div>
+
+                    <ul style="margin-top: 16px; padding-left: 20px;">
+                        <li>规划终止条件，防止无限循环</li>
+                        <li>复杂任务目标拆解</li>
+                        <li>规划可行性校验</li>
+                        <li>参数完整性检查</li>
+                        <li>子任务委派给 Sub-Agent</li>
+                    </ul>
+                </div>
+
+
+                <!-- Memory -->
+                <div class="inner-card">
+                    <h3>🧠 2.2 Memory 记忆系统</h3>
+
+                    <p>
+                        <strong>核心原则：不能把所有历史全部塞进 Prompt。</strong>
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag green">短时记忆</span>
+                        <span class="tag green">长时记忆</span>
+                        <span class="tag green">工具记忆</span>
+                        <span class="tag green">Session</span>
+                        <span class="tag green">State</span>
+                    </div>
+
+                    <ul style="margin-top: 16px; padding-left: 20px;">
+                        <li>当前会话历史</li>
+                        <li>工具中间结果</li>
+                        <li>跨会话知识</li>
+                        <li>用户历史任务</li>
+                        <li>摘要 / 压缩 / 滑动窗口</li>
+                        <li>多租户记忆隔离</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= Planner模式 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">Planner Strategy</div>
+            <h2 class="section-title">规划模式选择</h2>
+        </div>
+
+        <div class="three-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔄</div>
+                    <div>
+                        <h3>ReAct</h3>
+                        <p>边执行边思考</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>根据 Tool Result 动态调整</li>
+                        <li>灵活处理未知任务</li>
+                        <li>适合探索型任务</li>
+                        <li><strong>缺点：轮次不可预测</strong></li>
+                        <li><strong>缺点：容易无限循环</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📋</div>
+                    <div>
+                        <h3>预规划</h3>
+                        <p>先生成完整执行计划</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>一次生成任务步骤</li>
+                        <li>执行过程更稳定</li>
+                        <li>便于审计</li>
+                        <li><strong>适合固定流程</strong></li>
+                        <li><strong>缺点：应对变化能力较弱</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">⭐</div>
+                    <div>
+                        <h3>混合模式</h3>
+                        <p>企业工程首选</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>主流程由状态机控制</li>
+                        <li>关键节点固定</li>
+                        <li>分支交给 LLM 决策</li>
+                        <li><strong>兼顾灵活与可控</strong></li>
+                        <li><strong>适合企业生产环境</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 三、Skill ================= -->
+    <section id="skill">
+
+        <div class="section-header">
+            <div class="section-number">03 / Skill</div>
+            <h2 class="section-title">Skill 编排层</h2>
+            <p class="section-desc">
+                Skill = 业务 SOP + 编排规则，定义完成某一类任务的方法。
+            </p>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🧩</div>
+                    <div>
+                        <h3>编排原语</h3>
+                        <p>Skill 内部如何组织任务</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <div class="tags">
+                        <span class="tag blue">顺序</span>
+                        <span class="tag blue">分支</span>
+                        <span class="tag blue">循环</span>
+                        <span class="tag blue">并行</span>
+                        <span class="tag blue">子Skill</span>
+                        <span class="tag blue">重试</span>
+                        <span class="tag blue">断点恢复</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📦</div>
+                    <div>
+                        <h3>Skill 生命周期</h3>
+                        <p>企业级 Skill 管理能力</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>Skill 注册</li>
+                        <li>版本管理</li>
+                        <li>热加载</li>
+                        <li>权限控制</li>
+                        <li>优先级</li>
+                        <li>多个 Skill 冲突选择</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 四、Tool ================= -->
+    <section id="tool">
+
+        <div class="section-header">
+            <div class="section-number">04 / Tool Layer</div>
+            <h2 class="section-title">Tool 工具调用层</h2>
+            <p class="section-desc">
+                Tool 是 Agent 的执行手脚，负责真正访问外部世界。
+            </p>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔧</div>
+                    <div>
+                        <h3>Tool 元数据</h3>
+                        <p>让 LLM 知道有什么能力可以使用</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <div class="tags">
+                        <span class="tag">Name</span>
+                        <span class="tag">Description</span>
+                        <span class="tag">JSON Schema</span>
+                        <span class="tag">Tags</span>
+                        <span class="tag">Permission</span>
+                        <span class="tag">Timeout</span>
+                        <span class="tag">Rate Limit</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🌉</div>
+                    <div>
+                        <h3>工具网关</h3>
+                        <p>统一 Tool 接入与执行</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>MCP Tool 接入</li>
+                        <li>Function Calling</li>
+                        <li>HTTP / gRPC 适配</li>
+                        <li>本地函数适配</li>
+                        <li>统一请求与响应模型</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= Tool调用链 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">Tool Calling Chain</div>
+            <h2 class="section-title">完整 Tool 调用链路</h2>
+        </div>
+
+        <div class="call-chain">
+
+            <div class="chain-item">
+                <div class="chain-index">01</div>
+                <div class="chain-content">
+                    <h4>用户请求</h4>
+                    <p>用户输入任务，例如：查询股票、生成代码、执行业务操作。</p>
+                </div>
+            </div>
+
+            <div class="chain-item">
+                <div class="chain-index">02</div>
+                <div class="chain-content">
+                    <h4>Agent / Planner 决策</h4>
+                    <p>判断是否需要调用工具，并选择合适的 Skill / Tool。</p>
+                </div>
+            </div>
+
+            <div class="chain-item">
+                <div class="chain-index">03</div>
+                <div class="chain-content">
+                    <h4>LLM 生成 Tool Call</h4>
+                    <p>输出结构化的工具名称和调用参数。</p>
+                </div>
+            </div>
+
+            <div class="chain-item">
+                <div class="chain-index">04</div>
+                <div class="chain-content">
+                    <h4>Runtime 校验</h4>
+                    <p>Schema 校验、权限检查、超时配置、安全检测。</p>
+                </div>
+            </div>
+
+            <div class="chain-item">
+                <div class="chain-index">05</div>
+                <div class="chain-content">
+                    <h4>Tool Executor 执行</h4>
+                    <p>真正调用 HTTP API、数据库、MCP Server、文件系统等。</p>
+                </div>
+            </div>
+
+            <div class="chain-item">
+                <div class="chain-index">06</div>
+                <div class="chain-content">
+                    <h4>Tool Result 返回</h4>
+                    <p>执行结果经过标准化、脱敏、截断后返回 Agent。</p>
+                </div>
+            </div>
+
+            <div class="chain-item">
+                <div class="chain-index">07</div>
+                <div class="chain-content">
+                    <h4>Agent 再次推理</h4>
+                    <p>根据结果决定继续调用 Tool，还是结束任务并生成最终答案。</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 五、RAG ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">05 / Knowledge</div>
+            <h2 class="section-title">RAG / 知识层</h2>
+            <p class="section-desc">
+                企业 Agent 几乎都需要处理私有知识。
+            </p>
+        </div>
+
+        <div class="three-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📄</div>
+                    <div>
+                        <h3>知识构建</h3>
+                        <p>Knowledge Ingestion</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>文档解析</li>
+                        <li>文本清洗</li>
+                        <li>Chunk 分块</li>
+                        <li>Embedding 向量化</li>
+                        <li>知识版本管理</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔍</div>
+                    <div>
+                        <h3>知识检索</h3>
+                        <p>Retrieval</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>关键词检索</li>
+                        <li>向量检索</li>
+                        <li>Hybrid Search</li>
+                        <li>Rerank 重排</li>
+                        <li>TopK 控制</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🧠</div>
+                    <div>
+                        <h3>Agent + RAG</h3>
+                        <p>动态知识决策</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>先判断是否需要知识</li>
+                        <li>动态选择知识库</li>
+                        <li>知识结果注入 Context</li>
+                        <li>必要时再调用 Tool</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 六、安全 ================= -->
+    <section id="security">
+
+        <div class="section-header">
+            <div class="section-number">06 / Security</div>
+            <h2 class="section-title">安全与权限</h2>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔐</div>
+                    <div>
+                        <h3>权限模型</h3>
+                        <p>最小权限原则</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>用户 → Agent 权限</li>
+                        <li>Agent → Skill 权限</li>
+                        <li>Agent → Tool 权限</li>
+                        <li>多租户数据隔离</li>
+                        <li>只读与写操作分级</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🛡️</div>
+                    <div>
+                        <h3>安全防护</h3>
+                        <p>防止 Agent 被输入和工具劫持</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>Prompt Injection 防护</li>
+                        <li>间接 Prompt Injection</li>
+                        <li>危险参数拦截</li>
+                        <li>敏感数据脱敏</li>
+                        <li>输出内容审核</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 七、稳定性 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">07 / Reliability</div>
+            <h2 class="section-title">异常、容错与 HITL</h2>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">⚠️</div>
+                    <div>
+                        <h3>异常分类</h3>
+                        <p>不同错误采用不同处理策略</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <div class="tags">
+                        <span class="tag orange">LLM 幻觉</span>
+                        <span class="tag orange">规划失败</span>
+                        <span class="tag orange">参数错误</span>
+                        <span class="tag orange">超时</span>
+                        <span class="tag orange">网络错误</span>
+                        <span class="tag orange">业务异常</span>
+                        <span class="tag orange">服务不可用</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔄</div>
+                    <div>
+                        <h3>容错策略</h3>
+                        <p>生产环境必须具备</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>指数退避 Retry</li>
+                        <li>Timeout</li>
+                        <li>Fallback 降级</li>
+                        <li>Circuit Breaker 熔断</li>
+                        <li>断点续跑</li>
+                        <li>状态持久化</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 八、可观测 ================= -->
+    <section id="ops">
+
+        <div class="section-header">
+            <div class="section-number">08 / Observability</div>
+            <h2 class="section-title">可观测性、运维与评估</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>能力</th>
+                    <th>重点监控内容</th>
+                    <th>解决的问题</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>Trace</td>
+                    <td>Agent → Skill → Tool 完整链路</td>
+                    <td>为什么这样执行？哪里失败？</td>
+                </tr>
+
+                <tr>
+                    <td>Metrics</td>
+                    <td>QPS、成功率、耗时、Token</td>
+                    <td>系统性能与成本</td>
+                </tr>
+
+                <tr>
+                    <td>Logs</td>
+                    <td>Prompt、模型输出、Tool入参出参</td>
+                    <td>问题排查与审计</td>
+                </tr>
+
+                <tr>
+                    <td>Evaluation</td>
+                    <td>任务完成率、准确率、幻觉率</td>
+                    <td>Agent 效果评估</td>
+                </tr>
+
+                <tr>
+                    <td>Alert</td>
+                    <td>失败率、超时、成本异常</td>
+                    <td>生产故障及时发现</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <!-- ================= 九、性能 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">09 / Performance & Cost</div>
+            <h2 class="section-title">性能与成本优化</h2>
+        </div>
+
+        <div class="three-grid">
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🎯</div>
+                    <div>
+                        <h3>Token 优化</h3>
+                        <p>减少 Context 膨胀</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>历史摘要</li>
+                        <li>滑动窗口</li>
+                        <li>Tool Result 截断</li>
+                        <li>精简 Prompt</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🧭</div>
+                    <div>
+                        <h3>模型路由</h3>
+                        <p>不同任务不同模型</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>小模型：分类 / 路由</li>
+                        <li>中模型：普通任务</li>
+                        <li>大模型：复杂规划</li>
+                        <li>降低整体 Token 成本</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">⚡</div>
+                    <div>
+                        <h3>执行优化</h3>
+                        <p>提高整体吞吐量</p>
+                    </div>
+                </div>
+
+                <div class="module-body">
+                    <ul>
+                        <li>并发 Tool 调用</li>
+                        <li>查询结果缓存</li>
+                        <li>异步长任务</li>
+                        <li>下游限流</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 十、架构权衡 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">10 / Trade Off</div>
+            <h2 class="section-title">业务架构权衡</h2>
+            <p class="section-desc">
+                这是架构设计与面试最容易深入讨论的部分。
+            </p>
+        </div>
+
+        <details open>
+            <summary>1. ReAct 自由编排 VS DSL 状态机</summary>
+            <ul>
+                <li><strong>ReAct：</strong>灵活，适合探索类任务，但调用轮次不可控。</li>
+                <li><strong>DSL：</strong>稳定、可审计，适合企业固定业务流程。</li>
+                <li><strong>推荐：</strong>核心流程状态机 + LLM 动态决策分支。</li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>2. 粗粒度 Tool VS 细粒度 Tool</summary>
+            <ul>
+                <li><strong>细粒度：</strong>复用好、灵活，但 Tool 调用次数多。</li>
+                <li><strong>粗粒度：</strong>调用轮次少，但 Tool 本身业务耦合较强。</li>
+                <li><strong>推荐：</strong>基础能力细粒度，稳定业务场景封装 Skill。</li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>3. 单 Agent VS 多 Agent</summary>
+            <ul>
+                <li><strong>单 Agent：</strong>简单、Context 集中、容易维护。</li>
+                <li><strong>多 Agent：</strong>适合复杂分工，但存在通信与状态同步成本。</li>
+                <li><strong>原则：</strong>不要为了 Multi-Agent 而 Multi-Agent。</li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>4. MCP VS 原生 Function Calling</summary>
+            <ul>
+                <li><strong>MCP：</strong>适合标准化外部能力接入与动态发现。</li>
+                <li><strong>Function Calling：</strong>直接、轻量，适合系统内部 Tool。</li>
+                <li><strong>推荐：</strong>内部核心 Tool 可直接注册，外部生态能力使用 MCP。</li>
+            </ul>
+        </details>
+
+    </section>
+
+
+    <!-- ================= Mermaid架构 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">Architecture Diagram</div>
+            <h2 class="section-title">完整 Agent 架构图</h2>
+        </div>
+
+        <div class="mermaid-wrap">
+            <pre class="mermaid">
+flowchart LR
+    User[用户] --> Gateway[接入网关]
+
+    Gateway --> Router[意图 & Skill 路由]
+
+    Router --> AgentCore[Agent核心<br/>Planner + Memory]
+
+    AgentCore --> Skill[Skill编排层]
+
+    Skill --> ToolGateway[工具网关<br/>MCP / Function Calling]
+
+    ToolGateway --> Tool1[Tool 原子工具]
+
+    Tool1 --> External[外部业务系统]
+
+    AgentCore --> RAG[RAG知识库]
+
+    AgentCore --> Obs[可观测平台<br/>Trace / Metrics / Log]
+
+    ToolGateway --> Audit[安全审计 & HITL]
+
+    AgentCore --> State[Session / State Store]
+
+    State --> AgentCore
+            </pre>
+        </div>
+    </section>
+
+
+    <!-- ================= 常见坑 ================= -->
+    <section>
+
+        <div class="section-header">
+            <div class="section-number">Common Pitfalls</div>
+            <h2 class="section-title">常见落地坑</h2>
+        </div>
+
+        <div class="pit-list">
+
+            <div class="pit">
+                <div class="pit-icon">🔁</div>
+                <div>
+                    <h4>无限循环</h4>
+                    <p>重复调用同一个 Tool，缺少最大轮次和终止条件。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">🤖</div>
+                <div>
+                    <h4>参数幻觉</h4>
+                    <p>LLM 生成非法参数，没有 Schema 校验直接调用。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">📈</div>
+                <div>
+                    <h4>Context 膨胀</h4>
+                    <p>所有历史都塞 Prompt，导致 Token 和延迟持续增长。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">☠️</div>
+                <div>
+                    <h4>不可信 Tool Result</h4>
+                    <p>工具返回内容可能包含错误数据甚至恶意 Prompt。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">💉</div>
+                <div>
+                    <h4>Prompt Injection</h4>
+                    <p>用户输入或外部网页内容劫持 Agent 后续行为。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">💾</div>
+                <div>
+                    <h4>状态丢失</h4>
+                    <p>长任务没有 Checkpoint，中断后只能从头开始。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">🔓</div>
+                <div>
+                    <h4>权限过大</h4>
+                    <p>Agent 可以直接执行删除、修改等高危业务操作。</p>
+                </div>
+            </div>
+
+            <div class="pit">
+                <div class="pit-icon">💰</div>
+                <div>
+                    <h4>成本失控</h4>
+                    <p>无限循环、重复检索、大模型全量调用导致成本暴涨。</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 面试总结 ================= -->
+    <section id="interview">
+
+        <div class="interview-box">
+
+            <div class="section-number" style="color: #93c5fd;">
+                INTERVIEW ANSWER
+            </div>
+
+            <h2>面试时如何 3 分钟讲清楚 AI Agent 架构？</h2>
+
+            <p>
+                可以按照下面这个逻辑回答。
+            </p>
+
+            <div class="interview-answer">
+                我理解 AI Agent 的架构核心不是简单的 Prompt Engineering，
+                而是构建一个以 LLM 为决策中枢的完整执行系统。
+
+                <br><br>
+
+                整体上我会分为：
+                <strong>接入层、意图路由层、Agent 核心层、Skill 编排层、
+                    Tool 执行层、知识层以及安全和可观测体系。</strong>
+
+                <br><br>
+
+                Agent 核心主要解决规划和记忆问题。
+                规划层可以采用 ReAct、预规划或者状态机与 LLM 混合模式。
+                企业场景更倾向于核心流程可控，复杂分支由模型动态决策。
+
+                <br><br>
+
+                Tool 层需要统一管理 Schema、权限、超时、重试和调用结果，
+                并通过 MCP 或 Function Calling 接入外部能力。
+
+                <br><br>
+
+                同时必须考虑 Agent 的可靠性，
+                包括最大调用轮次、Timeout、Retry、Fallback 和断点续跑。
+
+                <br><br>
+
+                最后企业级 Agent 必须具备安全、权限、审计和全链路 Trace，
+                同时通过 Token 优化、模型路由和缓存控制成本。
+
+                <br><br>
+
+                <strong>
+                    总结来说，就是：
+                    LLM 决策层 + Agent Runtime 执行层 + Tool 能力层 +
+                    Memory / State 状态层 + 安全可靠性 +
+                    可观测与评估体系。
+                </strong>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer>
+    AI Agent Architecture Learning · Planner · Memory · Skill · Tool · MCP · RAG · Runtime
+</footer>
+
+
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+        flowchart: {
+            curve: "basis"
+        }
+    });
+</script>
+
+</body>
+</html>
