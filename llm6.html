@@ -358,8 +358,11 @@ document.getElementById("gate").addEventListener("submit",async (event)=>{
     }
     if(!plain) throw new Error("auth");
     const html=new TextDecoder().decode(plain);
+    const tocStyle="<style id=\"toc-device\">@media (max-width:1040px){.toc{position:fixed;z-index:40;top:0;left:0;bottom:0;width:min(86vw,320px);max-height:none;margin:0;border-radius:0 14px 14px 0;transform:translateX(-105%);transition:transform .22s ease}.toc.is-open{transform:translateX(0);box-shadow:8px 0 28px rgba(28,25,23,.18)}.toc-backdrop{display:none;position:fixed;inset:0;background:rgba(28,25,23,.38);z-index:30}.toc-backdrop.is-open{display:block}.toc-fab{position:fixed;z-index:50;right:16px;bottom:max(20px,env(safe-area-inset-bottom));width:56px;height:56px;border:0;border-radius:50%;background:#2c2824;color:#f7f1e6;font-size:22px;line-height:1;box-shadow:0 8px 22px rgba(40,30,10,.28);cursor:pointer;padding:0}}@media (min-width:1041px){.toc-fab,.toc-backdrop{display:none!important}}</style>";
+    const tocScript="<scr"+"ipt>(function(){var toc=document.querySelector('.toc');if(!toc)return;var fab=document.createElement('button');fab.className='toc-fab';fab.type='button';fab.setAttribute('aria-label','目录');fab.textContent=String.fromCharCode(9776);var backdrop=document.createElement('div');backdrop.className='toc-backdrop';document.body.appendChild(backdrop);document.body.appendChild(fab);function setOpen(open){toc.classList.toggle('is-open',open);backdrop.classList.toggle('is-open',open);fab.setAttribute('aria-expanded',open?'true':'false');fab.textContent=open?String.fromCharCode(215):String.fromCharCode(9776);document.body.style.overflow=open?'hidden':'';}fab.addEventListener('click',function(){setOpen(!toc.classList.contains('is-open'));});backdrop.addEventListener('click',function(){setOpen(false);});toc.addEventListener('click',function(e){var a=e.target.closest?e.target.closest('a'):null;if(!a)return;if(window.matchMedia('(max-width: 1040px)').matches)setOpen(false);});})();</scr"+"ipt>";
+    const view=html.replace("</head>", tocStyle+"</head>").replace("</body>", tocScript+"</body>");
     document.open();
-    document.write(html);
+    document.write(view);
     document.close();
   }catch(err){
     msg.textContent="用户名或密码错误";
