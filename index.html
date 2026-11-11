@@ -162,6 +162,36 @@
             color: #8a2be2;
         }
 
+        .firework-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .firework-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+
+        .pony-burst-photo {
+            position: absolute;
+            width: 110px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 3px solid #fff;
+            box-shadow: 0 8px 24px rgba(231, 84, 128, 0.45);
+            opacity: 0;
+            will-change: transform, opacity;
+            transform-origin: center center;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 25px;
@@ -183,11 +213,17 @@
             .photo-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .pony-burst-photo {
+                width: 78px;
+                height: 100px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="hearts-container" id="hearts"></div>
+<div class="firework-layer" id="firework-layer"></div>
 
 <div class="container">
     <div class="header">
@@ -271,9 +307,153 @@
         var lzDiffMilliseconds = lz.getTime() - currentDate.getTime();
         var lzDiffDays = Math.abs(Math.floor(lzDiffMilliseconds / (1000 * 60 * 60 * 24)));
 
+        const pony = new Date(2026, 10, 10, 6, 13);
+        var ponyDiffMilliseconds = Math.abs(pony.getTime() - currentDate.getTime());
+        var ponyDiffDays = Math.floor(ponyDiffMilliseconds / (1000 * 60 * 60 * 24));
+        var ponyDiffHours = Math.floor((ponyDiffMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var ponyDiffMinutes = Math.floor((ponyDiffMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+
         return [
-            `💕 距2024年07月20日见面: ${diffDays}天`
+            {
+                type: 'meet',
+                text: `💕 距2024年07月20日见面: ${diffDays}天`
+            },
+            {
+                type: 'pony',
+                text: `🍼 小马（Pony）出生：2026年11月10日上午6:13 \n已到来: ${ponyDiffDays}天${ponyDiffHours}时${ponyDiffMinutes}分`
+            }
         ];
+    }
+
+    const PONY_PHOTOS = ['pony/1.jpg', 'pony/2.jpg', 'pony/3.jpg'];
+    const FIREWORK_COLORS = ['#ff6b9d', '#ffd166', '#7bdff2', '#b388ff', '#ff8fab', '#fff1a8', '#ff4d6d'];
+
+    function launchFireworkBurst(layer, originX, originY) {
+        const particleCount = 28 + Math.floor(Math.random() * 12);
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'firework-particle';
+
+            const angle = (Math.PI * 2 * i) / particleCount + Math.random() * 0.3;
+            const distance = 80 + Math.random() * 160;
+            const size = 4 + Math.random() * 7;
+            const color = FIREWORK_COLORS[Math.floor(Math.random() * FIREWORK_COLORS.length)];
+            const duration = 700 + Math.random() * 700;
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+
+            particle.style.left = `${originX}px`;
+            particle.style.top = `${originY}px`;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.background = color;
+            particle.style.boxShadow = `0 0 8px ${color}`;
+
+            layer.appendChild(particle);
+
+            const animation = particle.animate([
+                {
+                    transform: 'translate(-50%, -50%) scale(1)',
+                    opacity: 1
+                },
+                {
+                    transform: `translate(calc(-50% + ${dx * 0.55}px), calc(-50% + ${dy * 0.55}px)) scale(1.2)`,
+                    opacity: 1,
+                    offset: 0.35
+                },
+                {
+                    transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.2)`,
+                    opacity: 0
+                }
+            ], {
+                duration,
+                easing: 'cubic-bezier(0.15, 0.75, 0.25, 1)',
+                fill: 'forwards'
+            });
+
+            animation.onfinish = () => particle.remove();
+        }
+    }
+
+    function launchPonyPhotoBurst(layer) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const photoCount = PONY_PHOTOS.length;
+
+        PONY_PHOTOS.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.className = 'pony-burst-photo';
+            img.src = src;
+            img.alt = '小马 Pony';
+
+            const angle = (-Math.PI / 2) + (index - (photoCount - 1) / 2) * 0.9 + (Math.random() - 0.5) * 0.25;
+            const distance = Math.min(window.innerWidth, window.innerHeight) * (0.22 + Math.random() * 0.12);
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance - 40;
+            const rotate = (index - 1) * 18 + (Math.random() - 0.5) * 16;
+            const delay = index * 80;
+
+            img.style.left = `${centerX}px`;
+            img.style.top = `${centerY}px`;
+
+            layer.appendChild(img);
+
+            const animation = img.animate([
+                {
+                    transform: 'translate(-50%, -50%) scale(0.15) rotate(0deg)',
+                    opacity: 0
+                },
+                {
+                    transform: `translate(calc(-50% + ${dx * 0.7}px), calc(-50% + ${dy * 0.7}px)) scale(1.08) rotate(${rotate}deg)`,
+                    opacity: 1,
+                    offset: 0.35
+                },
+                {
+                    transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1) rotate(${rotate}deg)`,
+                    opacity: 1,
+                    offset: 0.7
+                },
+                {
+                    transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy - 30}px)) scale(0.85) rotate(${rotate + 8}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: 2600,
+                delay,
+                easing: 'cubic-bezier(0.16, 0.84, 0.28, 1)',
+                fill: 'forwards'
+            });
+
+            animation.onfinish = () => img.remove();
+        });
+    }
+
+    function celebratePony() {
+        const layer = document.getElementById('firework-layer');
+        if (!layer) return;
+
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        launchFireworkBurst(layer, centerX, centerY);
+        launchPonyPhotoBurst(layer);
+
+        const sideBursts = [
+            [centerX - 140, centerY - 60],
+            [centerX + 140, centerY - 40],
+            [centerX, centerY + 90]
+        ];
+
+        sideBursts.forEach(([x, y], index) => {
+            setTimeout(() => {
+                launchFireworkBurst(
+                    layer,
+                    x + (Math.random() - 0.5) * 40,
+                    y + (Math.random() - 0.5) * 40
+                );
+            }, 180 + index * 160);
+        });
     }
 
     // 初始化页面
@@ -285,7 +465,7 @@
         const showElement = document.getElementById('show');
 
         // 初始显示
-        showElement.innerHTML = txts[i];
+        showElement.innerHTML = txts[i].text;
         showElement.style.opacity = 1;
 
         // 设置定时器切换文本
@@ -295,7 +475,7 @@
 
             setTimeout(() => {
                 i = (i + 1) % txts.length;
-                showElement.innerHTML = txts[i];
+                showElement.innerHTML = txts[i].text;
 
                 // 淡入效果
                 setTimeout(() => {
@@ -304,6 +484,10 @@
 
                 // 创建漂浮的心形
                 createFloatingHeart();
+
+                if (txts[i].type === 'pony') {
+                    celebratePony();
+                }
             }, 500);
         }, 5000);
 
@@ -311,12 +495,14 @@
         let currentIndex = 0;
         const imgElement = document.getElementById('slideshow-img');
 
-        function changeImage() {
-            currentIndex = (currentIndex + 1) % images.length;
-            imgElement.src = `images/${images[currentIndex]}`;
-        }
+        if (imgElement) {
+            function changeImage() {
+                currentIndex = (currentIndex + 1) % images.length;
+                imgElement.src = `images/${images[currentIndex]}`;
+            }
 
-        setInterval(changeImage, 2000); // Change image every 3 seconds
+            setInterval(changeImage, 2000);
+        }
     }
 
     // 页面加载完成后初始化
