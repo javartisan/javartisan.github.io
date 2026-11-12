@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>宝宝出生后待办事项清单（含具体时间）</title>
     <style>
         :root {
@@ -10,6 +10,7 @@
             --bg-color: #f4f7f6;
             --border-color: #e0e0e0;
             --table-header-bg: #e8f5e9;
+            --card-bg: #ffffff;
         }
         
         body {
@@ -36,6 +37,7 @@
             border-bottom: 2px solid #27ae60;
             padding-bottom: 15px;
             margin-top: 0;
+            font-size: 24px;
         }
 
         .baby-info {
@@ -43,9 +45,9 @@
             font-size: 1.1em;
             color: #d32f2f;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             background-color: #ffebee;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
         }
 
@@ -65,7 +67,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            min-width: 1000px; /* 保证表格在电脑端显示完好 */
         }
 
         th, td {
@@ -127,17 +128,93 @@
             color: #d84315;
         }
 
-        /* 移动端适配 */
+        /* =========================================
+           移动端响应式布局 (手机屏幕适用)
+           ========================================= */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             .container {
                 padding: 15px;
+                border-radius: 8px;
             }
-            th, td {
-                padding: 10px;
+            h1 {
+                font-size: 20px;
+                padding-bottom: 10px;
+            }
+            .baby-info {
                 font-size: 14px;
+                padding: 10px;
+            }
+            
+            /* 隐藏表头 */
+            thead {
+                display: none;
+            }
+
+            /* 表格变为块级元素 */
+            table, tbody, tr, td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* 每一行变为一张卡片 */
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                background-color: var(--card-bg);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                overflow: hidden;
+            }
+
+            tr:nth-child(even) {
+                background-color: var(--card-bg); /* 取消手机端的斑马线背景 */
+            }
+
+            /* 单元格样式调整 */
+            td {
+                border: none;
+                border-bottom: 1px dashed #eee;
+                padding: 10px 15px;
+                font-size: 14px;
+                display: flex;
+                align-items: flex-start;
+            }
+
+            td:last-child {
+                border-bottom: none;
+            }
+
+            /* 使用 data-label 伪元素显示字段名 */
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #2e7d32;
+                width: 75px; /* 固定左侧标签宽度 */
+                flex-shrink: 0;
+                margin-right: 10px;
+            }
+
+            /* 特殊处理第一列（紧急程度），让颜色更显眼 */
+            td.level {
+                text-align: left;
+                background-color: #fafafa;
+                border-bottom: 1px solid var(--border-color);
+                font-size: 15px;
+            }
+            
+            .ref-time {
+                font-size: 15px;
+            }
+            
+            /* 优化卡片内长文本换行 */
+            td br {
+                display: block;
+                content: "";
+                margin-top: 4px;
             }
         }
     </style>
@@ -165,72 +242,72 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="level level-extreme">🚨 极高<br><small>(住院期间)</small></td>
-                    <td><strong>接种乙肝疫苗第1针<br>接种卡介苗</strong></td>
-                    <td>出生后<strong>24小时内</strong></td>
-                    <td class="ref-time">2026年11月10日<br>至 11月11日</td>
-                    <td>医院产科/接种室</td>
-                    <td>
+                    <td class="level level-extreme" data-label="紧急程度">🚨 极高<br><small>(住院期间)</small></td>
+                    <td data-label="待办事项"><strong>接种乙肝疫苗第1针<br>接种卡介苗</strong></td>
+                    <td data-label="要求时间">出生后<strong>24小时内</strong></td>
+                    <td data-label="参考时间" class="ref-time">2026年11月10日<br>至 11月11日</td>
+                    <td data-label="办理地点">医院产科/接种室</td>
+                    <td data-label="注意事项">
                         1. 接种后<strong>必须在现场观察30分钟</strong>。<br>
                         2. <strong>24小时内不要洗澡</strong>。<br>
                         3. 卡介苗为皮内注射，乙肝为上臂肌肉注射。
                     </td>
                 </tr>
                 <tr>
-                    <td class="level level-extreme">🚨 极高<br><small>(住院期间)</small></td>
-                    <td><strong>新生儿听力筛查</strong></td>
-                    <td>住院期间（尽早）</td>
-                    <td class="ref-time">2026年11月11日<br>至 11月13日<br><small>(出院前完成)</small></td>
-                    <td>医院听力筛查室</td>
-                    <td>
+                    <td class="level level-extreme" data-label="紧急程度">🚨 极高<br><small>(住院期间)</small></td>
+                    <td data-label="待办事项"><strong>新生儿听力筛查</strong></td>
+                    <td data-label="要求时间">住院期间（尽早）</td>
+                    <td data-label="参考时间" class="ref-time">2026年11月11日<br>至 11月13日<br><small>(出院前完成)</small></td>
+                    <td data-label="办理地点">医院听力筛查室</td>
+                    <td data-label="注意事项">
                         1. <strong>宝宝需保持安静、睡眠状态</strong>下测听。<br>
                         2. <strong>必须抱着宝宝</strong>去筛查，<strong>不推婴儿车</strong>。<br>
                         3. 需自带：<strong>一个垫巾、孕妇保健手册、新生儿筛查通知书</strong>。
                     </td>
                 </tr>
                 <tr>
-                    <td class="level level-extreme">🚨 极高<br><small>(住院期间)</small></td>
-                    <td><strong>新生儿先天性心脏病筛查</strong></td>
-                    <td>新生儿早期</td>
-                    <td class="ref-time">与听力筛查同步<br><small>(出院前完成)</small></td>
-                    <td>医院</td>
-                    <td>无创检查（心脏听诊+经皮血氧饱和度检测），需遵循知情同意原则。</td>
+                    <td class="level level-extreme" data-label="紧急程度">🚨 极高<br><small>(住院期间)</small></td>
+                    <td data-label="待办事项"><strong>新生儿先天性心脏病筛查</strong></td>
+                    <td data-label="要求时间">新生儿早期</td>
+                    <td data-label="参考时间" class="ref-time">与听力筛查同步<br><small>(出院前完成)</small></td>
+                    <td data-label="办理地点">医院</td>
+                    <td data-label="注意事项">无创检查（心脏听诊+经皮血氧饱和度检测），需遵循知情同意原则。</td>
                 </tr>
                 <tr>
-                    <td class="level level-high">⚠️ 高<br><small>(出院前后)</small></td>
-                    <td><strong>办理《出生医学证明》</strong></td>
-                    <td>出生后<strong>1个月内</strong><br><small>(周一至周五<br>上午11:00前)</small></td>
-                    <td class="ref-time">2026年11月16日<br>至 12月10日<br><small>(需在工作日办理)</small></td>
-                    <td>医院指定窗口</td>
-                    <td>
+                    <td class="level level-high" data-label="紧急程度">⚠️ 高<br><small>(出院前后)</small></td>
+                    <td data-label="待办事项"><strong>办理《出生医学证明》</strong></td>
+                    <td data-label="要求时间">出生后<strong>1个月内</strong><br><small>(周一至周五<br>上午11:00前)</small></td>
+                    <td data-label="参考时间" class="ref-time">2026年11月16日<br>至 12月10日<br><small>(需在工作日办理)</small></td>
+                    <td data-label="办理地点">医院指定窗口</td>
+                    <td data-label="注意事项">
                         1. <strong>新生儿姓名必须想好，一旦开具不可更改，且不能用繁体字</strong>。<br>
                         2. 需提供：父母双方户口簿、身份证原件及复印件（正反面复印在一张A4纸上）。<br>
                         3. 若母亲不能亲自办理，需<strong>母亲亲笔书写的授权委托书</strong>及代办人身份证原件。
                     </td>
                 </tr>
                 <tr>
-                    <td class="level level-medium">🟡 中<br><small>(满月后)</small></td>
-                    <td><strong>接种乙肝疫苗第2针</strong></td>
-                    <td>出生后<strong>30天</strong>（满月）</td>
-                    <td class="ref-time">2026年12月10日<br><small>(前后1-2天均可)</small></td>
-                    <td><strong>居住地</strong>接种单位</td>
-                    <td>需携带：预防接种证、户口本等办理手续。</td>
+                    <td class="level level-medium" data-label="紧急程度">🟡 中<br><small>(满月后)</small></td>
+                    <td data-label="待办事项"><strong>接种乙肝疫苗第2针</strong></td>
+                    <td data-label="要求时间">出生后<strong>30天</strong>（满月）</td>
+                    <td data-label="参考时间" class="ref-time">2026年12月10日<br><small>(前后1-2天均可)</small></td>
+                    <td data-label="办理地点"><strong>居住地</strong>接种单位</td>
+                    <td data-label="注意事项">需携带：预防接种证、户口本等办理手续。</td>
                 </tr>
                 <tr>
-                    <td class="level level-low">🟢 低<br><small>(3-4个月后)</small></td>
-                    <td><strong>卡介苗接种复查</strong></td>
-                    <td>接种后<strong>3~4个月</strong><br><small>(周一上午)</small></td>
-                    <td class="ref-time">2027年2月15日 或<br>2027年3月8日<br><small>(这两个周一的上午)</small></td>
-                    <td>金州区结核病门诊</td>
-                    <td>带孩子和卡介苗接种证去复查（此项检查<strong>自愿</strong>）。</td>
+                    <td class="level level-low" data-label="紧急程度">🟢 低<br><small>(3-4个月后)</small></td>
+                    <td data-label="待办事项"><strong>卡介苗接种复查</strong></td>
+                    <td data-label="要求时间">接种后<strong>3~4个月</strong><br><small>(周一上午)</small></td>
+                    <td data-label="参考时间" class="ref-time">2027年2月15日 或<br>2027年3月8日<br><small>(这两个周一的上午)</small></td>
+                    <td data-label="办理地点">金州区结核病门诊</td>
+                    <td data-label="注意事项">带孩子和卡介苗接种证去复查（此项检查<strong>自愿</strong>）。</td>
                 </tr>
                 <tr>
-                    <td class="level level-optional">⚪ 可选<br><small>(随时)</small></td>
-                    <td><strong>购买预防接种异常反应补偿保险</strong></td>
-                    <td>接种期间</td>
-                    <td class="ref-time">2026年11月10日<br>或 12月10日<br><small>(打疫苗当天)</small></td>
-                    <td>线上扫码办理</td>
-                    <td>属于辽宁省政策，为<strong>自愿、自费</strong>购买的补充保险。</td>
+                    <td class="level level-optional" data-label="紧急程度">⚪ 可选<br><small>(随时)</small></td>
+                    <td data-label="待办事项"><strong>购买预防接种异常反应补偿保险</strong></td>
+                    <td data-label="要求时间">接种期间</td>
+                    <td data-label="参考时间" class="ref-time">2026年11月10日<br>或 12月10日<br><small>(打疫苗当天)</small></td>
+                    <td data-label="办理地点">线上扫码办理</td>
+                    <td data-label="注意事项">属于辽宁省政策，为<strong>自愿、自费</strong>购买的补充保险。</td>
                 </tr>
             </tbody>
         </table>
