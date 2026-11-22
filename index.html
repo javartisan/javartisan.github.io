@@ -120,21 +120,186 @@
             position: relative;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px 0 16px;
             margin: 20px 0;
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-height: 240px;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: pan-y;
+            cursor: grab;
         }
 
-        #show {
-            font-size: 2.2rem;
+        .countdown-container.is-dragging {
+            cursor: grabbing;
+        }
+
+        .carousel-viewport {
+            overflow: hidden;
+            width: 100%;
+            padding: 8px 0 4px;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            will-change: transform;
+            transition: transform 0.38s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .carousel-track.is-dragging {
+            transition: none;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            padding: 8px 24px 12px;
+            box-sizing: border-box;
             color: #d53a9d;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+            min-height: 14px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(213, 58, 157, 0.28);
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+
+        .carousel-dot.is-active {
+            background: #d53a9d;
+            transform: scale(1.25);
+        }
+
+        .carousel-hint {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.82rem;
+            color: #b07a9a;
+            letter-spacing: 1px;
+        }
+
+        .slide {
+            width: 100%;
+            text-align: center;
+        }
+
+        .slide-eyebrow {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.35rem;
+            color: #8a2be2;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-title {
+            font-size: 1.15rem;
+            color: #a14d7c;
+            font-weight: 400;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .slide-value {
+            font-size: 2.6rem;
             font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            transition: all 0.5s ease;
+            color: #d53a9d;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+            line-height: 1.2;
+            letter-spacing: 1px;
+        }
+
+        .slide-value .unit {
+            font-size: 1.2rem;
+            margin-left: 4px;
+            font-weight: 700;
+        }
+
+        .slide-meta {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #9b6b8a;
+        }
+
+        .time-chips {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .time-chip {
+            min-width: 72px;
+            padding: 10px 12px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 12px rgba(213, 58, 157, 0.12);
+        }
+
+        .time-chip .num {
+            display: block;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #d53a9d;
+            line-height: 1.1;
+        }
+
+        .time-chip .label {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.78rem;
+            color: #9b6b8a;
+            letter-spacing: 1px;
+        }
+
+        .life-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            width: 100%;
+        }
+
+        .life-card {
+            background: rgba(255, 255, 255, 0.78);
+            border-radius: 14px;
+            padding: 16px 12px;
+            box-shadow: 0 4px 14px rgba(213, 58, 157, 0.1);
+        }
+
+        .life-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .life-card-label {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.25rem;
+            color: #8a2be2;
+            margin-bottom: 10px;
+        }
+
+        .life-card-value {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #d53a9d;
+            line-height: 1.55;
+            word-break: break-word;
+        }
+
+        .life-card-value .seg {
+            display: inline-block;
+            margin: 0 2px;
+            white-space: nowrap;
         }
 
         .heart-icon {
@@ -202,12 +367,39 @@
                 font-size: 3rem;
             }
 
-            #show {
-                font-size: 1.8rem;
-            }
-
             .subtitle {
                 font-size: 1.5rem;
+            }
+
+            .countdown-container {
+                min-height: 260px;
+                padding: 16px 0 12px;
+            }
+
+            .carousel-slide {
+                padding: 8px 14px 12px;
+            }
+
+            .slide-value {
+                font-size: 2.1rem;
+            }
+
+            .life-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .life-card-value {
+                font-size: 0.98rem;
+            }
+
+            .time-chip {
+                min-width: 62px;
+                padding: 8px 10px;
+            }
+
+            .time-chip .num {
+                font-size: 1.3rem;
             }
 
             .photo-grid {
@@ -231,8 +423,12 @@
         <div class="subtitle">Our Love Journey Time Machine</div>
     </div>
 
-    <div class="countdown-container">
-        <h3 id="show"></h3>
+    <div class="countdown-container" id="carousel">
+        <div class="carousel-viewport">
+            <div class="carousel-track" id="carousel-track"></div>
+        </div>
+        <div class="carousel-dots" id="carousel-dots"></div>
+        <div class="carousel-hint">左右滑动切换</div>
     </div>
 
 <!--     <div class="photo-container">
@@ -287,40 +483,92 @@
         }, 3000);
     }
 
-    // 创建倒计时文本
+    function splitDuration(ms) {
+        const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+        return {
+            days: Math.floor(totalSeconds / 86400),
+            hours: Math.floor((totalSeconds % 86400) / 3600),
+            minutes: Math.floor((totalSeconds % 3600) / 60),
+            seconds: totalSeconds % 60
+        };
+    }
+
+    function renderTimeChips(parts) {
+        return `
+            <div class="time-chips">
+                <div class="time-chip"><span class="num">${parts.days}</span><span class="label">天</span></div>
+                <div class="time-chip"><span class="num">${pad2(parts.hours)}</span><span class="label">时</span></div>
+                <div class="time-chip"><span class="num">${pad2(parts.minutes)}</span><span class="label">分</span></div>
+                <div class="time-chip"><span class="num">${pad2(parts.seconds)}</span><span class="label">秒</span></div>
+            </div>
+        `;
+    }
+
+    function renderDurationInline(parts) {
+        return `
+            <span class="seg">${parts.days}天</span>
+            <span class="seg">${pad2(parts.hours)}时</span>
+            <span class="seg">${pad2(parts.minutes)}分</span>
+            <span class="seg">${pad2(parts.seconds)}秒</span>
+        `;
+    }
+
+    // 创建倒计时文本（按页面类型返回独立布局 HTML）
     function createCountdownTexts() {
-        // 创建一个新的Date实例，表示2024年7月20日
         var targetDate = new Date(2024, 6, 20);
         var currentDate = new Date();
         var diffMilliseconds = targetDate.getTime() - currentDate.getTime();
         var diffDays = Math.abs(Math.floor(diffMilliseconds / (1000 * 60 * 60 * 24)));
 
-        const rk = new Date(2024, 10, 9);
-        var rkDiffMilliseconds = rk.getTime() - currentDate.getTime();
-        var rkDiffDays = Math.abs(Math.floor(rkDiffMilliseconds / (1000 * 60 * 60 * 24)));
-
-        const qh = new Date(2025, 2, 22);
-        var qhDiffMilliseconds = qh.getTime() - currentDate.getTime();
-        var qhDiffDays = Math.abs(Math.floor(qhDiffMilliseconds / (1000 * 60 * 60 * 24)));
-
-        const lz = new Date(2025, 6, 20);
-        var lzDiffMilliseconds = lz.getTime() - currentDate.getTime();
-        var lzDiffDays = Math.abs(Math.floor(lzDiffMilliseconds / (1000 * 60 * 60 * 24)));
-
         const pony = new Date(2026, 10, 10, 6, 13);
-        var ponyDiffMilliseconds = Math.abs(pony.getTime() - currentDate.getTime());
-        var ponyDiffDays = Math.floor(ponyDiffMilliseconds / (1000 * 60 * 60 * 24));
-        var ponyDiffHours = Math.floor((ponyDiffMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var ponyDiffMinutes = Math.floor((ponyDiffMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+        var ponyParts = splitDuration(Math.abs(pony.getTime() - currentDate.getTime()));
+
+        const birthDate = new Date(1990, 11, 31, 0, 0, 0);
+        const hundredYearsDate = new Date(2090, 11, 31, 0, 0, 0);
+        const livedParts = splitDuration(currentDate.getTime() - birthDate.getTime());
+        const remainingParts = splitDuration(hundredYearsDate.getTime() - currentDate.getTime());
 
         return [
             {
                 type: 'meet',
-                text: `💕 距2024年07月20日见面: ${diffDays}天`
+                html: `
+                    <div class="slide slide-meet">
+                        <div class="slide-eyebrow">💕 我们的见面</div>
+                        <div class="slide-title">距 2024年07月20日</div>
+                        <div class="slide-value">${diffDays}<span class="unit">天</span></div>
+                        <div class="slide-meta">Love Journey Continues</div>
+                    </div>
+                `
             },
             {
                 type: 'pony',
-                text: `🍼 小马（Pony）出生：2026年11月10日上午6:13 \n已到来: ${ponyDiffDays}天${ponyDiffHours}时${ponyDiffMinutes}分`
+                html: `
+                    <div class="slide slide-pony">
+                        <div class="slide-eyebrow">🍼 小马（Pony）</div>
+                        <div class="slide-title">出生：2026年11月10日 上午 6:13</div>
+                        <div class="slide-meta">已经到来</div>
+                        ${renderTimeChips(ponyParts)}
+                    </div>
+                `
+            },
+            {
+                type: 'life',
+                html: `
+                    <div class="slide slide-life">
+                        <div class="life-grid">
+                            <div class="life-card">
+                                <div class="life-card-icon">🎂</div>
+                                <div class="life-card-label">出生至今</div>
+                                <div class="life-card-value">${renderDurationInline(livedParts)}</div>
+                            </div>
+                            <div class="life-card">
+                                <div class="life-card-icon">⏳</div>
+                                <div class="life-card-label">活到100岁还剩</div>
+                                <div class="life-card-value">${renderDurationInline(remainingParts)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `
             }
         ];
     }
@@ -456,52 +704,257 @@
         });
     }
 
+    function pad2(n) {
+        return String(n).padStart(2, '0');
+    }
+
     // 初始化页面
     function initPage() {
         createHearts();
 
-        const txts = createCountdownTexts();
-        let i = 0;
-        const showElement = document.getElementById('show');
+        const carousel = document.getElementById('carousel');
+        const track = document.getElementById('carousel-track');
+        const dotsWrap = document.getElementById('carousel-dots');
+        if (!carousel || !track || !dotsWrap) return;
 
-        // 初始显示
-        showElement.innerHTML = txts[i].text;
-        showElement.style.opacity = 1;
+        let currentIndex = 0;
+        let slidesData = createCountdownTexts();
+        let isDragging = false;
+        let isWrapping = false;
+        let startX = 0;
+        let startY = 0;
+        let deltaX = 0;
+        let lockAxis = null; // 'x' | 'y' | null
+        let dragWidth = 0;
 
-        // 设置定时器切换文本
-        setInterval(function () {
-            // 淡出效果
-            showElement.style.opacity = 0;
+        function buildSlides() {
+            slidesData = createCountdownTexts();
+            track.innerHTML = slidesData.map((item) => (
+                `<div class="carousel-slide" data-type="${item.type}">${item.html}</div>`
+            )).join('');
 
-            setTimeout(() => {
-                i = (i + 1) % txts.length;
-                showElement.innerHTML = txts[i].text;
+            dotsWrap.innerHTML = slidesData.map((_, idx) => (
+                `<span class="carousel-dot${idx === currentIndex ? ' is-active' : ''}" data-index="${idx}"></span>`
+            )).join('');
+        }
 
-                // 淡入效果
-                setTimeout(() => {
-                    showElement.style.opacity = 1;
-                }, 50);
+        function updateDots() {
+            dotsWrap.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
+                dot.classList.toggle('is-active', idx === currentIndex);
+            });
+        }
 
-                // 创建漂浮的心形
-                createFloatingHeart();
+        function setTrackOffset(offsetPx, withTransition) {
+            track.classList.toggle('is-dragging', !withTransition);
+            track.style.transform = `translate3d(${offsetPx}px, 0, 0)`;
+        }
 
-                if (txts[i].type === 'pony') {
-                    celebratePony();
-                }
-            }, 500);
-        }, 5000);
+        function clearClones() {
+            track.querySelectorAll('.carousel-slide-clone').forEach((node) => node.remove());
+        }
+
+        function afterPageChange() {
+            updateDots();
+            createFloatingHeart();
+            if (slidesData[currentIndex] && slidesData[currentIndex].type === 'pony') {
+                celebratePony();
+            }
+        }
+
+        function goToIndex(rawNextIndex) {
+            const total = slidesData.length;
+            if (!total) return;
+
+            const previousIndex = currentIndex;
+            const targetIndex = ((rawNextIndex % total) + total) % total;
+            dragWidth = carousel.clientWidth || 1;
+
+            if (previousIndex === targetIndex && rawNextIndex === previousIndex) {
+                setTrackOffset(-currentIndex * dragWidth, true);
+                return;
+            }
+
+            const wrappingForward = previousIndex === total - 1 && targetIndex === 0 && rawNextIndex === previousIndex + 1;
+            const wrappingBackward = previousIndex === 0 && targetIndex === total - 1 && rawNextIndex === previousIndex - 1;
+
+            // 最后一页继续左滑：克隆首页接在末尾，滑过去后再瞬间回到真实首页
+            if (wrappingForward) {
+                isWrapping = true;
+                clearClones();
+                const clone = track.children[0].cloneNode(true);
+                clone.classList.add('carousel-slide-clone');
+                track.appendChild(clone);
+                void track.offsetWidth;
+                setTrackOffset(-total * dragWidth, true);
+
+                const finish = (event) => {
+                    if (event.propertyName && event.propertyName !== 'transform') return;
+                    track.removeEventListener('transitionend', finish);
+                    clearClones();
+                    currentIndex = 0;
+                    setTrackOffset(0, false);
+                    isWrapping = false;
+                    afterPageChange();
+                };
+                track.addEventListener('transitionend', finish);
+                return;
+            }
+
+            // 第一页继续右滑：克隆末页插到最前，滑过去后再瞬间回到真实末页
+            if (wrappingBackward) {
+                isWrapping = true;
+                clearClones();
+                const clone = track.children[total - 1].cloneNode(true);
+                clone.classList.add('carousel-slide-clone');
+                track.insertBefore(clone, track.firstChild);
+                setTrackOffset(-dragWidth, false);
+                void track.offsetWidth;
+                setTrackOffset(0, true);
+
+                const finish = (event) => {
+                    if (event.propertyName && event.propertyName !== 'transform') return;
+                    track.removeEventListener('transitionend', finish);
+                    clearClones();
+                    currentIndex = total - 1;
+                    setTrackOffset(-currentIndex * dragWidth, false);
+                    isWrapping = false;
+                    afterPageChange();
+                };
+                track.addEventListener('transitionend', finish);
+                return;
+            }
+
+            currentIndex = targetIndex;
+            setTrackOffset(-currentIndex * dragWidth, true);
+            afterPageChange();
+        }
+
+        function refreshSlideContents() {
+            slidesData = createCountdownTexts();
+            const slideEls = track.querySelectorAll('.carousel-slide:not(.carousel-slide-clone)');
+            slideEls.forEach((el, idx) => {
+                if (!slidesData[idx]) return;
+                el.dataset.type = slidesData[idx].type;
+                el.innerHTML = slidesData[idx].html;
+            });
+        }
+
+        function onPointerDown(clientX, clientY) {
+            isDragging = true;
+            lockAxis = null;
+            startX = clientX;
+            startY = clientY;
+            deltaX = 0;
+            dragWidth = carousel.clientWidth || 1;
+            carousel.classList.add('is-dragging');
+            setTrackOffset(-currentIndex * dragWidth + deltaX, false);
+        }
+
+        function onPointerMove(clientX, clientY, event) {
+            if (!isDragging) return;
+
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+
+            if (!lockAxis) {
+                if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+                lockAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+            }
+
+            if (lockAxis === 'y') return;
+
+            if (event && event.cancelable) event.preventDefault();
+            deltaX = dx;
+            setTrackOffset(-currentIndex * dragWidth + deltaX, false);
+        }
+
+        function onPointerUp() {
+            if (!isDragging) return;
+            isDragging = false;
+            carousel.classList.remove('is-dragging');
+
+            if (lockAxis !== 'x') {
+                setTrackOffset(-currentIndex * dragWidth, true);
+                lockAxis = null;
+                deltaX = 0;
+                return;
+            }
+
+            const threshold = Math.min(80, dragWidth * 0.18);
+            let nextIndex = currentIndex;
+
+            if (deltaX <= -threshold) {
+                nextIndex = currentIndex + 1; // 左滑下一页（末页则回第一页）
+            } else if (deltaX >= threshold) {
+                nextIndex = currentIndex - 1; // 右滑上一页
+            }
+
+            goToIndex(nextIndex);
+            lockAxis = null;
+            deltaX = 0;
+        }
+
+        buildSlides();
+        dragWidth = carousel.clientWidth || 1;
+        setTrackOffset(0, false);
+        updateDots();
+
+        // 触摸滑动
+        carousel.addEventListener('touchstart', (e) => {
+            if (!e.touches[0]) return;
+            onPointerDown(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        carousel.addEventListener('touchmove', (e) => {
+            if (!e.touches[0]) return;
+            onPointerMove(e.touches[0].clientX, e.touches[0].clientY, e);
+        }, { passive: false });
+
+        carousel.addEventListener('touchend', onPointerUp);
+        carousel.addEventListener('touchcancel', onPointerUp);
+
+        // 鼠标拖拽（桌面预览）
+        carousel.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            onPointerDown(e.clientX, e.clientY);
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            onPointerMove(e.clientX, e.clientY, e);
+        });
+
+        window.addEventListener('mouseup', onPointerUp);
+
+        // 点击圆点跳转
+        dotsWrap.addEventListener('click', (e) => {
+            const dot = e.target.closest('.carousel-dot');
+            if (!dot) return;
+            const idx = Number(dot.dataset.index);
+            if (Number.isNaN(idx)) return;
+            goToIndex(idx);
+        });
+
+        // 窗口尺寸变化时重新对齐
+        window.addEventListener('resize', () => {
+            dragWidth = carousel.clientWidth || 1;
+            setTrackOffset(-currentIndex * dragWidth, false);
+        });
+
+        // 每秒刷新各页动态时间（不打断滑动）
+        setInterval(() => {
+            if (isDragging || isWrapping) return;
+            refreshSlideContents();
+        }, 1000);
 
         const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
-        let currentIndex = 0;
+        let imageIndex = 0;
         const imgElement = document.getElementById('slideshow-img');
 
         if (imgElement) {
-            function changeImage() {
-                currentIndex = (currentIndex + 1) % images.length;
-                imgElement.src = `images/${images[currentIndex]}`;
-            }
-
-            setInterval(changeImage, 2000);
+            setInterval(() => {
+                imageIndex = (imageIndex + 1) % images.length;
+                imgElement.src = `images/${images[imageIndex]}`;
+            }, 2000);
         }
     }
 
